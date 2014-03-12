@@ -4,5 +4,62 @@ body {
     height: 100%;
     width: 100%;
     margin: 0;
-    padding-top: 50px
+    padding-top: 150px
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 35px;
+  font-family: 'Open Sans', sans-serif;
+  font-style:normal;
+  font-weight: 100;
+  letter-spacing: 1px;
+}
+
+h1, {
+	font-size:350%;
+}
+
+h2 {
+	font-size:200%;
+}
+
+
+
+p {
+  margin: 0 0 35px;
+  font-family: 'Open Sans', sans-serif;
+  font-style:normal;
+  font-weight: 100;
+  font-size:110%;
+}
+
+.navbar-custom {
+    background-color:#000000;
+    color:#ffffff;
+    border-radius:0;
+}
+
+.navbar-nav > li > a {
+    color:#fff;
+    background-color:black;
+}
+
+
+.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+    color: #ffffff;
+    background-color:transparent;
+}
+
+#title {
+	color:#FFFFFF;
+	font-size:200%;
+}
+
+.page-header {
+	margin-bottom: 20px
 }

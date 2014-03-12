@@ -1,0 +1,52 @@
+// Place all the styles related to the Landing controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body, html {
+  height: 100%;
+}
+
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -220px;
+  margin-left: -400px;
+}
+
+#icon {
+  margin-left: 70px;
+  margin-right: 70px;
+  text-align: center
+}
+
+#title {
+  margin-bottom:4cm;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0 0 35px;
+  font-family: 'Open Sans', sans-serif;
+  font-style:normal;
+  font-weight: 100;
+  letter-spacing: 1px;
+}
+
+
+
+h1 {
+  font-size:800%;
+  color:#000000;
+  
+}
+
+h2 {
+  margin-top:1cm;
+  font-size:300%;
+  color:#000000;
+}

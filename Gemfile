@@ -1,6 +1,15 @@
 source 'https://rubygems.org'
 
 
+gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
+gem "twitter-bootstrap-rails"
+
+#Authorization/Authentication
+gem 'bcrypt-ruby', '3.1.2'
+gem 'devise'
+
+gem "therubyracer"
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.0.rc1'
 # Use sqlite3 as the database for Active Record

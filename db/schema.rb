@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140312174703) do
+ActiveRecord::Schema.define(version: 20140312183658) do
 
   create_table "coordinates", force: true do |t|
     t.datetime "time_stamp"
-    t.float    "lat"
-    t.float    "lon"
+    t.float    "latitude"
+    t.float    "longitude"
     t.integer  "trip_id"
     t.datetime "created_at"
     t.datetime "updated_at"

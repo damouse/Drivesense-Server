@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
+
   root 'landing#home'
+
+  match '/news', to: 'public#news', via: 'get'
+  match '/about', to: 'public#about', via: 'get'
+  match '/trips', to: 'trips#all_trips', via: 'get'
+  match '/tripviewer', to: 'trips#trip_viewer', via: 'get'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

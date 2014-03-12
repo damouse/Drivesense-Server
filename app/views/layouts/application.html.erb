@@ -1,15 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>Drivesense</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>DriveSense</title>
+
+    <title>Drivesense</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
   <%= csrf_meta_tags %>
 </head>
+
 <body>
 
-<%= yield %>
+        	<%= render :partial => 'layouts/navbar' %>
+
+
+    <div class="container">   
+
+    <%= yield %>
+
+    </div>
+    <!-- /.container -->
+
+    <%= render :partial => 'layouts/footer' %>
+
 
 </body>
+
 </html>

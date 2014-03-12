@@ -4,6 +4,7 @@
 
 body, html {
   height: 100%;
+  margin-top:40px;
 }
 
 .centered {
@@ -37,8 +38,6 @@ h6 {
   letter-spacing: 1px;
 }
 
-
-
 h1 {
   font-size:800%;
   color:#000000;
@@ -49,4 +48,14 @@ h2 {
   margin-top:1cm;
   font-size:300%;
   color:#000000;
+}
+
+//new
+
+.nav {
+  margin-top: 28px; /* this is a faux center fix for the nav options - adjust this if you wish to change the logo height or the font of the menu items */
+}
+
+footer {
+  padding: 30px 0;  
 }

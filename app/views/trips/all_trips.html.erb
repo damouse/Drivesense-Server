@@ -1,0 +1,27 @@
+<%- model_class = Trip -%>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:score) %></th>
+      <th><%= model_class.human_attribute_name(:time_stamp) %></th>
+      <th><%= model_class.human_attribute_name(:distance) %></th>
+      <th><%= model_class.human_attribute_name(:duration) %></th>      
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @trips.each do |trip| %>
+      <tr>
+        <td><%= link_to trip.id, tripviewer_path(trip) %></td>
+        <td><%= trip.name %></td>
+        <td><%= trip.score %></td>
+        <td><%= trip.time_stamp %></td>
+        <td><%=l trip.created_at %></td>
+        <td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

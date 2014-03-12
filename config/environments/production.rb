@@ -30,7 +30,7 @@ Rails.application.configure do
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.serve_static_assets = true
-config.assets.compile = true
+  config.assets.compile = true
 
   # Generate digests for assets URLs.
   config.assets.digest = true
@@ -84,5 +84,5 @@ config.assets.compile = true
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-
+    config.assets.precompile += ['application.css', 'landing.css']
 end

@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   devise_for :users
   root 'landing#home'
 
+  match '/sess', to: 'account#sess', via: 'get'
+  match '/mobile_login', to: 'account#mobile_login', via: 'post'
+
+
   match '/news', to: 'public#news', via: 'get'
   match '/about', to: 'public#about', via: 'get'
   match '/trips', to: 'trips#all_trips', via: 'get'

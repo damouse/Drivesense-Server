@@ -25,6 +25,7 @@ class AccountController < ApplicationController
 			if not user
 				render :json => {response:'user not found', status:'fail'}
 			else
+				user.ensure_authentication_token
 				render :json => {response:'user logged in',status:'success', user:user}
 			end
 			
@@ -48,7 +49,7 @@ end
 
 =begin
   For test@test.com/12345678, use the following URL to get access:
-  http://localhost:3000/sess?user_email=test@test.com&user_token=UiMpEYVmusxnJfKvHsSk
+  /sess?user_email=test@test.com&user_token=UiMpEYVmusxnJfKvHsSk
   
 	And this one to retrieve the auth token for any user (currently insecure)
 	http://localhost:3000/mobile_login?password=12345678&user_email=test%40test.com

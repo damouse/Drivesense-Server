@@ -30,7 +30,7 @@
   <tbody>
     <% @trips.each do |trip| %>
       <tr>
-        <td><%= link_to "trip", {:controller => "trips", :action => "trip_viewer", :id =>trip.id }%></td>
+        <td><%= link_to "trip", {:controller => "trip_viewer", :action => "trip_viewer", :id =>trip.id }%></td>
         <td><%= trip.name %></td>
         <td><%= trip.score %></td>
         <td><%= trip.time_stamp %></td>

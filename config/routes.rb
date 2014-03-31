@@ -1,16 +1,19 @@
 Rails.application.routes.draw do
 
+  get 'trips_coordinates/new_trip'
+
   devise_for :users
   root 'landing#home'
 
   match '/sess', to: 'account#sess', via: 'get'
   match '/mobile_login', to: 'account#mobile_login', via: 'post'
 
-
   match '/news', to: 'public#news', via: 'get'
   match '/about', to: 'public#about', via: 'get'
-  match '/trips', to: 'trips#all_trips', via: 'get'
-  match '/tripviewer/:id', to: 'trips#trip_viewer', via: 'get'
+
+  match '/trips', to: 'trip_viewer#all_trips', via: 'get'
+  match '/tripviewer/:id', to: 'trip_viewer#trip_viewer', via: 'get'
+  match '/upload', to: 'trips_coordinates#new_trip', via: 'get'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

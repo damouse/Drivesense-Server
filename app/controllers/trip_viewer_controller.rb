@@ -1,4 +1,4 @@
-class TripsController < ApplicationController
+class TripViewerController < ApplicationController
 	before_action :authenticate_user!
 
   def all_trips

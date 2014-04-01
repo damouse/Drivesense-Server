@@ -13,7 +13,8 @@ Rails.application.routes.draw do
 
   match '/trips', to: 'trip_viewer#all_trips', via: 'get'
   match '/tripviewer/:id', to: 'trip_viewer#trip_viewer', via: 'get'
-  match '/upload', to: 'trips_coordinates#new_trip', via: 'get'
+  match '/upload', to: 'trips_coordinates#new_trip', via: 'post'
+  match '/delete_trip/:id', to: 'trips_coordinates#delete_trip', via: 'get'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

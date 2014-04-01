@@ -23,19 +23,24 @@
       <th><%= model_class.human_attribute_name(:score) %></th>
       <th><%= model_class.human_attribute_name(:time_stamp) %></th>
       <th><%= model_class.human_attribute_name(:distance) %></th>
-      <th><%= model_class.human_attribute_name(:duration) %></th>      
+      <th><%= model_class.human_attribute_name(:duration) %></th>
+      <th>Delete</th>      
     </tr>
   </thead>
 
   <tbody>
     <% @trips.each do |trip| %>
       <tr>
-        <td><%= link_to "trip", {:controller => "trip_viewer", :action => "trip_viewer", :id =>trip.id }%></td>
+        <td><%= trip.id %></td>
         <td><%= trip.name %></td>
         <td><%= trip.score %></td>
         <td><%= trip.time_stamp %></td>
         <td><%=l trip.created_at %></td>
+        <td></td>
         <td>
+          <%= link_to 'View', {:controller => "trip_viewer", :action => "trip_viewer", :id =>trip.id }, :class => 'btn btn-mini btn-success' %>
+          <%= link_to 'Delete', {:controller => "trips_coordinates", :action => "delete_trip", :id =>trip.id }, :class => 'btn btn-mini btn-danger' %>
+        </td>
       </tr>
     <% end %>
   </tbody>

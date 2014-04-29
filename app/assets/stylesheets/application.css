@@ -14,3 +14,30 @@
  *= require_tree ./normal/.
  *= require_self
  */
+
+.navbar-item {
+  font-family: 'Open Sans', sans-serif;
+  font-style:bold;
+  font-weight: 100;
+  font-size:120%;
+  letter-spacing: 1px;
+  color: rgb(255,255,255);
+}
+
+ul.nav a:hover { 
+	color: #000 !important; 
+}
+
+.navbar-brand {
+  font-family: 'Open Sans', sans-serif;
+  font-style:bold;
+  font-weight: 100;
+  font-size:200%;
+  letter-spacing: 1px;
+  color: rgb(255,255,255);
+}
+
+div.navbar a.navbar-brand:hover { 
+	color: #000 !important; 
+	background-color: #fff
+}

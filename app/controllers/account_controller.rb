@@ -59,6 +59,10 @@ class AccountController < ApplicationController
 		end
 
 	end
+
+  def account
+
+  end
 end
 
 

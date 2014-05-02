@@ -1,44 +1,33 @@
 <%- model_class = Trip -%>
 
 <div class='row'>
-  <h2>Debugging</h2>
-  <p>This is a debugging pane</p>
+  <h1>Trips</h1>
+  <p>See all trips here.</p>
 
-<% if user_signed_in? %>
-  Logged in as <strong><%= current_user.email %></strong>.
-  <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-  <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-<% else %>
-  <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
-  <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
-<% end %>
   <hr>
 </div>
 
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:score) %></th>
       <th><%= model_class.human_attribute_name(:time_stamp) %></th>
       <th><%= model_class.human_attribute_name(:distance) %></th>
       <th><%= model_class.human_attribute_name(:duration) %></th>
-      <th>Delete</th>      
+   
     </tr>
   </thead>
 
   <tbody>
     <% @trips.each do |trip| %>
       <tr>
-        <td><%= trip.id %></td>
-        <td><%= trip.name %></td>
+        <td><%= link_to trip.name, {:controller => "trip_viewer", :action => "trip_viewer", :id =>trip.id } %></td>
         <td><%= trip.score %></td>
-        <td><%= trip.time_stamp %></td>
-        <td><%=l trip.created_at %></td>
-        <td></td>
+        <td><%=l trip.time_stamp %></td>
+        <td><%= trip.distance %></td>
+        <td><%= trip.duration %></td>
         <td>
-          <%= link_to 'View', {:controller => "trip_viewer", :action => "trip_viewer", :id =>trip.id }, :class => 'btn btn-mini btn-success' %>
           <%= link_to 'Delete', {:controller => "trips_coordinates", :action => "delete_trip", :id =>trip.id }, :class => 'btn btn-mini btn-danger' %>
         </td>
       </tr>

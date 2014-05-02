@@ -52,7 +52,22 @@
             <li><a class="navbar-item" href="/trips">My Trips</a></li>        
             <li><a class="navbar-item" href="/about">About</a></li>
             <li><a class="navbar-item" href="/news">News</a></li>
-            <li><a class="navbar-item" href="/account">Account</a></li>
+            <li class="dropdown user-dropdown">
+              <a href="#" class="dropdown-toggle navbar-item" data-toggle="dropdown">
+              <% 
+              name = ''
+              if current_user != nil
+                name = current_user.email
+                end%><%=name%> 
+                <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+
+                <li><a rel="nofollow" href="/account"><i class="fa fa-gear"></i>  Account Settings</a></li>
+                <div class="divider"></div>
+                <li><a rel="nofollow" href="/users/sign_out" data-method="delete"><i class="fa fa-power-off"></i>  Log Out</a></li>
+
+              </ul>
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

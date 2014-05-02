@@ -2,6 +2,7 @@ class AccountController < ApplicationController
 	skip_before_filter :verify_authenticity_token #this may be dangerous, check
 
 	#check logins here
+	#sample: /sess?user_email=test@test.com&user_token=UiMpEYVmusxnJfKvHsSk
 	def sess
 		if user_signed_in?
 			render :json => {response:'accepted auth token', status:'success'}
@@ -12,6 +13,7 @@ class AccountController < ApplicationController
 
 	#endpoint for logging in from a mobile app
 	#CURRENTLY INSECURE
+	#sample: /mobile_login?password=12345678&user_email=test%40test.com
 	def mobile_login
 		email = params[:user_email]
 		pass = params[:password]
@@ -22,6 +24,7 @@ class AccountController < ApplicationController
 			user = User.find_by_email(email)
 
 			if not user
+
 				render :json => {response:'user not found', status:'fail'}
 			else
 				user.ensure_authentication_token
@@ -29,13 +32,46 @@ class AccountController < ApplicationController
 			end
 		end
 	end
+
+	#create a new user with the passed user object
+	def register_user
+		json = JSON.parse(request.body.read())
+
+		email = json["user_email"]
+		pass = json["password"]
+
+		if not email.present? or not pass.present?
+			render :json => {response:'missing parameters', status:'fail'}
+			return
+		end
+
+		if User.find_by_email(email)
+			render :json => {response:'user already exists with that email', status:'fail'}
+			return
+		end
+
+		user = User.new(email:email, password:pass)
+
+		if user.save
+			render :json => {response:'user created',status:'success', user:user}
+		else
+			render :json => {response:'registration failed',status:'success', errors:user.errors.full_messages}
+		end
+
+	end
 end
 
 
 =begin
-  For test@test.com/12345678, use the following URL to get access:
-  /sess?user_email=test@test.com&user_token=UiMpEYVmusxnJfKvHsSk
-  
-	And this one to retrieve the auth token for any user (currently insecure)
-	http://localhost:3000/mobile_login?password=12345678&user_email=test%40test.com
+{
+  "response": "user logged in",
+  "status": "success",
+  "user": {
+    "id": 1,
+    "email": "test@test.com",
+    "created_at": "2014-03-12T17:38:16.775Z",
+    "updated_at": "2014-04-29T22:02:46.769Z",
+    "authentication_token": "UiMpEYVmusxnJfKvHsSk"
+  }
+}
 =end

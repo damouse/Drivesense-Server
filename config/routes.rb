@@ -5,8 +5,10 @@ Rails.application.routes.draw do
   devise_for :users
   root 'landing#home'
 
+  #account
   match '/sess', to: 'account#sess', via: 'get'
   match '/mobile_login', to: 'account#mobile_login', via: 'post'
+  match '/register', to: 'account#register_user', via: 'post'
 
   match '/news', to: 'public#news', via: 'get'
   match '/about', to: 'public#about', via: 'get'

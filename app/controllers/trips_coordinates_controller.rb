@@ -3,45 +3,44 @@ class TripsCoordinatesController < ApplicationController
 	skip_before_filter :verify_authenticity_token
   	#controller responsible for managing uploads from mobile devices
 
-  	def new_trip
-  		respond_to do |format|
-  			#respond only to requests that have 'Accept=application/json' as a header
-			format.html {render :nothing => true, :status => 404}
+	def new_trip
+		respond_to do |format|
+			#respond only to requests that have 'Accept=application/json' as a header
+		format.html {render :nothing => true, :status => 404}
 
-			format.json do 
+		format.json do 
 
-				if not user_signed_in?
-					render :json => {response:'auth token not accepted', status:'fail'}
-				end
-				#information = request.raw_post
-				#data_parsed = JSON.parse(information)
-				json = JSON.parse(request.body.read())
-				#puts 'JSON ' + json
-				new_trip = json["trip"]
-
-
-				#properly prints out the arguments
-				#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} 
-				trip = Trip.new(new_trip)
-				if trip.save
-					render :json => {status: 'success', new_trip:trip}
-				else
-					render :json => {status: 'failure', posted_content:trip}
-				end
+			if not user_signed_in?
+				render :json => {response:'auth token not accepted', status:'fail'}
 			end
-		 end
+			#information = request.raw_post
+			#data_parsed = JSON.parse(information)
+			json = JSON.parse(request.body.read())
+			#puts 'JSON ' + json
+			new_trip = json["trip"]
+
+
+			#properly prints out the arguments
+			#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} 
+			trip = Trip.new(new_trip)
+			if trip.save
+				render :json => {status: 'success', new_trip:trip}
+			else
+				render :json => {status: 'failure', posted_content:trip}
+			end
+		end
+	 end
+	end
+
+	def delete_trip
+		trip = Trip.find(params[:id])
+
+		trip.destroy
+		respond_to do |format|
+    		format.html { redirect_to trips_path }
+    		format.json { render :json => {status: 'success', response: 'successfully deleted trip'}}
   	end
-
-  	def delete_trip
-  		trip = Trip.find(params[:id])
-
-  		trip.destroy
-  		respond_to do |format|
-      		format.html { redirect_to trips_path }
-      		format.json { render :json => {status: 'success', response: 'successfully deleted trip'}}
-    	end
-  	end
-
+	end
 end
 
 =begin

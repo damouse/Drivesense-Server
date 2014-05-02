@@ -16,6 +16,8 @@ gem 'simple_form'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.0.rc1'
 
+#charts!
+gem 'chart-js-rails'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.1'

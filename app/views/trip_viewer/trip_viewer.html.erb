@@ -11,19 +11,63 @@
 </div>
 
 
-<div class='row'></div>
-	<div class='col-8 offset2'>
-	  <tr>
-        <td><h4>Name: <%= @trip.name %></h4></td>
-        <td><h4>Score: <%= @trip.score %></h4></td>
-        <td><h4>Date: <%= @trip.time_stamp %></h4></td>
-        <td><h4>Duration: <%= @trip.duration %></h4></td>
-        <td><h4>Distance: <%= @trip.distance %></h4></td>
-        <td>
-      </tr>
+<div class='col-8 offset2'>
+	<div class="panel-group" id="accordion">
+
+	  <div class="panel panel-default">
+	    <div class="panel-heading">
+	      <h4 class="panel-title">
+	        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+	          Trip Information
+	        </a>
+	      </h4>
+	    </div>
+	    <div id="collapseOne" class="panel-collapse collapse in">
+	      <div class="panel-body">
+	        <tr>
+		        <td><h4>Name: <%= @trip.name %></h4></td>
+		        <td><h4>Score: <%= @trip.score %></h4></td>
+		        <td><h4>Date: <%= @trip.time_stamp %></h4></td>
+		        <td><h4>Duration: <%= @trip.duration %></h4></td>
+		        <td><h4>Distance: <%= @trip.distance %></h4></td>
+      		</tr>
+	      </div>
+	    </div>
+	  </div>
+
+	  <div class="panel panel-default">
+	    <div class="panel-heading">
+	      <h4 class="panel-title">
+	        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+	         	Analysis
+	        </a>
+	      </h4>
+	    </div>
+	    <div id="collapseTwo" class="panel-collapse collapse">
+	      <div class="panel-body">
+	        <canvas id="canvas" width="800" height="800"></canvas>
+	      </div>
+	    </div>
+	  </div>
+
+	  <div class="panel panel-default">
+	    <div class="panel-heading">
+	      <h4 class="panel-title">
+	        <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
+	         	Edit Details
+	        </a>
+	      </h4>
+	    </div>
+	    <div id="collapseThree" class="panel-collapse collapse">
+	      <div class="panel-body">
+	        sdfasd
+	      </div>
+	    </div>
+	  </div>
+
 	</div>
 </div>
-</div>
+
 
 <script type="text/javascript">
     handler = Gmaps.build('Google');
@@ -37,3 +81,5 @@
 
     handler.addPolyline(polyline); // and not addPolylines
 </script>
+
+

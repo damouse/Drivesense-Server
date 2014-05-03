@@ -1,0 +1,57 @@
+%script{src: "//maps.google.com/maps/api/js?v=3.13&sensor=false&libraries=geometry", type: "text/javascript"}
+%script{src: "//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js", type: "text/javascript"}
+
+%p KNOWN ISSUE: if map does not appear, please refresh the page. JS loading error.
+
+.col-12
+  #map
+
+.col-8.offset2
+  #accordion.panel-group
+
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title
+          %a{"data-parent" => "#accordion", "data-toggle" => "collapse", href: "#collapseOne"}= Trip Information
+      #collapseOne.panel-collapse.collapse.in
+        .panel-body
+          %tr
+            %td
+              %h4= Name: #{@trip.name}
+            %td
+              %h4= Score: #{@trip.score}
+            %td
+              %h4= Date: #{@trip.time_stamp}
+            %td
+              %h4= Duration: #{@trip.duration}
+            %td
+              %h4= Distance: #{@trip.distance}
+
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title
+          %a{"data-parent" => "#accordion", "data-toggle" => "collapse", href: "#collapseTwo"}= Analysis
+      #collapseTwo.panel-collapse.collapse
+        .panel-body
+          %canvas#canvas{height: "800", width: "800"}
+
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title
+          %a{"data-parent" => "#accordion", "data-toggle" => "collapse", href: "#collapseThree"}= Edit Details
+      #collapseThree.panel-collapse.collapse
+        .panel-body 
+          sdfasd
+
+
+:javascript
+  handler = Gmaps.build('Google');
+  handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    markers = handler.addMarkers(#{raw @hash.to_json});
+    handler.bounds.extendWith(markers);
+    handler.fitMapToBounds();
+  });
+
+  polyline = [{"lat":43,"lng":-89, "strokeColor": "#f00"},{"lng":-89.0001, "lat": 43.0001, "strokeColor": "#000", "strokeWeight" : 2 },{"lat":43.0002,"lng":-89.0002}]
+
+  handler.addPolyline(polyline); // and not addPolylines

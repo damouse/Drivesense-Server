@@ -4,32 +4,28 @@ class TripsCoordinatesController < ApplicationController
   	#controller responsible for managing uploads from mobile devices
 
 	def new_trip
-		respond_to do |format|
-			#respond only to requests that have 'Accept=application/json' as a header
-		format.html {render :nothing => true, :status => 404}
-
-		format.json do 
-
-			if not user_signed_in?
-				render :json => {response:'auth token not accepted', status:'fail'}
-			end
-			#information = request.raw_post
-			#data_parsed = JSON.parse(information)
-			json = JSON.parse(request.body.read())
-			#puts 'JSON ' + json
-			new_trip = json["trip"]
-
-
-			#properly prints out the arguments
-			#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} 
-			trip = Trip.new(new_trip)
-			if trip.save
-				render :json => {status: 'success', new_trip:trip}
-			else
-				render :json => {status: 'failure', posted_content:trip}
-			end
+=begin
+    if not user_signed_in?
+			render :json => {response:'auth token not accepted', status:'fail'}
+      return
 		end
-	 end
+=end
+
+		#information = request.raw_post
+		#data_parsed = JSON.parse(information)
+		json = JSON.parse(request.body.read())
+		#puts 'JSON ' + json
+		new_trip = json["trip"]
+
+
+		#properly prints out the arguments
+		#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} 
+		trip = Trip.new(new_trip)
+		if trip.save
+			render :json => {status: 'success', new_trip:trip}
+		else
+			render :json => {status: 'failure', posted_content:trip}
+		end
 	end
 
 	def delete_trip

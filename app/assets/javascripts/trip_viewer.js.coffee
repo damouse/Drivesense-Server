@@ -20,11 +20,3 @@ jQuery ->
   }
 
   myNewChart = new Chart($("#canvas").get(0).getContext("2d")).Line(data)
-
-# loaded automatically on page load
-#window.onload = ->
-#  div = document.getElementById("collapseThree")
-#  canvas = document.getElementById("canvas")
-#  canvas.height = 100//div.offsetHeight
-#  canvas.width = 100//div.offsetWidth
-#  return

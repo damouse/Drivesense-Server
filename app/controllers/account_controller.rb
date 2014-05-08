@@ -24,8 +24,8 @@ class AccountController < ApplicationController
 			user = User.find_by_email(email)
 
 			if not user
-
-				render :json => {response:'user not found', status:'fail'}
+        return register_user_scratch(email, pass)
+				#render :json => {response:'user not found', status:'fail'}
 			else
 				user.ensure_authentication_token
 				render :json => {response:'user logged in',status:'success', user:user}
@@ -40,28 +40,29 @@ class AccountController < ApplicationController
 		email = json["user_email"]
 		pass = json["password"]
 
-		if not email.present? or not pass.present?
-			render :json => {response:'missing parameters', status:'fail'}
-			return
-		end
+    if not email.present? or not pass.present?
+      render :json => {response:'missing parameters', status:'fail'}
+      return
+    end
 
-		if User.find_by_email(email)
-			render :json => {response:'user already exists with that email', status:'fail'}
-			return
-		end
+    if User.find_by_email(email)
+      render :json => {response:'user already exists with that email', status:'fail'}
+      return
+    end
 
-		user = User.new(email:email, password:pass)
-
-		if user.save
-			render :json => {response:'user created',status:'success', user:user}
-		else
-			render :json => {response:'registration failed',status:'success', errors:user.errors.full_messages}
-		end
-
+    return register_user_scratch(email, pass)
 	end
 
-  def account
+  private
 
+  def register_user_scratch(email, password)
+    user = User.new(email:email, password:password)
+
+    if user.save
+      render :json => {response:'user created',status:'success', user:user}
+    else
+      render :json => {response:'registration failed',status:'success', errors:user.errors.full_messages}
+    end
   end
 end
 

@@ -22,7 +22,7 @@
   <tbody>
     <% @trips.each do |trip| %>
       <tr>
-        <td><%= link_to trip.name, {:controller => "trip_viewer", :action => "trip_viewer", :id =>trip.id } %></td>
+        <td><%= link_to trip.name, {:controller => "trip_viewer", :action => "trip_viewer", :id =>trip.id }, 'data-no-turbolink' => true %></td>
         <td><%= trip.score %></td>
         <td><%=l trip.time_stamp %></td>
         <td><%= trip.distance %></td>

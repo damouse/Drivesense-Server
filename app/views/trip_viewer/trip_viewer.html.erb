@@ -29,11 +29,11 @@
     handler = Gmaps.build('Google');
     handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
         markers = handler.addMarkers(<%=raw @hash.to_json %>);
-        handler.bounds.extendWith(markers);
+        polyline = handler.addPolyline(<%=raw @polylines.to_json %>); 
+        handler.bounds.extendWith(polyline);
         handler.fitMapToBounds();
     });
-
-    polyline = [{"lat":43,"lng":-89, "strokeColor": "#f00"},{"lng":-89.0001, "lat": 43.0001, "strokeColor": "#000", "strokeWeight" : 2 },{"lat":43.0002,"lng":-89.0002}]
-
-    handler.addPolyline(polyline); // and not addPolylines
+    
+	
+    
 </script>

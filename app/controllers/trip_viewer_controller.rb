@@ -17,13 +17,23 @@ class TripViewerController < ApplicationController
       redirect_to invalid_trip_path
     end
 
-  	@coordinates = @trip.coordinates
-  	@hash = Gmaps4rails.build_markers(@coordinates) do |coord, marker|
+  	@coordinates = @trip.coordinates.sort_by &:time_stamp
+  	@endpoints = [@coordinates.first, @coordinates.last]
+  	
+  	@hash = Gmaps4rails.build_markers(@endpoints) do |coord, marker|
       marker.lat coord.latitude
       marker.lng coord.longitude
-      marker.title 'hallo'
+      marker.title "hi"
+      
     end
+    
+    @polylines = Gmaps4rails.build_markers(@coordinates) do |coord, marker|
+      marker.lat coord.latitude
+      marker.lng coord.longitude
+    end    
+    
   end
+  
 
   def invalid_trip
 

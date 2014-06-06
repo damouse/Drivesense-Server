@@ -74,7 +74,7 @@ Format (sample trip upload)
 {
   "user": {
     "id":1,
-    "auth_token":"UiMpEYVmusxnJfKvHsSk"
+    "auth_token":"2YmMtMRNEXMUyGFrZr9p"
   },
   "trip": {
     "name": "upload_trip2",

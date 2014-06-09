@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :groups
+
   get 'trips_coordinates/new_trip'
 
   devise_for :users

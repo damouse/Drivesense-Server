@@ -3,8 +3,9 @@
 body {
     height: 100%;
     width: 100%;
-    margin: 0;
-    padding-top: 150px
+    padding-top: 120px;
+    padding-bottom: 40px;
+    margin: 0 0 40px;
 }
 
 h1,
@@ -29,13 +30,12 @@ h2 {
 }
 
 
-
-p {
+p, tr {
   margin: 0 0 35px;
   font-family: 'Open Sans', sans-serif;
   font-style:normal;
   font-weight: 100;
-  font-size:110%;
+  font-size:120%;
 }
 
 .navbar-custom {
@@ -62,4 +62,31 @@ p {
 
 .page-header {
 	margin-bottom: 20px
+}
+
+.navbar-item {
+  font-family: 'Open Sans', sans-serif;
+  font-style:bold;
+  font-weight: 100;
+  font-size:125%;
+  letter-spacing: 1px;
+  color: rgb(255,255,255);
+}
+
+ul.nav a:hover { 
+  color: #000 !important; 
+}
+
+.navbar-brand {
+  font-family: 'Open Sans', sans-serif;
+  font-style:bold;
+  font-weight: 100;
+  font-size:200%;
+  letter-spacing: 1px;
+  color: rgb(255,255,255);
+}
+
+div.navbar a.navbar-brand:hover { 
+  color: #000 !important; 
+  background-color: #fff
 }

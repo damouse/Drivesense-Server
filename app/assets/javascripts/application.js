@@ -16,4 +16,5 @@
 //= require underscore
 //= require gmaps/google
 //= require turbolinks
+//= require Chart
 //= require_tree .

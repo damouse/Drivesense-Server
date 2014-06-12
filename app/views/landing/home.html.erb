@@ -18,7 +18,7 @@
                 <% if not user_signed_in?%>
                     <%= link_to (image_tag 'pin.png', :size => "102x170", :mouseover => 'pin_green.png'), new_user_session_path  %>
                 <%else%>
-                    <%= link_to (image_tag 'pin.png', :size => "102x170", :mouseover => 'pin_green.png'), trips_path  %>
+                    <%= link_to (image_tag 'pin.png', :size => "102x170", :mouseover => 'pin_green.png'), {:controller => "trip_viewer", :action => "all_trips", :id =>current_user.id }  %>
                 <%end%>
                 </div>
 

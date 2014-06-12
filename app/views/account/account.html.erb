@@ -1,3 +1,7 @@
 <h1>Account</h1>
 
 <p>Edit account details here</p>
+
+<% if not current_user.group.nil? %>
+    <p>You are a member of <%= "#{current_user.group.name}.   " %><%= link_to 'Leave Group', {:controller => "groups", :action => "remove", :id => current_user.id }, :class => 'btn btn-mini btn-danger', data: { confirm: "This will remove you from the group and the group admin will no longer be able to view your trips. Are you sure you want to do this?" } %></p>
+<% end %>

@@ -49,9 +49,19 @@
           </ul> -->
 
           <ul class="nav navbar-nav navbar-right">
-            <li><a class="navbar-item" href="/trips">My Trips</a></li>        
+          <% if user_signed_in? %>
+            <% if not Group.find_by(owner_id: current_user.id).nil? %>
+              
+              <li><a class="navbar-item" <%= link_to Group.find_by(owner_id: current_user.id).name, {:controller => "groups", :action => "show", :id =>Group.find_by(owner_id: current_user.id).id } %></a></li>
+            
+            <% elsif current_user.group.nil? %>
+              <li><a class="navbar-item" <%= link_to "Create Group", {:controller => "groups", :action => "new" } %></a></li>
+            <% end %>
+            <li><a class="navbar-item" <%= link_to "My Trips", {:controller => "trip_viewer", :action => "all_trips" }%></a></li>  
+          <% end %>      
             <li><a class="navbar-item" href="/about">About</a></li>
             <li><a class="navbar-item" href="/news">News</a></li>
+          <% if user_signed_in? %>
             <li class="dropdown user-dropdown">
               <a href="#" class="dropdown-toggle navbar-item" data-toggle="dropdown">
               <% 
@@ -65,6 +75,7 @@
                 <li><a rel="nofollow" href="/account"><i class="fa fa-gear"></i>  Account Settings</a></li>
                 <div class="divider"></div>
                 <li><a rel="nofollow" href="/users/sign_out" data-method="delete"><i class="fa fa-power-off"></i>  Log Out</a></li>
+          <% end %>
 
               </ul>
             </li>

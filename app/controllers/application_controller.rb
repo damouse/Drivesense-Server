@@ -17,7 +17,13 @@ class ApplicationController < ActionController::Base
 	end
 
 	def after_sign_in_path_for(user)
-	  trips_path
+		if user.group.nil?
+	  		trips_path
+	  	elsif user.group.owner == user
+	  		user.group
+	  	else
+	  		trips_path
+	  	end
 	end
 
 	def after_sign_out_path_for(user)

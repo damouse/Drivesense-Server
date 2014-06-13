@@ -76,6 +76,8 @@ end
 =begin
 Upload call with scoring information
 
+USE THIS AUTH KEY FOR HEROKU: 5aSK8iLoEeSzXvr9Pp5d
+
 {
     "user": {
         "id": "9",

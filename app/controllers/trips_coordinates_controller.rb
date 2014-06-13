@@ -67,65 +67,92 @@ class TripsCoordinatesController < ApplicationController
 end
 
 =begin
-Implements API to access trips from a mobile device. 
+Upload call with scoring information
 
-Requires a valid token and user_id be passed in with every call. 
-Format (sample trip upload)
-{
-  "user": {
-    "id":1,
-    "auth_token":"2YmMtMRNEXMUyGFrZr9p"
-  },
-  "trip": {
-    "name": "upload_trip2",
-    "time_stamp": "2014-03-12T19:16:29.749Z",
-    "distance": 2.04,
-    "duration": 2,
-    "score": 43,
-    "created_at": "2014-03-12T17:50:17.566Z",
-    "updated_at": "2014-03-12T19:16:29.754Z",
-    "user_id": 1,
-    "coordinates_attributes": [
-        {
-            "latitude": 43,
-            "longitude": -89
-        },
-        {
-            "latitude": 43.0001,
-            "longitude": -89.0001
-        },
-        {
-            "latitude": 43.0002,
-            "longitude": -89.0002
-        }
-    ]
-  }
-}  
-=end
-
-=begin
 {
     "user": {
-        "id": 1,
-        "auth_token": "UiMpEYVmusxnJfKvHsSk"
+        "id": "9",
+        "auth_token": "AsPYQbwaxy9FejKxG-8i"
     },
     "trip": {
-        "score": 11,
-        "coordinate_attributes": [
+        "score": {
+            "patterns": [
+                {
+                    "type": "brake",
+                    "end": 1402527488904,
+                    "start": 1402527488403,
+                    "score": 90.06905634310833
+                },
+                {
+                    "type": "acceleration",
+                    "end": 1402527487814,
+                    "start": 1402527483245,
+                    "score": 100
+                },
+                {
+                    "type": "acceleration",
+                    "end": 1402527488443,
+                    "start": 1402527487873,
+                    "score": 73.0348957553633
+                },
+                {
+                    "type": "acceleration",
+                    "end": 1402527491183,
+                    "start": 1402527488863,
+                    "score": 66.55949155986409
+                },
+                {
+                    "type": "turn",
+                    "end": 1402527491100,
+                    "start": 1402527484100,
+                    "score": -1
+                }
+            ],
+            "score": 84,
+            "scoreAccels": 79.8648,
+            "scoreBreaks": 90.06905,
+            "scoreLaneChanges": 100,
+            "scoreTurns": 68.66376
+        },
+        "user_id": "9",
+        "duration": 7,
+        "distance": 0.11038501669622747,
+        "coordinates_attributes": [
             {
-                "longitude": -89.400559075,
-                "latitude": 43.07309978333333
+                "longitude": -89.39856122500001,
+                "latitude": 43.07287135
             },
             {
-                "longitude": -89.400561225,
-                "latitude": 43.07287135
+                "longitude": -89.39856337500001,
+                "latitude": 43.072642916666666
+            },
+            {
+                "longitude": -89.39856552500001,
+                "latitude": 43.07241448333333
+            },
+            {
+                "longitude": -89.39856767500001,
+                "latitude": 43.07218605
+            },
+            {
+                "longitude": -89.39856982500001,
+                "latitude": 43.071957616666666
+            },
+            {
+                "longitude": -89.39857197500001,
+                "latitude": 43.07172918333333
+            },
+            {
+                "longitude": -89.39857412500001,
+                "latitude": 43.07150075
+            },
+            {
+                "longitude": -89.39857627500001,
+                "latitude": 43.071272316666665
             }
         ],
-        "user_id": "1",
-        "duration": 11,
-        "distance": 0.17346216299890393,
-        "time_stamp": 11,
-        "name": "Trip #1"
+        "time_stamp": 7,
+        "name": "Trip #12"
     }
 }
 =end

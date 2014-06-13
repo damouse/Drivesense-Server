@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :trips
+  has_one :group
+  belongs_to :group
 
   before_save :ensure_authentication_token
  

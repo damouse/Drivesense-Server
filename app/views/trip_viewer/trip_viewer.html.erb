@@ -2,7 +2,6 @@
 <script src="//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js" type="text/javascript"></script>
 
 
-<p>KNOWN ISSUE: if map does not appear, please refresh the page. JS loading error.</p>
 
 <div class='col-12'>
 
@@ -73,13 +72,13 @@
     handler = Gmaps.build('Google');
     handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
         markers = handler.addMarkers(<%=raw @hash.to_json %>);
-        handler.bounds.extendWith(markers);
+        polyline = handler.addPolyline(<%=raw @polylines.to_json %>); 
+        handler.bounds.extendWith(polyline);
         handler.fitMapToBounds();
     });
-
-    polyline = [{"lat":43,"lng":-89, "strokeColor": "#f00"},{"lng":-89.0001, "lat": 43.0001, "strokeColor": "#000", "strokeWeight" : 2 },{"lat":43.0002,"lng":-89.0002}]
-
-    handler.addPolyline(polyline); // and not addPolylines
+    
+	
+    
 </script>
 
 

@@ -77,6 +77,7 @@ end
 Upload call with scoring information
 
 USE THIS AUTH KEY FOR HEROKU: 5aSK8iLoEeSzXvr9Pp5d
+for user account test@test.com, pw:12345678
 
 {
     "user": {

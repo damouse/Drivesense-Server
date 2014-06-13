@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140613021020) do
+ActiveRecord::Schema.define(version: 20140613021728) do
 
   create_table "coordinates", force: true do |t|
     t.datetime "time_stamp"
@@ -31,12 +31,12 @@ ActiveRecord::Schema.define(version: 20140613021020) do
 
   create_table "patterns", force: true do |t|
     t.string   "pattern_type"
-    t.integer  "start_time"
-    t.integer  "end_time"
     t.float    "raw_score"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "score_id"
+    t.integer  "start_time"
+    t.integer  "end_time"
   end
 
   create_table "scores", force: true do |t|

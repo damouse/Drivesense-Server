@@ -13,7 +13,14 @@ class TripsCoordinatesController < ApplicationController
 
 		#properly prints out the arguments
 		#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} 
+        #return
 		trip = Trip.new(new_trip)
+
+        # if trip.valid?
+        #     render :json => {status: 'success', new_trip:trip}
+        # else
+        #     render :json => {status: 'success', new_trip:trip}
+        # end
 
 		if trip.save
 			render :json => {status: 'success', new_trip:trip}
@@ -75,37 +82,37 @@ Upload call with scoring information
         "auth_token": "AsPYQbwaxy9FejKxG-8i"
     },
     "trip": {
-        "score": {
-            "patterns": [
+        "score_attributes": {
+            "patterns_attributes": [
                 {
-                    "type": "brake",
-                    "end": 1402527488904,
-                    "start": 1402527488403,
-                    "score": 90.06905634310833
+                    "pattern_type": "brake",
+                    "end_time": 1402527488904,
+                    "start_time": 1402527488403,
+                    "raw_score": 90.06905634310833
                 },
                 {
-                    "type": "acceleration",
-                    "end": 1402527487814,
-                    "start": 1402527483245,
-                    "score": 100
+                    "pattern_type": "acceleration",
+                    "end_time": 1402527487814,
+                    "start_time": 1402527483245,
+                    "raw_score": 100
                 },
                 {
-                    "type": "acceleration",
-                    "end": 1402527488443,
-                    "start": 1402527487873,
-                    "score": 73.0348957553633
+                    "pattern_type": "acceleration",
+                    "end_time": 1402527488443,
+                    "start_time": 1402527487873,
+                    "raw_score": 73.0348957553633
                 },
                 {
-                    "type": "acceleration",
-                    "end": 1402527491183,
-                    "start": 1402527488863,
-                    "score": 66.55949155986409
+                    "pattern_type": "acceleration",
+                    "end_time": 1402527491183,
+                    "start_time": 1402527488863,
+                    "raw_score": 66.55949155986409
                 },
                 {
-                    "type": "turn",
-                    "end": 1402527491100,
-                    "start": 1402527484100,
-                    "score": -1
+                    "pattern_type": "turn",
+                    "end_time": 1402527491100,
+                    "start_time": 1402527484100,
+                    "raw_score": -1
                 }
             ],
             "score": 84,
@@ -155,4 +162,5 @@ Upload call with scoring information
         "name": "Trip #12"
     }
 }
+
 =end

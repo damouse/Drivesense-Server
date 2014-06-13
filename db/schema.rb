@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140611173346) do
+ActiveRecord::Schema.define(version: 20140613014538) do
 
   create_table "coordinates", force: true do |t|
     t.datetime "time_stamp"
@@ -27,6 +27,27 @@ ActiveRecord::Schema.define(version: 20140611173346) do
     t.integer  "owner_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "patterns", force: true do |t|
+    t.string   "pattern_type"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.float    "raw_score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "score_id"
+  end
+
+  create_table "scores", force: true do |t|
+    t.float    "score"
+    t.float    "scoreAccels"
+    t.float    "scoreBreaks"
+    t.float    "scoreLaneChanges"
+    t.float    "scoreTurns"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "trip_id"
   end
 
   create_table "trips", force: true do |t|

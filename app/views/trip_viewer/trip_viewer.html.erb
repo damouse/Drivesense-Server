@@ -25,7 +25,7 @@
 	      <div class="panel-body">
 	        <tr>
 		        <td><h4>Name: <%= @trip.name %></h4></td>
-		        <td><h4>Score: <%= @trip.score %></h4></td>
+		        <td><h4>Score: <%= @trip.score.score %></h4></td>
 		        <td><h4>Date: <%= @trip.time_stamp %></h4></td>
 		        <td><h4>Duration: <%= @trip.duration %></h4></td>
 		        <td><h4>Distance: <%= @trip.distance %></h4></td>
@@ -44,7 +44,17 @@
 	    </div>
 	    <div id="collapseTwo" class="panel-collapse collapse">
 	      <div class="panel-body">
-	        <canvas id="canvas" width="800" height="800"></canvas>
+			<%= content_tag "div", id: "scores", data: {scores: [@trip.score.score, @trip.score.scoreBreaks, @trip.score.scoreAccels, @trip.score.scoreTurns, @trip.score.scoreLaneChanges], averages: [@scores.average(:score), @scores.average(:scoreBreaks), @scores.average(:scoreAccels), @scores.average(:scoreTurns), @scores.average(:scoreLaneChanges)]} do %>
+			<% end %>
+			<div class="third widget line">
+			    <div class="chart-legend">
+			        <h3>Score Comparison</h3>
+			        <p><span>This Trip</span> &mdash; <strong>Average Trip for <%= @trip.user.email %></strong></p>
+			    </div>
+			    <div class="canvas-container">
+			        <canvas id="canvas" width="1100" height="500"></canvas>
+			    </div>
+			</div>
 	      </div>
 	    </div>
 	  </div>
@@ -59,7 +69,7 @@
 	    </div>
 	    <div id="collapseThree" class="panel-collapse collapse">
 	      <div class="panel-body">
-	        sdfasd
+	        ?????Details?????
 	      </div>
 	    </div>
 	  </div>

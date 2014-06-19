@@ -3,6 +3,13 @@ class TripViewerController < ApplicationController
 
 
   def all_trips
+
+    unless current_user.invitation_id.nil?
+      @inviteGroup = Group.where(id: current_user.invitation_id).first.name
+    else
+      @inviteGroup = nil
+    end
+
     if params[:id].nil?
       @trips = current_user.trips
     else
@@ -20,6 +27,7 @@ class TripViewerController < ApplicationController
 
   def trip_viewer
   	@trip = Trip.find(params[:id])
+    @scores = Score.where( trip_id: @trip.user.trips.map(&:id))
 
     contains = false
     if not current_user.group.nil?

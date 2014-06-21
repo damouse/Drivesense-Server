@@ -11,6 +11,7 @@ class TripsCoordinatesController < ApplicationController
 
 		new_trip = json["trip"]
 
+
 		#properly prints out the arguments
 		#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} 
         #return
@@ -21,6 +22,10 @@ class TripsCoordinatesController < ApplicationController
         # else
         #     render :json => {status: 'success', new_trip:trip}
         # end
+        if trip.user != current_user
+           render :json => {status: 'failed attempt to post(wrong user)', posted_content:trip}
+           return
+        end
 
 		if trip.save
 			render :json => {status: 'success', new_trip:trip}

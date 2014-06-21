@@ -25,9 +25,17 @@
       <tr>
         <td><%= link_to member.email, {:controller => "trip_viewer", :action => "all_trips", :id =>member.id } %></td>
         <td><%= member.trips.count %></td>
-        <td><%= member.trips.average(:score) %></td>
-        <td><%= member.trips.average(:distance) %></td>
-        <td><%= member.trips.average(:duration) %></td>
+        <% unless member.trips.count == 0 %>
+          <% sum = 0%>
+          <% member.trips.map(&:score).each {|score| sum += score.score} %>
+          <td><%= sum/member.trips.count %></td>
+          <td><%= member.trips.average(:distance).round(2) %></td>
+          <td><%= member.trips.average(:duration).round(2) %></td>
+        <% else %>
+          <td></td>
+          <td></td>
+          <td></td>
+        <% end %>
         <td>
           <%= link_to 'Remove Member', {:controller => "groups", :action => "remove", :id => member.id }, :class => 'btn btn-mini btn-danger', data: { confirm: "This will remove the member from the group and you will no longer be able to view their trips. Are you sure you want to do this?" } %>
         </td>

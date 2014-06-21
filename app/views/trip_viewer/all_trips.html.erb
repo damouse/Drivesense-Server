@@ -36,10 +36,10 @@
     <% @trips.each do |trip| %>
       <tr>
         <td><%= link_to trip.name, {:controller => "trip_viewer", :action => "trip_viewer", :id =>trip.id }, 'data-no-turbolink' => true %></td>
-        <td><%= trip.score.score %></td>
+        <td><%= trip.score.score.round(2) %></td>
         <td><%= trip.time_stamp %></td>
-        <td><%= trip.distance %></td>
-        <td><%= trip.duration %></td>
+        <td><%= trip.distance.round(2) %></td>
+        <td><%= trip.duration.round(2) %></td>
         <td>
           <%= link_to 'Delete', {:controller => "trips_coordinates", :action => "delete_trip", :id =>trip.id }, :class => 'btn btn-mini btn-danger' %>
         </td>

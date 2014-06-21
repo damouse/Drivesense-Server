@@ -50,9 +50,10 @@
 
           <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
-            <% if not Group.find_by(owner_id: current_user.id).nil? %>
+            <% ownedGroup = Group.find_by(owner_id: current_user.id) %>
+            <% if not ownedGroup.nil? %>
               
-              <li><a class="navbar-item" <%= link_to Group.find_by(owner_id: current_user.id).name, {:controller => "groups", :action => "show", :id =>Group.find_by(owner_id: current_user.id).id } %></a></li>
+              <li><a class="navbar-item" <%= link_to ownedGroup.name, {:controller => "groups", :action => "show", :id =>ownedGroup.id } %></a></li>
             
             <% elsif current_user.group.nil? %>
               <li><a class="navbar-item" <%= link_to "Create Group", {:controller => "groups", :action => "new" } %></a></li>

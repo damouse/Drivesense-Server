@@ -1,4 +1,5 @@
 <%- model_class = Trip -%>
+<script src="Chart.js"></script>
 
 <div class='row'>
   <h1>Trips</h1>
@@ -37,9 +38,9 @@
       <tr>
         <td><%= link_to trip.name, {:controller => "trip_viewer", :action => "trip_viewer", :id =>trip.id }, 'data-no-turbolink' => true %></td>
         <td><%= trip.score.score.round(2) %></td>
-        <td><%= trip.time_stamp %></td>
-        <td><%= trip.distance.round(2) %></td>
-        <td><%= trip.duration.round(2) %></td>
+        <td><%= trip.time_stamp.strftime('%a %b %d %Y %r') %></td>
+        <td><%= trip.distance.round(2) %> miles</td>
+        <td><%= get_hours(trip.duration) %> hrs <%= get_mins(trip.duration) %> mins <%= get_secs(trip.duration) %> secs</td>
         <td>
           <%= link_to 'Delete', {:controller => "trips_coordinates", :action => "delete_trip", :id =>trip.id }, :class => 'btn btn-mini btn-danger' %>
         </td>

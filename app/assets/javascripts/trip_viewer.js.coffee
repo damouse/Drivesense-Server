@@ -20,5 +20,21 @@ jQuery ->
       }
     ]
   }
+  
+  time = {
+    labels : ["1", "2", "3", "4"],
+    datasets : [ 
+      {
+        fillColor : "rgba(99,123,133,0.4)",
+        strokeColor : "rgba(220,220,220,1)",
+        pointColor : "rgba(220,220,220,1)",
+        pointStrokeColor : "#fff",
+        data : $('#timeVscore').data('scores')
+        
+      }
+    ]
+  }
 
   myNewChart = new Chart($("#canvas").get(0).getContext("2d")).Bar(data)
+
+  timeUser = new Chart($("#time").get(0).getContext("2d")).Line(time)

@@ -11,11 +11,14 @@ class TripViewerController < ApplicationController
     end
 
     if params[:id].nil?
-      @trips = current_user.trips
+      @trips = current_user.trips.sort_by(&:time_stamp)
+      @scores = Score.where( trip_id: @trips.map(&:id))
     else
-      if not current_user.group.nil?
-        if current_user.group.id == User.find(params[:id]).group_id
-          @trips = User.find(params[:id]).trips
+      owned_group = Group.find_by(owner_id: current_user.id)
+      unless owned_group.nil?
+        if owned_group.id == User.find(params[:id]).group_id
+          @trips = User.find(params[:id]).trips.sort_by(&:time_stamp)
+          @scores = Score.where( trip_id: @trips.map(&:id))
         else
           redirect_to trips_path, notice: "This user is not a member of your group."
         end

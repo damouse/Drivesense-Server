@@ -50,7 +50,7 @@
 
           <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
-            <% ownedGroup = Group.find_by(owner_id: current_user.id) %>
+            <% ownedGroup = get_owned_group %>
             <% if not ownedGroup.nil? %>
               
               <li><a class="navbar-item" <%= link_to ownedGroup.name, {:controller => "groups", :action => "show", :id =>ownedGroup.id } %></a></li>

@@ -5,6 +5,7 @@
 <% end %>
   <p>You are the administrator of this group.</p>
 
+
   <hr>
 </div>
 
@@ -28,9 +29,9 @@
         <% unless member.trips.count == 0 %>
           <% sum = 0%>
           <% member.trips.map(&:score).each {|score| sum += score.score} %>
-          <td><%= sum/member.trips.count %></td>
-          <td><%= member.trips.average(:distance).round(2) %></td>
-          <td><%= member.trips.average(:duration).round(2) %></td>
+          <td><%= (sum/member.trips.count).round(2) %></td>
+          <td><%= member.trips.average(:distance).round(2) %> miles</td>
+          <td><%= get_hours(member.trips.average(:duration)) %> hrs <%= get_mins(member.trips.average(:duration)) %> mins <%= get_secs(member.trips.average(:duration)) %> secs</td>
         <% else %>
           <td></td>
           <td></td>

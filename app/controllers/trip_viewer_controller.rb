@@ -4,7 +4,8 @@ class TripViewerController < ApplicationController
 
   def all_trips
     if params[:id].nil?
-      @trips = current_user.trips
+      # @trips = current_user.trips
+      @trips = current_user.trips.paginate(:page => params[:page], :per_page => 12)
     else
       if not current_user.group.nil?
         if current_user.group.id == User.find(params[:id]).group_id

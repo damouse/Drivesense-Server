@@ -1,8 +1,8 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :invite]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :invite, :stats]
   before_action :admin_user, only: [:index]
-  before_action :is_group_admin, only: [:edit, :update, :destroy, :show, :invite]
+  before_action :is_group_admin, only: [:edit, :update, :destroy, :show, :invite, :stats]
   before_action :already_owns_group, only: [:new, :create]
   before_action :has_invitation, only: [:accept, :decline]
   before_action :remove_permission, only: [:remove]
@@ -93,6 +93,10 @@ class GroupsController < ApplicationController
   def remove
     @member.update_attribute :group, nil
     redirect_to trips_path, notice: "#{@member.email} has been removed."
+  end
+
+  def stats
+    @members = @group.users
   end
 
   private

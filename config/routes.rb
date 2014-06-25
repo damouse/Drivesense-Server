@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   match '/accept', to: 'groups#accept', via: 'get'
   match '/decline', to: 'groups#decline', via: 'get'
   match '/remove/:id', to: 'groups#remove', via: 'get'
+  match '/stats/:id', to: 'groups#stats', via: 'get'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

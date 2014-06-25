@@ -87,4 +87,5 @@ Rails.application.configure do
   config.assets.precompile += ['application.css', 'landing.css']
 
   config.action_mailer.default_url_options = { :host => 'drivesense.heroku.com' }
+  config.force_ssl = true
 end

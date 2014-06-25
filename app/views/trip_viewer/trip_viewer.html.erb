@@ -25,10 +25,12 @@
 	      <div class="panel-body">
 	        <tr>
 		        <td><h4>Name: <%= @trip.name %></h4></td>
+
 		        <td><h4>Score: <%= @trip.score.score.round(2) %></h4></td>
 		        <td><h4>Date: <%= @trip.time_stamp.strftime('%a %b %d %Y %r') %></h4></td>
 		        <td><h4>Duration: <%= get_hours(@trip.duration) %> hrs <%= get_mins(@trip.duration) %> mins <%= get_secs(@trip.duration) %> secs</h4></td>
 		        <td><h4>Distance: <%= @trip.distance.round(2) %> miles</h4></td>
+
       		</tr>
 	      </div>
 	    </div>

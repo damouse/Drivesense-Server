@@ -40,3 +40,39 @@
   width: 100%
 }
 
+.widget.line p span {
+    color: #dbba34;
+}
+.widget.line p strong {
+    color: #637b85;
+    font-weight: 400;
+}
+ 
+.canvas-container {
+    min-height: 300px;
+    max-height: 800px;
+    position: relative;
+}
+.widget {
+    position: relative;
+    background: #efefef;
+    padding: 0px;
+    margin-bottom: 30px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.widget p {
+    margin-top: 0;
+    text-align: center;
+}
+.widget h3 {
+    padding: 12px;
+    width: 100%;
+    text-align: center;
+    color: #627b86;
+    line-height: 2em;
+    background: #d0dde3;
+}
+

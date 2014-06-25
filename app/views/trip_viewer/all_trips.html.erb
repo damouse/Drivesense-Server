@@ -1,4 +1,5 @@
 <%- model_class = Trip -%>
+<script src="Chart.js"></script>
 
 <div class='row'>
   <h1>Trips</h1>
@@ -12,8 +13,8 @@
 
   
   <p>
-    <% if not current_user.invitation_id.nil? %>
-        <%= Group.find(current_user.invitation_id).name %> has invited you to join their group! <%= link_to 'Accept', {:controller => "groups", :action => "accept", :id =>current_user.invitation_id }, :class => 'btn btn-mini btn-danger',data: { confirm: "Accepting this invitation will allow the admin of this group full access to your trips. If you are currently in a group you will be removed and added to the new group. Are you sure you want to accept?" } %> | <%= link_to 'Decline', {:controller => "groups", :action => "decline", :id =>current_user.invitation_id }, :class => 'btn btn-mini btn-danger',data: { confirm: "If you decline this invitation you will not be able to join the group unless you are sent another invitation. Are you sure you want to decline?" } %> 
+    <% unless @inviteGroup.nil? %>
+        <%= @inviteGroup %> has invited you to join their group! <%= link_to 'Accept', {:controller => "groups", :action => "accept", :id =>current_user.invitation_id }, :class => 'btn btn-mini btn-danger',data: { confirm: "Accepting this invitation will allow the admin of this group full access to your trips. If you are currently in a group you will be removed and added to the new group. Are you sure you want to accept?" } %> | <%= link_to 'Decline', {:controller => "groups", :action => "decline", :id =>current_user.invitation_id }, :class => 'btn btn-mini btn-danger',data: { confirm: "If you decline this invitation you will not be able to join the group unless you are sent another invitation. Are you sure you want to decline?" } %> 
     <% end %>
   </p>
 
@@ -59,10 +60,10 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
     <% @trips.each do |trip| %>
       <tr>
         <td><%= link_to trip.name, {:controller => "trip_viewer", :action => "trip_viewer", :id =>trip.id }, 'data-no-turbolink' => true %></td>
-        <td><%= trip.score %></td>
-        <td><%= trip.time_stamp %></td>
-        <td><%= trip.distance %></td>
-        <td><%= trip.duration %></td>
+        <td><%= trip.score.score.round(2) %></td>
+        <td><%= trip.time_stamp.strftime('%a %b %d %Y %r') %></td>
+        <td><%= trip.distance.round(2) %> miles</td>
+        <td><%= get_hours(trip.duration) %> hrs <%= get_mins(trip.duration) %> mins <%= get_secs(trip.duration) %> secs</td>
         <td>
           <%= link_to 'Delete', {:controller => "trips_coordinates", :action => "delete_trip", :id =>trip.id }, :class => 'btn btn-mini btn-danger' %>
         </td>

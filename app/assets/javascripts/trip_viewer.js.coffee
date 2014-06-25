@@ -1,22 +1,40 @@
 jQuery ->
   data = {
-    labels : ["January","February","March","April","May","June","July"],
+    labels : ["Total Score","Brake Score","Acceleration Score","Turn Score","Lane Change Score"],
     datasets : [
       {
-        fillColor : "rgba(220,220,220,0.5)",
+        fillColor : "rgba(219,186,52,0.4)",
         strokeColor : "rgba(220,220,220,1)",
         pointColor : "rgba(220,220,220,1)",
         pointStrokeColor : "#fff",
-        data : [65,59,90,81,56,55,40]
+        data : $('#scores').data('scores')
+        title : "Trip Scores"
       },
       {
-        fillColor : "rgba(151,187,205,0.5)",
-        strokeColor : "rgba(151,187,205,1)",
-        pointColor : "rgba(151,187,205,1)",
+        fillColor : "rgba(99,123,133,0.4)",
+        strokeColor : "rgba(220,220,220,1)",
+        pointColor : "rgba(220,220,220,1)",
         pointStrokeColor : "#fff",
-        data : [28,48,40,19,96,27,100]
+        data : $('#scores').data('averages')
+        title : "Average Trip Scores"
+      }
+    ]
+  }
+  
+  time = {
+    labels : ["1", "2", "3", "4"],
+    datasets : [ 
+      {
+        fillColor : "rgba(99,123,133,0.4)",
+        strokeColor : "rgba(220,220,220,1)",
+        pointColor : "rgba(220,220,220,1)",
+        pointStrokeColor : "#fff",
+        data : $('#timeVscore').data('scores')
+        
       }
     ]
   }
 
-  myNewChart = new Chart($("#canvas").get(0).getContext("2d")).Line(data)
+  myNewChart = new Chart($("#canvas").get(0).getContext("2d")).Bar(data)
+
+  timeUser = new Chart($("#time").get(0).getContext("2d")).Line(time)

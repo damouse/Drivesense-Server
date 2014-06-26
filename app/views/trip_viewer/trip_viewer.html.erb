@@ -5,14 +5,9 @@
 
 <div class='col-12'>
 
-<div style='width: 800px;'>
-  <div id="map" style='width: 800px; height: 400px;'></div>
+<div class='row'></div>
+	<div id="map"></div>
 </div>
-
-<div style='width: 800px;'>
-  <div id="basic_map" style='width: 800px; height: 400px;'></div>
-</div>
-    
 
 
 <div class='col-8 offset2'>
@@ -84,26 +79,14 @@
 	</div>
 </div>
 
-
-
 <script type="text/javascript">
-    handler2 = Gmaps.build('Google');
-    handler2.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
-        markers2 = handler2.addMarkers(<%=raw @hash.to_json %>);
-        polyline2 = handler2.addPolyline(<%=raw @polylines.to_json %>); 
-        handler2.bounds.extendWith(polyline2);
-        handler2.fitMapToBounds();
+    handler = Gmaps.build('Google');
+    handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+        markers = handler.addMarkers(<%=raw @trip.gmaps_endpoints %>);
+        polyline = handler.addPolyline(<%=raw @trip.gmaps_coordinates %>); 
+        handler.bounds.extendWith(polyline);
+        handler.fitMapToBounds();
     });
-
-
-    handler2 = Gmaps.build('Google');
-    handler2.buildMap({ provider: {}, internal: {id: 'basic_map'}}, function(){
-        markers2 = handler2.addMarkers(<%=raw @hash.to_json %>);
-        polyline2 = handler2.addPolyline(<%=raw @polylines.to_json %>); 
-        handler2.bounds.extendWith(polyline2);
-        handler2.fitMapToBounds();
-    });
-
 </script>
 
 

@@ -14,14 +14,14 @@ class TripViewerController < ApplicationController
     end
 
     if params[:id].nil?
-      @trips = current_user.trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 12)
+      @trips = current_user.trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 9)
       @scores = Score.where( trip_id: @trips.map(&:id))
     else
       owned_group = Group.find_by(owner_id: current_user.id)
 
       unless owned_group.nil?
         if owned_group.id == User.find(params[:id]).group_id
-          @trips = User.find(params[:id]).trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 12)
+          @trips = User.find(params[:id]).trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 9)
           @scores = Score.where( trip_id: @trips.map(&:id))
         else
           redirect_to trips_path, notice: "This user is not a member of your group."
@@ -46,6 +46,7 @@ class TripViewerController < ApplicationController
         end
       end
     end
+
     current_user.trips.each do |trip|
       contains = true if trip.id == @trip.id
     end
@@ -54,26 +55,29 @@ class TripViewerController < ApplicationController
       redirect_to trips_path, notice: "You can only view trips which belong to you or a member of a group you own."
     end
 
-  	@coordinates = @trip.coordinates.sort_by &:time_stamp
-  	@endpoints = [@coordinates.first, @coordinates.last]
-  	
-  	@hash = Gmaps4rails.build_markers(@endpoints) do |coord, marker|
-      marker.lat coord.latitude
-      marker.lng coord.longitude
-      marker.title "hi"
-      
-    end
-    
-    @polylines = Gmaps4rails.build_markers(@coordinates) do |coord, marker|
-      marker.lat coord.latitude
-      marker.lng coord.longitude
-    end    
-    
   end
-  
-
-  def invalid_trip
-
-  end
-
 end
+
+=begin multiple maps
+
+<div style='width: 800px;'>
+  <div id="basic_map" style='width: 800px; height: 400px;'></div>
+</div>
+
+<% ['map', "basic_map"].each do |name| %>
+<script type="text/javascript">
+  
+    <%=name%> = Gmaps.build('Google');
+    <%=name%>.buildMap({ provider: {}, internal: {id: '<%=name%>'}}, function(){
+        markers = <%=name%>.addMarkers(<%=raw @hash.to_json %>);
+        polyline = <%=name%>.addPolyline(<%=raw @polylines.to_json %>); 
+        <%=name%>.bounds.extendWith(polyline);
+        <%=name%>.fitMapToBounds();
+    });
+
+  
+</script>
+
+<% end %>
+
+=end

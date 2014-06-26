@@ -29,6 +29,8 @@
 <!-- Scary fluidity- making divs boxes no matter what. http://jsfiddle.net/B8FU8/2441/
 Be careful! this will almost certainly mess with bs internals and cause calamity -->
 
+<!-- Ajaxy pagination here http://www.codebeerstartups.com/2012/11/pagination-with-ajax-using-will-paginate-in-ruby-on-rails -->
+
 <% rows = (@trips.size.to_f / 3).ceil - 1 %>
 <% cols = @trips.size  - ((@trips.size - 1) / 3) * 3 - 1%>
 
@@ -46,7 +48,10 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
 
         <div class="grid-map" id="map-<%=trip.id%>" ></div>
 
-        <p><%=trip.name %></p>
+        <!-- put metadata labels here -->
+        <div> <p><%=trip.name %></p></div>
+        <div><p><%=trip.name %></div>
+       
 
       </div>
     <% end %>

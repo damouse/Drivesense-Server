@@ -38,3 +38,5 @@ jQuery ->
   myNewChart = new Chart($("#canvas").get(0).getContext("2d")).Bar(data)
 
   timeUser = new Chart($("#time").get(0).getContext("2d")).Line(time)
+
+  

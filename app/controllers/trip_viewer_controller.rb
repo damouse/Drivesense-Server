@@ -4,6 +4,9 @@ class TripViewerController < ApplicationController
 
   def all_trips
 
+    #removed for local trips that dont play nice together
+    #<td><%= trip.time_stamp.strftime('%a %b %d %Y %r') %></td>
+
     unless current_user.invitation_id.nil?
       @inviteGroup = Group.where(id: current_user.invitation_id).first.name
     else
@@ -15,6 +18,7 @@ class TripViewerController < ApplicationController
       @scores = Score.where( trip_id: @trips.map(&:id))
     else
       owned_group = Group.find_by(owner_id: current_user.id)
+
       unless owned_group.nil?
         if owned_group.id == User.find(params[:id]).group_id
           @trips = User.find(params[:id]).trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 12)
@@ -22,9 +26,11 @@ class TripViewerController < ApplicationController
         else
           redirect_to trips_path, notice: "This user is not a member of your group."
         end
+
       else
         redirect_to trips_path, notice: "You must own a group to see member trips"
       end
+
     end
   end
 

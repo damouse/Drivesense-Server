@@ -4,9 +4,6 @@ class TripViewerController < ApplicationController
 
   def all_trips
 
-    #removed for local trips that dont play nice together
-    #<td><%= trip.time_stamp.strftime('%a %b %d %Y %r') %></td>
-
     unless current_user.invitation_id.nil?
       @inviteGroup = Group.where(id: current_user.invitation_id).first.name
     else

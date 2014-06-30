@@ -8,6 +8,7 @@ gem "twitter-bootstrap-rails"
 gem 'simple_form'
 gem 'chart-js-rails'
 gem 'will_paginate'
+gem 'lazy_high_charts'
 
 
 #Preprocessors --

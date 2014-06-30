@@ -9,7 +9,6 @@
 	<div id="map"></div>
 </div>
 
-
 <div class='col-8 offset2'>
 	<div class="panel-group" id="accordion">
 
@@ -46,17 +45,7 @@
 	    </div>
 	    <div id="collapseTwo" class="panel-collapse collapse">
 	      <div class="panel-body">
-			<%= content_tag "div", id: "scores", data: {scores: [@trip.score.score, @trip.score.scoreBreaks, @trip.score.scoreAccels, @trip.score.scoreTurns, @trip.score.scoreLaneChanges], averages: [@scores.average(:score), @scores.average(:scoreBreaks), @scores.average(:scoreAccels), @scores.average(:scoreTurns), @scores.average(:scoreLaneChanges)]} do %>
-			<% end %>
-			<div class="third widget line">
-			    <div class="chart-legend">
-			        <h3>Score Comparison</h3>
-			        <p><span>This Trip</span> &mdash; <strong>Average Trip for <%= @trip.user.email %></strong></p>
-			    </div>
-			    <div class="canvas-container">
-			        <canvas id="canvas" width="1100" height="500"></canvas>
-			    </div>
-			</div>
+			<%= high_chart("graph", @chart) %>
 	      </div>
 	    </div>
 	  </div>

@@ -2,7 +2,6 @@
 <script src="//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js" type="text/javascript"></script>
 
 <%- model_class = Trip -%>
-<script src="Chart.js"></script>
 
 <div class='row'>
   <h1>Trips</h1>
@@ -14,6 +13,9 @@
     <p>You are a member of <%= "#{current_user.group.name}." %></p>
   <% end %>
 
+  <br>
+
+<%= high_chart("graph", @chart) %>
   
   <p>
     <% unless @inviteGroup.nil? %>

@@ -29,6 +29,27 @@ class TripViewerController < ApplicationController
       end
 
     end
+    @chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(:text => "Scores vs Time")
+      dates = []
+      @trips.map(&:time_stamp).each {|x| dates.insert(-1,x.strftime('%D'))}
+      f.xAxis(:categories => dates)
+      f.series(:name => "Individual Trip", :yAxis => 0, :data => @trips.map(&:score).map(&:score))
+      averages =[]
+      scores = []
+      @trips.each do |trip|
+        scores.insert(-1, trip.score.score)
+        averages.insert(-1, (scores.inject(:+)/scores.count).round(2))
+      end
+      f.series(:name => "Average Trip", :yAxis => 0, :data => averages)
+
+      f.yAxis [
+        {:title => {:text => "Score", :margin => 70} },
+      ]
+
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.chart({:defaultSeriesType=>"line"})
+    end
   end
 
   def trip_viewer
@@ -36,8 +57,9 @@ class TripViewerController < ApplicationController
     @scores = Score.where( trip_id: @trip.user.trips.map(&:id))
 
     contains = false
-    if not current_user.group.nil?
-      current_user.group.users.each do |member|
+    owned_group = Group.find_by(owner_id: current_user.id)
+    unless owned_group.nil?
+      owned_group.users.each do |member|
         member.trips.each do |trip|
           contains = true if trip.id == @trip.id
         end
@@ -52,6 +74,42 @@ class TripViewerController < ApplicationController
       redirect_to trips_path, notice: "You can only view trips which belong to you or a member of a group you own."
     end
 
+  	@coordinates = @trip.coordinates.sort_by &:time_stamp
+  	@endpoints = [@coordinates.first, @coordinates.last]
+  	
+    count = 0
+  	@hash = Gmaps4rails.build_markers(@endpoints) do |coord, marker|
+      marker.lat coord.latitude
+      marker.lng coord.longitude
+      if count == 0
+        marker.title "Start"
+      else
+        marker.title "Finish"
+      end
+      count += 1
+      
+    end
+    
+    @polylines = Gmaps4rails.build_markers(@coordinates) do |coord, marker|
+      marker.lat coord.latitude
+      marker.lng coord.longitude
+    end  
+    @data = [@scores.average(:score), @scores.average(:scoreBreaks), @scores.average(:scoreAccels), @scores.average(:scoreTurns), @scores.average(:scoreLaneChanges)]
+    @chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(:text => "Score vs Average")
+      f.xAxis(:categories => ["Total Score", "Brake Score", "Acceleration Score", "Turn Score", "Lane Change Score"])
+      f.series(:name => "This Trip", :data => [@trip.score.score, @trip.score.scoreBreaks, @trip.score.scoreAccels, @trip.score.scoreTurns, @trip.score.scoreLaneChanges])
+      f.series(:name => "Average Trip", :data => [@scores.average(:score).to_f, @scores.average(:scoreBreaks).to_f, @scores.average(:scoreAccels).to_f, @scores.average(:scoreTurns).to_f, @scores.average(:scoreLaneChanges).to_f])
+
+      f.yAxis [
+        {:title => {:text => "Score", :margin => 70} },
+
+      ]
+
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.chart({:defaultSeriesType=>"column"})
+    end  
+    
   end
 end
 

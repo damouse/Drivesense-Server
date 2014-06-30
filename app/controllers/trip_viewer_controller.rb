@@ -73,27 +73,7 @@ class TripViewerController < ApplicationController
     unless contains
       redirect_to trips_path, notice: "You can only view trips which belong to you or a member of a group you own."
     end
-
-  	@coordinates = @trip.coordinates.sort_by &:time_stamp
-  	@endpoints = [@coordinates.first, @coordinates.last]
-  	
-    count = 0
-  	@hash = Gmaps4rails.build_markers(@endpoints) do |coord, marker|
-      marker.lat coord.latitude
-      marker.lng coord.longitude
-      if count == 0
-        marker.title "Start"
-      else
-        marker.title "Finish"
-      end
-      count += 1
-      
-    end
-    
-    @polylines = Gmaps4rails.build_markers(@coordinates) do |coord, marker|
-      marker.lat coord.latitude
-      marker.lng coord.longitude
-    end  
+  
     @data = [@scores.average(:score), @scores.average(:scoreBreaks), @scores.average(:scoreAccels), @scores.average(:scoreTurns), @scores.average(:scoreLaneChanges)]
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => "Score vs Average")
@@ -108,7 +88,68 @@ class TripViewerController < ApplicationController
 
       f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
       f.chart({:defaultSeriesType=>"column"})
-    end  
+    end 
+
+    @chart2 = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(:text => "Patterns")
+      times = @trip.score.patterns.map(&:start_time).sort
+      raw_brakes = @trip.score.patterns.where(:pattern_type => "brake").sort_by(&:start_time)
+      brakes = []
+      times.each do |time|
+        if raw_brakes.map(&:start_time).include? (time)
+          brakes.insert(-1, raw_brakes[raw_brakes.map(&:start_time).index(time)].raw_score.round(2))
+        else
+          brakes.insert(-1, '')
+        end
+      end
+
+      raw_turns = @trip.score.patterns.where(:pattern_type => "turn").sort_by(&:start_time)
+      turns = []
+      times.each do |time|
+        if raw_turns.map(&:start_time).include? (time)
+          turns.insert(-1, raw_turns[raw_turns.map(&:start_time).index(time)].raw_score.round(2))
+        else
+          turns.insert(-1, '')
+        end
+      end
+
+      raw_accels = @trip.score.patterns.where(:pattern_type => "acceleration").sort_by(&:start_time)
+      accels = []
+      times.each do |time|
+        if raw_accels.map(&:start_time).include? (time)
+          accels.insert(-1, raw_accels[raw_accels.map(&:start_time).index(time)].raw_score.round(2))
+        else
+          accels.insert(-1, '')
+        end
+      end
+
+      raw_lanes = @trip.score.patterns.where(:pattern_type => "lane_change").sort_by(&:start_time)
+      lanes = []
+      times.each do |time|
+        if raw_lanes.map(&:start_time).include? (time)
+          lanes.insert(-1, raw_lanes[raw_lanes.map(&:start_time).index(time)].raw_score.round(2))
+        else
+          lanes.insert(-1, '')
+        end
+      end
+
+      readable_times = []
+      times.each { |time| readable_times.insert(-1, Time.at(time).strftime('%r'))}
+
+      f.series(:name => "Brake Event", :data => brakes)
+      f.series(:name => "Turn Event", :data => turns)
+      f.series(:name => "Acceleration Event", :data => accels)
+      f.series(:name => "Lane Change", :data => lanes)
+      f.xAxis(:categories => readable_times )
+
+      f.yAxis [
+        {:title => {:text => "Event Score", :margin => 70} },
+
+      ]
+
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.chart({:defaultSeriesType=>"line"})
+    end
     
   end
 end

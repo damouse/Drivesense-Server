@@ -8,6 +8,23 @@
 <div class='row'></div>
 	<div id="map"></div>
 </div>
+<a href="#" class="btn btn-lg btn-primary"
+   data-toggle="modal"
+   data-target="#basicModal">This Trip vs. Users Average Trip</a>
+
+   <div class="modal fade" id="basicModal" >
+       <%= high_chart("graph", @chart) %>
+   </div>
+
+<a href="#" class="btn btn-lg btn-primary"
+   data-toggle="modal"
+   data-target="#chart2">Trip Events</a>
+
+   <div class="modal fade" id="chart2" >
+       <%= high_chart("graph2", @chart2) %>
+   </div>
+
+
 
 <div class='col-8 offset2'>
 	<div class="panel-group" id="accordion">
@@ -26,7 +43,7 @@
 		        <td><h4>Name: <%= @trip.name %></h4></td>
 
 		        <td><h4>Score: <%= @trip.score.score.round(2) %></h4></td>
-		        <td><%= trip.time_stamp.strftime('%a %b %d %Y %r') %></td>
+		        <td><%= @trip.time_stamp.strftime('%a %b %d %Y %r') %></td>
 		        <td><h4>Duration: <%= get_hours(@trip.duration) %> hrs <%= get_mins(@trip.duration) %> mins <%= get_secs(@trip.duration) %> secs</h4></td>
 		        <td><h4>Distance: <%= @trip.distance.round(2) %> miles</h4></td>
 
@@ -45,7 +62,7 @@
 	    </div>
 	    <div id="collapseTwo" class="panel-collapse collapse">
 	      <div class="panel-body">
-			<%= high_chart("graph", @chart) %>
+			
 	      </div>
 	    </div>
 	  </div>

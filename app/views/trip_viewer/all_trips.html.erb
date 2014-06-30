@@ -9,7 +9,7 @@
     <div id="notice"><div class="alert alert-error"><%= flash[:notice] %></div></div>
 <% end %>
 
-  <% if not current_user.group.nil? %>
+  <% unless current_user.group.nil? %>
     <p>You are a member of <%= "#{current_user.group.name}." %></p>
   <% end %>
 

@@ -5588,7 +5588,7 @@ button.close {
   border: 0;
   -webkit-appearance: none;
 }
-
+/* commented out because it breaks modal views find better solution
 .modal-open {
   overflow: hidden;
 }
@@ -5740,7 +5740,7 @@ body.modal-open,
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   }
 }
-
+*/
 .tooltip {
   position: absolute;
   z-index: 1030;

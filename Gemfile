@@ -7,6 +7,7 @@ gem 'gmaps4rails'
 gem "twitter-bootstrap-rails"
 gem 'simple_form'
 gem 'chart-js-rails'
+gem 'lazy_high_charts'
 
 
 #Preprocessors --

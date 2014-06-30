@@ -29,7 +29,7 @@ jQuery ->
         strokeColor : "rgba(220,220,220,1)",
         pointColor : "rgba(220,220,220,1)",
         pointStrokeColor : "#fff",
-        data : $('#timeVscore').data('scores')
+        data : [1, 2, 3, 4]
         
       }
     ]
@@ -37,4 +37,4 @@ jQuery ->
 
   myNewChart = new Chart($("#canvas").get(0).getContext("2d")).Bar(data)
 
-  timeUser = new Chart($("#time").get(0).getContext("2d")).Line(time)
+  timeUser = new Chart($("#group").get(0).getContext("2d")).Line(time)

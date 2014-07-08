@@ -51,8 +51,8 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
         <div class="grid-map" id="map-<%=trip.id%>" ></div>
 
         <!-- put metadata labels here -->
-        <div> <p><%=trip.name %></p></div>
-        <div><p><%=trip.name %></div>
+        <div> <p><%= trip.time_stamp.strftime('%a %b %d %Y %r') %><br><%= trip.distance.round(2) %> miles<br><%= get_hours(trip.duration) %> hrs <%= get_mins(trip.duration) %> mins <%= get_secs(trip.duration) %> secs<span class="text-right">Score: <%trip.score.score%></span></p></div>
+        
        
 
       </div>
@@ -102,6 +102,7 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
         polyline = <%= handler %>.addPolyline(<%=raw trip.gmaps_coordinates %>); 
         <%= handler %>.bounds.extendWith(polyline);
         <%= handler %>.fitMapToBounds();
+
     });
 </script>
 <% end %>

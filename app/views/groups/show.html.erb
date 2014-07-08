@@ -25,7 +25,7 @@
   <tbody>
     <% @members.each do |member| %>
       <tr>
-        <td><%= link_to member.email, {:controller => "trip_viewer", :action => "all_trips", :id =>member.id } %></td>
+        <td><%= link_to member.email, {:controller => "trip_viewer", :action => "all_trips", :id =>member.id  }, 'data-no-turbolink' => true %></td>
         <td><%= member.trips.count %></td>
         <% unless member.trips.count == 0 %>
           <% sum = 0%>

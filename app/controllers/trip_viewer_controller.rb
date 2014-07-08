@@ -29,27 +29,7 @@ class TripViewerController < ApplicationController
       end
 
     end
-    @chart = LazyHighCharts::HighChart.new('graph') do |f|
-      f.title(:text => "Scores vs Time")
-      dates = []
-      @trips.map(&:time_stamp).each {|x| dates.insert(-1,x.strftime('%D'))}
-      f.xAxis(:categories => dates)
-      f.series(:name => "Individual Trip", :yAxis => 0, :data => @trips.map(&:score).map(&:score))
-      averages =[]
-      scores = []
-      @trips.each do |trip|
-        scores.insert(-1, trip.score.score)
-        averages.insert(-1, (scores.inject(:+)/scores.count).round(2))
-      end
-      f.series(:name => "Average Trip", :yAxis => 0, :data => averages)
-
-      f.yAxis [
-        {:title => {:text => "Score", :margin => 70} },
-      ]
-
-      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
-      f.chart({:defaultSeriesType=>"line"})
-    end
+    make_all_trips_charts
   end
 
   def trip_viewer
@@ -73,8 +53,14 @@ class TripViewerController < ApplicationController
     unless contains
       redirect_to trips_path, notice: "You can only view trips which belong to you or a member of a group you own."
     end
-  
-    @data = [@scores.average(:score), @scores.average(:scoreBreaks), @scores.average(:scoreAccels), @scores.average(:scoreTurns), @scores.average(:scoreLaneChanges)]
+    make_trip_viewer_charts
+  end
+end
+
+private
+
+def make_trip_viewer_charts
+  @data = [@scores.average(:score), @scores.average(:scoreBreaks), @scores.average(:scoreAccels), @scores.average(:scoreTurns), @scores.average(:scoreLaneChanges)]
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => "Score vs Average")
       f.xAxis(:categories => ["Total Score", "Brake Score", "Acceleration Score", "Turn Score", "Lane Change Score"])
@@ -86,8 +72,8 @@ class TripViewerController < ApplicationController
 
       ]
 
-      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
-      f.chart({:defaultSeriesType=>"column"})
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical')
+      f.chart({:type=>"column", :reflow => false, :width => 950})
     end 
 
     @chart2 = LazyHighCharts::HighChart.new('graph') do |f|
@@ -148,11 +134,34 @@ class TripViewerController < ApplicationController
       ]
 
       f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
-      f.chart({:defaultSeriesType=>"line"})
+      f.chart({:defaultSeriesType=>"scatter", :reflow => false, :width => 950})
     end
-    
   end
-end
+
+  def make_all_trips_charts
+    @chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(:text => "Scores vs Time")
+      dates = []
+      @trips.map(&:time_stamp).each {|x| dates.insert(-1,x.strftime('%D'))}
+      f.xAxis(:categories => dates)
+      f.series(:type => "column", :name => "Individual Trip", :yAxis => 0, :data => @trips.map(&:score).map(&:score))
+      averages =[]
+      scores = []
+      @trips.each do |trip|
+        scores.insert(-1, trip.score.score)
+        averages.insert(-1, (scores.inject(:+)/scores.count).round(2))
+      end
+      f.series(:name => "Average Trip", :yAxis => 0, :data => averages)
+
+      f.yAxis [
+        {:title => {:text => "Score", :margin => 70} },
+      ]
+
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      
+    end
+  end
+
 
 =begin multiple maps
 

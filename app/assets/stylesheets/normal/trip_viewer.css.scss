@@ -26,7 +26,7 @@
 .grid-row {
   // background-color: #FF0000;
   margin-bottom: 10px;
-  height: 300px
+  height: 400px
 }
 
 .grid-cell {
@@ -84,3 +84,8 @@
     background: #d0dde3;
 }
 
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}

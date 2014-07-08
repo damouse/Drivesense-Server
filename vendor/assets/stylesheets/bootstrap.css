@@ -5588,7 +5588,7 @@ button.close {
   border: 0;
   -webkit-appearance: none;
 }
-/* commented out because it breaks modal views find better solution
+ 
 .modal-open {
   overflow: hidden;
 }
@@ -5615,10 +5615,10 @@ body.modal-open,
   -webkit-transform: translate(0, -25%);
       -ms-transform: translate(0, -25%);
           transform: translate(0, -25%);
-  -webkit-transition: -webkit-transform 0.3s ease-out;
-     -moz-transition: -moz-transform 0.3s ease-out;
-       -o-transition: -o-transform 0.3s ease-out;
-          transition: transform 0.3s ease-out;
+  -webkit-transition: -webkit-transform 0.5s ease-out;
+     -moz-transition: -moz-transform 0.5s ease-out;
+       -o-transition: -o-transform 0.5s ease-out;
+          transition: transform 0.5s ease-out;
 }
 
 .modal.in .modal-dialog {
@@ -5727,11 +5727,11 @@ body.modal-open,
   margin-left: 0;
 }
 
-@media screen and (min-width: 768px) {
+@media screen {
   .modal-dialog {
     right: auto;
     left: 50%;
-    width: 600px;
+    width: 1000px;
     padding-top: 30px;
     padding-bottom: 30px;
   }
@@ -5740,7 +5740,7 @@ body.modal-open,
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   }
 }
-*/
+
 .tooltip {
   position: absolute;
   z-index: 1030;

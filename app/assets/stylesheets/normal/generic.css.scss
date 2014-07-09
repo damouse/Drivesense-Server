@@ -29,9 +29,19 @@ h2 {
 	font-size:200%;
 }
 
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover 
+{
+     color:#000; 
+     text-decoration:none; 
+     cursor:pointer;  
+}
 
 p, tr {
-  margin: 0 0 35px;
   font-family: 'Open Sans', sans-serif;
   font-style:normal;
   font-weight: 100;

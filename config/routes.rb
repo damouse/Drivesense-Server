@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   match '/about', to: 'public#about', via: 'get'
 
   match '/trips', to: 'trip_viewer#all_trips', via: 'get'
-  match '/tripviewer/:id', to: 'trip_viewer#trip_viewer', via: 'get'
+  match '/tripviewer/:id', to: 'trip_viewer#trip_viewer', via: 'get', as: 'tripviewer'
   match '/upload', to: 'trips_coordinates#new_trip', via: 'post'
   match '/delete_trip/:id', to: 'trips_coordinates#delete_trip', via: 'get'
   match '/invalid_trip', to: 'trip_viewer#invalid_trip', via: 'get'

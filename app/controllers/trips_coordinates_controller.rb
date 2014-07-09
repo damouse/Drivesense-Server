@@ -5,17 +5,19 @@ class TripsCoordinatesController < ApplicationController
 
 
 	def new_trip
-    return unless ensure_logged_in
+        return unless ensure_logged_in
 
 		json = JSON.parse(request.body.read())
 
 		new_trip = json["trip"]
 
-
 		#properly prints out the arguments
 		#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} 
         #return
 		trip = Trip.new(new_trip)
+        trip.time_stamp = Time.new
+
+        #render :json => trip and return
 
         # if trip.valid?
         #     render :json => {status: 'success', new_trip:trip}
@@ -65,7 +67,6 @@ class TripsCoordinatesController < ApplicationController
     user_id = user_json["id"].presence
     user = user_id && User.find_by_id(user_id)
 
- 
     #required to reset the read position of the body
     request.body.rewind
 
@@ -84,6 +85,7 @@ Upload call with scoring information
 USE THIS AUTH KEY FOR HEROKU: 5aSK8iLoEeSzXvr9Pp5d
 for user account test@test.com, pw:12345678
 
+fCAnizV-siiCoeKAjpsw
 {
     "user": {
         "id": "9",

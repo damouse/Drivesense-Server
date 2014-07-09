@@ -26,7 +26,7 @@
 .grid-row {
   // background-color: #FF0000;
   margin-bottom: 10px;
-  height: 400px
+  height: 250px
 }
 
 .grid-cell {
@@ -40,17 +40,34 @@
   width: 100%
 }
 
-.left-label {
-  float: left
+
+/***************************
+Grid boxes labels
+/********************************/
+
+.map-thumbnail-description {
+  width: 100%;
+  margin: 0 0 0 0;
 }
 
-.right-label {
-  float: right
+.map-thumbnail-label-left {
+  /*ugh*/
+  padding-left: 10px !important; 
 }
+
+.map-thumbnail-label-right {
+  padding-right: 10px !important;
+  text-align:right;
+}
+
+/***************************
+Unknown
+/********************************/
 
 .widget.line p span {
     color: #dbba34;
 }
+
 .widget.line p strong {
     color: #637b85;
     font-weight: 400;
@@ -89,3 +106,7 @@
     vertical-align: middle;
     float: none;
 }
+
+/***************************
+Vertical Accordion
+/********************************/

@@ -1,7 +1,6 @@
 class TripViewerController < ApplicationController
 	before_action :authenticate_user!
 
-
   def all_trips
 
     unless current_user.invitation_id.nil?
@@ -29,6 +28,7 @@ class TripViewerController < ApplicationController
       end
 
     end
+    
     make_all_trips_charts
   end
 
@@ -142,7 +142,7 @@ def make_trip_viewer_charts
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => "Scores vs Time")
       dates = []
-      @trips.map(&:time_stamp).each {|x| dates.insert(-1,x.strftime('%D'))}
+      @trips.map(&:time_stamp).each {|x| dates.insert(-1, x.strftime('%D'))}
       f.xAxis(:categories => dates)
       f.series(:type => "column", :name => "Individual Trip", :yAxis => 0, :data => @trips.map(&:score).map(&:score))
       averages =[]

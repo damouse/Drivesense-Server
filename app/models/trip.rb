@@ -1,7 +1,8 @@
 class Trip < ActiveRecord::Base
 	has_many :coordinates, :dependent => :delete_all
 	belongs_to :user
-    has_one :score, :dependent => :destroy
+  has_one :score, :dependent => :destroy
+
 	accepts_nested_attributes_for :coordinates, :score
 
   #build the endpoint coordinates required by gmaps
@@ -32,5 +33,9 @@ class Trip < ActiveRecord::Base
     end 
 
     polylines.to_json
+  end
+
+  def pretty_time
+
   end
 end

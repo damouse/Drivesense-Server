@@ -70,6 +70,11 @@ p, tr {
 	font-size:200%;
 }
 
+
+/***************************
+Nav
+/********************************/
+
 .page-header {
 	margin-bottom: 20px
 }
@@ -80,7 +85,7 @@ p, tr {
   font-weight: 100;
   font-size:125%;
   letter-spacing: 1px;
-  color: rgb(255,255,255);
+  color: #000 !important;
 }
 
 ul.nav a:hover { 
@@ -99,4 +104,32 @@ ul.nav a:hover {
 div.navbar a.navbar-brand:hover { 
   color: #000 !important; 
   background-color: #fff
+}
+
+
+/***************************
+Footer
+/********************************/
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  color: #999;
+  height: 40px;
+  background-color: #000;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 40px;
+  width: 100%;
+}
+
+#wrapper {
+    margin: 0 auto;
+    width: 90vw;
+    text-align: center 
+ }
+
+html {
+    position: relative;
+    min-height: 100%;
 }

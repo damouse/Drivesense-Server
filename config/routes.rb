@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get 'trips_coordinates/new_trip'
 
   devise_for :users
-  root 'landing#home'
+  root 'public#landing'
 
   #account
   match '/sess', to: 'account#sess', via: 'get'

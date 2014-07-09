@@ -18,13 +18,25 @@
 </head>
 
 <body>
-    <%= render :partial => 'layouts/navbar' %>
 
-    <div class="container">   
-      <%= yield %>
+  <% unless content_for?(:conditional_nav) %>
+    <%= render :partial => 'layouts/navbar' %>
+  <% end %>
+
+  <% unless content_for?(:conditional_nav) %>
+    <div class="container">
+  <% end %>
+
+  <%= yield %>
+  
+  <% unless content_for?(:conditional_nav) %>
     </div>
+  <% end %>
+
 </body>
 
-<%= render :partial => 'layouts/footer' %>
+<% unless content_for?(:conditional_nav) %>
+  <%= render :partial => 'layouts/footer' %>
+<% end %>
 
 </html>

@@ -85,11 +85,11 @@ Nav
   font-weight: 100;
   font-size:125%;
   letter-spacing: 1px;
-  color: #000 !important;
+  color: #fff !important;
 }
 
 ul.nav a:hover { 
-  color: #000 !important; 
+  color: #fff !important; 
 }
 
 .navbar-brand {
@@ -98,12 +98,19 @@ ul.nav a:hover {
   font-weight: 100;
   font-size:200%;
   letter-spacing: 1px;
-  color: rgb(255,255,255);
+  color: #fff !important; 
+}
+
+.navbar-brand:hover {
+  background-color: #fff !important; 
 }
 
 div.navbar a.navbar-brand:hover { 
-  color: #000 !important; 
-  background-color: #fff
+  background-color: #000 !important; 
+}
+
+.navbar-right {
+  margin-top: 4px !important
 }
 
 

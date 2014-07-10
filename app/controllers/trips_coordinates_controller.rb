@@ -15,7 +15,8 @@ class TripsCoordinatesController < ApplicationController
 		#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} 
         #return
 		trip = Trip.new(new_trip)
-        trip.time_stamp = Time.new
+    
+    trip.time_stamp = Time.new
 
         #render :json => trip and return
 

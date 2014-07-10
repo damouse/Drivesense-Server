@@ -18,12 +18,7 @@
     <div class="navbar navbar-custom navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+
           <a class="navbar-brand" href="/">Drivesense</a>
         </div>
 
@@ -50,9 +45,10 @@
 
           <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
-            <% if not Group.find_by(owner_id: current_user.id).nil? %>
+            <% ownedGroup = get_owned_group %>
+            <% if not ownedGroup.nil? %>
               
-              <li><a class="navbar-item" <%= link_to Group.find_by(owner_id: current_user.id).name, {:controller => "groups", :action => "show", :id =>Group.find_by(owner_id: current_user.id).id } %></a></li>
+              <li><a class="navbar-item" <%= link_to ownedGroup.name, {:controller => "groups", :action => "show", :id =>ownedGroup.id } %></a></li>
             
             <% elsif current_user.group.nil? %>
               <li><a class="navbar-item" <%= link_to "Create Group", {:controller => "groups", :action => "new" } %></a></li>

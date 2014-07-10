@@ -29,9 +29,19 @@ h2 {
 	font-size:200%;
 }
 
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover 
+{
+     color:#000; 
+     text-decoration:none; 
+     cursor:pointer;  
+}
 
 p, tr {
-  margin: 0 0 35px;
   font-family: 'Open Sans', sans-serif;
   font-style:normal;
   font-weight: 100;
@@ -60,6 +70,11 @@ p, tr {
 	font-size:200%;
 }
 
+
+/***************************
+Nav
+/********************************/
+
 .page-header {
 	margin-bottom: 20px
 }
@@ -70,11 +85,11 @@ p, tr {
   font-weight: 100;
   font-size:125%;
   letter-spacing: 1px;
-  color: rgb(255,255,255);
+  color: #fff !important;
 }
 
 ul.nav a:hover { 
-  color: #000 !important; 
+  color: #fff !important; 
 }
 
 .navbar-brand {
@@ -83,10 +98,45 @@ ul.nav a:hover {
   font-weight: 100;
   font-size:200%;
   letter-spacing: 1px;
-  color: rgb(255,255,255);
+  color: #fff !important; 
+}
+
+.navbar-brand:hover {
+  background-color: #fff !important; 
 }
 
 div.navbar a.navbar-brand:hover { 
-  color: #000 !important; 
-  background-color: #fff
+  background-color: #000 !important; 
+}
+
+.navbar-right {
+  margin-top: 4px !important
+}
+
+
+/***************************
+Footer
+/********************************/
+footer {
+  margin-top: 45px;
+  padding-top: 5px;
+  color: #999;
+  height: 40px;
+  background-color: #000;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 40px;
+  width: 100%;
+}
+
+#wrapper {
+    margin: 0 auto;
+    width: 90vw;
+    text-align: center 
+ }
+
+html {
+    position: relative;
+    min-height: 100%;
 }

@@ -4,4 +4,7 @@ class PublicController < ApplicationController
 
   def news
   end
+
+  def landing
+  end
 end

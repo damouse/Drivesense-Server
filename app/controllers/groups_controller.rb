@@ -1,11 +1,12 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :invite]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :invite, :stats]
   before_action :admin_user, only: [:index]
-  before_action :is_group_admin, only: [:edit, :update, :destroy, :show, :invite]
+  before_action :is_group_admin, only: [:edit, :update, :destroy, :show, :invite, :stats]
   before_action :already_owns_group, only: [:new, :create]
   before_action :has_invitation, only: [:accept, :decline]
   before_action :remove_permission, only: [:remove]
+  
   def index
     @groups = Group.all
   end
@@ -93,6 +94,26 @@ class GroupsController < ApplicationController
   def remove
     @member.update_attribute :group, nil
     redirect_to trips_path, notice: "#{@member.email} has been removed."
+  end
+
+  def stats
+    members = @group.users
+    @chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(:text => "Member Average Scores")
+      f.xAxis(:categories => ["Average Score"])
+      members.each do |member|
+        scores = Score.where( trip_id: member.trips.map(&:id))
+        f.series(:name => member.email, :data => [scores.average(:score).to_f])
+      end
+
+      f.yAxis [
+        {:title => {:text => "Average Score", :margin => 70} }
+      ]
+
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.chart({:defaultSeriesType=>"column"})
+    end
+    
   end
 
   private

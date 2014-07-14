@@ -4,22 +4,22 @@
     .row.margin-row
       %h1 Drivesense
     .row
-      .span4
+      .col-sm-4
         = link_to (image_tag 'note.png',:size => '150x150'), news_path
-      .span4
+      .col-sm-4
         - if not user_signed_in?
           = link_to (image_tag 'pin.png', :size => "102x170", :mouseover => 'pin_green.png'), new_user_session_path
         - else
           = link_to (image_tag 'pin.png', :size => "102x170", :mouseover => 'pin_green.png'), {:controller => "trip_viewer", :action => "all_trips"}, 'data-no-turbolink' => true
-      .span4
+      .col-sm-4
         = link_to (image_tag 'car.png',:size => "170x150", :mouseover => "car_green.png"), about_path
     .row
-      .span4
+      .col-sm-4
         %h2 News
-      .span4
+      .col-sm-4
         - if user_signed_in?
           %h2 View Trips
         - else
           %h2 Log In
-      .span4
+      .col-sm-4
         %h2 About

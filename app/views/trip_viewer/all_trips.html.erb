@@ -6,14 +6,13 @@
 
 <div class='row'>
   <% if flash[:notice] %>
-    <div id="notice"><div class="alert alert-error"><%= flash[:notice] %></div></div>
+    <div id="notice"><div class="alert alert-danger"><%= flash[:notice] %></div></div>
 <% end %>
 
 <% unless current_user.group.nil? %>
   <p>You are a member of <%= "#{current_user.group.name}." %></p>
 <% end %>
 
-  <br>
   
   <p>
     <% unless @inviteGroup.nil? %>
@@ -36,7 +35,7 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
 
 <div class="black-container">
   <% for i in 0..rows %>
-    <div class="row-fluid grid-row">
+    <div class="row grid-row">
 
     <!-- Row/Column math -->
     <% max_column = cols if i == rows %>
@@ -46,28 +45,28 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
     <% trip = @trips[i*3 + n] %>
 
       
-      <div class="span4 grid-cell">
+      <div class="col-sm-4 grid-cell">
         <%= link_to tripviewer_path(trip) do %>
           <div class="grid-map" id="map-<%=trip.id%>"></div>
 
           <!-- put metadata labels here -->
           <div> 
             <div class='row map-thumbnail-description'>
-              <div class="span6 map-thumbnail-label-left">
+              <div class="col-sm-6 map-thumbnail-label-left">
                 <p><%= trip.time_stamp.strftime('%b %d, %I:%M%P') %></p>
               </div>
 
-              <div class="span6 map-thumbnail-label-right">
+              <div class="col-sm-6 map-thumbnail-label-right">
                 <p><%= trip.distance.round(2) %> miles</p>
               </div>
             </div>
 
             <div class='row map-thumbnail-description'>
-              <div class="span6 map-thumbnail-label-left">
+              <div class="col-sm-6 map-thumbnail-label-left">
                 <p><%= get_hours(trip.duration) %>h <%= get_mins(trip.duration) %>m <%= get_secs(trip.duration) %>s</p>
               </div>
 
-              <div class="span6 map-thumbnail-label-right">
+              <div class="col-sm-6 map-thumbnail-label-right">
                 <p>Score: <%=trip.score.score%></p>
               </div>
             </div>

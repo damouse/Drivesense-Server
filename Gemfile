@@ -4,7 +4,6 @@ gem 'rails', '4.1.0.rc1'
 
 #UI --
 gem 'gmaps4rails'
-gem "twitter-bootstrap-rails"
 gem 'simple_form'
 gem 'chart-js-rails'
 gem 'will_paginate'

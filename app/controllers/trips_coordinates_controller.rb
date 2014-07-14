@@ -174,4 +174,99 @@ fCAnizV-siiCoeKAjpsw
     }
 }
 
+
+{
+    "user": {
+        "id": "1",
+        "auth_token": "8DDgf7x4z1sNiUeu81YR"
+    },
+    "trip": {
+        "score_attributes": {
+            "patterns_attributes": [
+                {
+                    "pattern_type": "brake",
+                    "end_time": 1402527488904,
+                    "start_time": 1402527488403,
+                    "raw_score": 90.06905634310833
+                },
+                {
+                    "pattern_type": "acceleration",
+                    "end_time": 1402527487814,
+                    "start_time": 1402527483245,
+                    "raw_score": 100
+                },
+                {
+                    "pattern_type": "acceleration",
+                    "end_time": 1402527488443,
+                    "start_time": 1402527487873,
+                    "raw_score": 73.0348957553633
+                },
+                {
+                    "pattern_type": "acceleration",
+                    "end_time": 1402527491183,
+                    "start_time": 1402527488863,
+                    "raw_score": 66.55949155986409
+                },
+                {
+                    "pattern_type": "turn",
+                    "end_time": 1402527491100,
+                    "start_time": 1402527484100,
+                    "raw_score": -1
+                }
+            ],
+            "score": 84,
+            "scoreAccels": 79.8648,
+            "scoreBreaks": 90.06905,
+            "scoreLaneChanges": 100,
+            "scoreTurns": 68.66376
+        },
+        "user_id": "1",
+        "duration": 7,
+        "distance": 0.11038501669622747,
+        "coordinates_attributes": [
+            {
+                "longitude": -89.39856122500001,
+                "latitude": 43.07287135,
+                "time_stamp": "2014-07-13 15:55:16"
+            },
+            {
+                "longitude": -89.39856337500001,
+                "latitude": 43.072642916666666,
+                "time_stamp": "2014-07-13 15:56:16"
+            },
+            {
+                "longitude": -89.39856552500001,
+                "latitude": 43.07241448333333,
+                "time_stamp": "2014-07-13 15:57:16"
+            },
+            {
+                "longitude": -89.39856767500001,
+                "latitude": 43.07218605,
+                "time_stamp": "2014-07-13 15:58:16"
+            },
+            {
+                "longitude": -89.39856982500001,
+                "latitude": 43.071957616666666,
+                "time_stamp": "2014-07-13 15:59:16"
+            },
+            {
+                "longitude": -89.39857197500001,
+                "latitude": 43.07172918333333,
+                "time_stamp": "2014-07-13 16:00:16"
+            },
+            {
+                "longitude": -89.39857412500001,
+                "latitude": 43.07150075,
+                "time_stamp": "2014-07-13 16:01:16"
+            },
+            {
+                "longitude": -89.39857627500001,
+                "latitude": 43.071272316666665,
+                "time_stamp": "2014-07-13 16:02:16"
+            }
+        ],
+        "time_stamp": "2014-07-13 16:02:16",
+        "name": "Trip #1"
+    }
+}
 =end

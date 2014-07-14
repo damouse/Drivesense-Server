@@ -91,6 +91,7 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mailgunner (1.3.0)
     mime-types (1.25.1)
     mini_portile (0.5.3)
     minitest (5.3.3)
@@ -208,6 +209,7 @@ DEPENDENCIES
   jquery-rails
   lazy_high_charts
   less-rails
+  mailgunner
   pg
   rails (= 4.1.0.rc1)
   rails_12factor (= 0.0.2)

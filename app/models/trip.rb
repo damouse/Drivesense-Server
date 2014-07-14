@@ -4,6 +4,7 @@ class Trip < ActiveRecord::Base
   has_one :score, :dependent => :destroy
 
 	accepts_nested_attributes_for :coordinates, :score
+  validates :time_stamp, presence: true
 
   #build the endpoint coordinates required by gmaps
   def gmaps_endpoints

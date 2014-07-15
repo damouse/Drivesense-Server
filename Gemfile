@@ -30,6 +30,9 @@ gem 'sdoc', '~> 0.4.0',  group: :doc
 gem 'bcrypt-ruby', '3.1.2'
 gem 'devise'
 
+#email
+gem 'mailgunner'
+
 
 group :production do
   gem 'pg'

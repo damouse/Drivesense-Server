@@ -20,11 +20,11 @@ class TripViewerController < ApplicationController
           @trips = User.find(params[:id]).trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 9)
           @scores = Score.where( trip_id: @trips.map(&:id))
         else
-          redirect_to trips_path, notice: "This user is not a member of your group."
+          redirect_to trips_path, :flash => {:error => "This user is not a member of your group."}
         end
 
       else
-        redirect_to trips_path, notice: "You must own a group to see member trips"
+        redirect_to trips_path, :flash => {:error => "You must own a group to see member trips"}
       end
 
     end
@@ -51,7 +51,7 @@ class TripViewerController < ApplicationController
     end
 
     unless contains
-      redirect_to trips_path, notice: "You can only view trips which belong to you or a member of a group you own."
+      redirect_to trips_path, :flash => {:error => "You can only view trips which belong to you or a member of a group you own."}
     end
     make_trip_viewer_charts
   end

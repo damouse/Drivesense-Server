@@ -39,7 +39,7 @@
         <td><%= member.trips.count %></td>
         <% unless member.trips.count == 0 %>
           <% sum = 0%>
-          <% member.trips.map(&:score).each {|score| sum += score.score} %>
+          <% member.trips.map(&:score).each {|score| sum += score.scoreAverage} %>
           <td><%= (sum/member.trips.count).round(2) %></td>
           <td><%= member.trips.average(:distance).round(2) %> miles</td>
           <td><%= get_hours(member.trips.average(:duration)) %> hrs <%= get_mins(member.trips.average(:duration)) %> mins <%= get_secs(member.trips.average(:duration)) %> secs</td>

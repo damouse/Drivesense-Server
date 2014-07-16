@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20140613022337) do
   end
 
   create_table "scores", force: true do |t|
-    t.float    "score"
+    t.float    "scoreAverage"
     t.float    "scoreAccels"
     t.float    "scoreBreaks"
     t.float    "scoreLaneChanges"

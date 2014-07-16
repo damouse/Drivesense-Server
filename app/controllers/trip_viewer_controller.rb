@@ -64,7 +64,7 @@ def make_trip_viewer_charts
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => "Score vs Average")
       f.xAxis(:categories => ["Total Score", "Brake Score", "Acceleration Score", "Turn Score", "Lane Change Score"])
-      f.series(:name => "This Trip", :data => [@trip.score.score, @trip.score.scoreBreaks, @trip.score.scoreAccels, @trip.score.scoreTurns, @trip.score.scoreLaneChanges])
+      f.series(:name => "This Trip", :data => [@trip.score.scoreAverage, @trip.score.scoreBreaks, @trip.score.scoreAccels, @trip.score.scoreTurns, @trip.score.scoreLaneChanges])
       f.series(:name => "Average Trip", :data => [@scores.average(:score).to_f, @scores.average(:scoreBreaks).to_f, @scores.average(:scoreAccels).to_f, @scores.average(:scoreTurns).to_f, @scores.average(:scoreLaneChanges).to_f])
 
       f.yAxis [
@@ -148,7 +148,7 @@ def make_trip_viewer_charts
       averages =[]
       scores = []
       @trips.each do |trip|
-        scores.insert(-1, trip.score.score)
+        scores.insert(-1, trip.score.scoreAverage)
         averages.insert(-1, (scores.inject(:+)/scores.count).round(2))
       end
       f.series(:name => "Average Trip", :yAxis => 0, :data => averages)

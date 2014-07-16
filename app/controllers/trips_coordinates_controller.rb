@@ -12,7 +12,7 @@ class TripsCoordinatesController < ApplicationController
 		new_trip = json["trip"]
 
 		#properly prints out the arguments
-		render :json => {status: 'success', submitted_content:json, new_trip:new_trip} and return
+		#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} and return
         #return
 		trip = Trip.new(new_trip)
     

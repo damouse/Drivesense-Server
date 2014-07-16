@@ -71,7 +71,7 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
               </div>
 
               <div class="col-sm-6 map-thumbnail-label-right">
-                <p>Score: <%=trip.score.score%></p>
+                <p>Score: <%=trip.score.scoreAverage%></p>
               </div>
             </div>
           </div>
@@ -89,35 +89,6 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
 
 
 <!-- End Grid -->
-
-<!-- <table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:score) %></th>
-      <th><%= model_class.human_attribute_name(:time_stamp) %></th>
-      <th><%= model_class.human_attribute_name(:distance) %></th>
-      <th><%= model_class.human_attribute_name(:duration) %></th>
-   
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @trips.each do |trip| %>
-      <tr>
-        <td><%= link_to trip.name, {:controller => "trip_viewer", :action => "trip_viewer", :id =>trip.id }, 'data-no-turbolink' => true %></td>
-        <td><%= trip.score.score.round(2) %></td>
-        <td><%= trip.time_stamp.strftime('%a %b %d %Y %r') %></td>
-        <td><%= trip.distance.round(2) %> miles</td>
-        <td><%= get_hours(trip.duration) %> hrs <%= get_mins(trip.duration) %> mins <%= get_secs(trip.duration) %> secs</td>
-        <td>
-          <%= link_to 'Delete', {:controller => "trips_coordinates", :action => "delete_trip", :id =>trip.id }, :class => 'btn btn-mini btn-danger' %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
- -->
 
 <% @trips.each do |trip| %>
   <script type="text/javascript">

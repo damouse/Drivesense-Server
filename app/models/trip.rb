@@ -14,8 +14,10 @@ class Trip < ActiveRecord::Base
     hash = Gmaps4rails.build_markers(endpoints) do |coord, marker|
       marker.lat coord.latitude
       marker.lng coord.longitude
+
       unless coord.time_stamp.nil?
-        marker.title coord.time_stamp.strftime('%r')
+        time = Time.at(coord.time_stamp)
+        marker.title time.strftime('%r')
       else
         marker.title "End Point"
       end

@@ -33,7 +33,7 @@ class TripsCoordinatesController < ApplicationController
 		if trip.save
 			render :json => {status: 'success', new_trip:trip}
 		else
-			render :json => {status: 'failure', posted_content:trip}
+			render :json => {status: 'failure', posted_content:trip, errors: trip.errors}
 		end
 	end
 

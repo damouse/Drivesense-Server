@@ -14,12 +14,10 @@
 ActiveRecord::Schema.define(version: 20140613022337) do
 
   create_table "coordinates", force: true do |t|
-    t.datetime "time_stamp"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.integer  "trip_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.float   "time_stamp"
+    t.float   "latitude"
+    t.float   "longitude"
+    t.integer "trip_id"
   end
 
   create_table "groups", force: true do |t|

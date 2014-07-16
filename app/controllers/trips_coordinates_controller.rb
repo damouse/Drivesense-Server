@@ -5,14 +5,14 @@ class TripsCoordinatesController < ApplicationController
 
 
 	def new_trip
-        return unless ensure_logged_in
+    return unless ensure_logged_in
 
 		json = JSON.parse(request.body.read())
 
 		new_trip = json["trip"]
 
 		#properly prints out the arguments
-		#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} 
+		render :json => {status: 'success', submitted_content:json, new_trip:new_trip} and return
         #return
 		trip = Trip.new(new_trip)
     

@@ -114,7 +114,7 @@ class GroupsController < ApplicationController
         {:title => {:text => "Average Score", :margin => 70} }
       ]
 
-      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
       f.chart({:defaultSeriesType=>"column"})
     end
     

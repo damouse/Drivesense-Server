@@ -72,7 +72,7 @@ def make_trip_viewer_charts
 
       ]
 
-      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical')
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
       f.chart({:type=>"column", :reflow => false, :width => 1100})
     end 
 
@@ -133,7 +133,7 @@ def make_trip_viewer_charts
 
       ]
 
-      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
       f.chart({:defaultSeriesType=>"column", :reflow => false, :width => 1100})
     end
   end
@@ -157,7 +157,7 @@ def make_trip_viewer_charts
         {:title => {:text => "Score", :margin => 70} },
       ]
 
-      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
       
     end
   end

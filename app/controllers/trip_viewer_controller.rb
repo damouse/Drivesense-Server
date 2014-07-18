@@ -126,7 +126,7 @@ def make_trip_viewer_charts
       f.series(:name => "Turn Event", :data => turns, :yAxis => 0)
       f.series(:name => "Acceleration Event", :data => accels, :yAxis => 0)
       f.series(:name => "Lane Change", :data => lanes, :yAxis => 0)
-      f.xAxis(:categories => readable_times,:labels => {:step => (readable_times.count/4).to_i} )
+      f.xAxis(:categories => readable_times,:labels => {:step => (readable_times.count/5).to_i, :staggerLines => 1} )
 
       f.yAxis [
         {:title => {:text => "Event Score", :margin => 70} },

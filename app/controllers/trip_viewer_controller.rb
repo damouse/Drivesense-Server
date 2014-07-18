@@ -77,7 +77,7 @@ def make_trip_viewer_charts
     end 
 
     @chart2 = LazyHighCharts::HighChart.new('graph') do |f|
-      f.title(:text => "Patterns")
+      f.title(:text => "Trip Events")
       times = @trip.score.patterns.map(&:start_time).sort
       raw_brakes = @trip.score.patterns.where(:pattern_type => "brake").sort_by(&:start_time)
       brakes = []
@@ -134,7 +134,7 @@ def make_trip_viewer_charts
       ]
 
       f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
-      f.chart({:defaultSeriesType=>"column", :reflow => false, :width => 1100})
+      f.chart({:type=>"line", :reflow => false, :width => 1100})
     end
   end
 

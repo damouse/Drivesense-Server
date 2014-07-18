@@ -39,7 +39,7 @@ a.black_link:hover
      text-decoration:none; 
      cursor:pointer;  
 }
-a.no_hover:hover 
+a.no_hover:hover, a.no_hover:focus 
 {
      color:#FFF; 
      text-decoration:none; 

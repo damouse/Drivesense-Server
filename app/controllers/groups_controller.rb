@@ -107,7 +107,7 @@ class GroupsController < ApplicationController
       f.xAxis(:categories => ["Average Score"])
       members.each do |member|
         scores = Score.where( trip_id: member.trips.map(&:id))
-        f.series(:name => member.email, :data => [scores.average(:score).to_f])
+        f.series(:name => member.email, :data => [scores.average(:scoreAverage).to_f])
       end
 
       f.yAxis [

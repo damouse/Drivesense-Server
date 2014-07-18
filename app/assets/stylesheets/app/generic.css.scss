@@ -39,6 +39,12 @@ a.black_link:hover
      text-decoration:none; 
      cursor:pointer;  
 }
+a.no_hover:hover 
+{
+     color:#FFF; 
+     text-decoration:none; 
+     cursor:pointer;  
+}
 
 p, tr {
   font-family: 'Open Sans', sans-serif;

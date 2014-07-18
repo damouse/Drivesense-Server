@@ -21,15 +21,15 @@ class Trip < ActiveRecord::Base
       if count == 0
         marker.infowindow "Start of Trip (#{time.strftime('%r')})"
         marker.picture({
-          :url => "/assets/car_map.png",
-          :width   => 32,
-          :height  => 35
+          :url => "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=S|00FF00|000000",
+          :width   => 20,
+          :height  => 32
         })
       else
         marker.infowindow "End of Trip (#{time.strftime('%r')})"
         marker.picture({
-          :url => "/assets/stop.png",
-          :width   => 32,
+          :url => "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=F|FF0000|000000",
+          :width   => 20,
           :height  => 35
         })
       end

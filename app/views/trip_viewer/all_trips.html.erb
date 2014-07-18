@@ -94,7 +94,7 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
   <script type="text/javascript">
       <% handler = "handler" + trip.id.to_s %>
       <%= handler %> = Gmaps.build('Google');
-      <%= handler %>.buildMap({ provider: {disableDefaultUI: true, draggable: false}, internal: {id: 'map-<%=trip.id%>'}}, function(){
+      <%= handler %>.buildMap({ provider: {disableDefaultUI: true, draggable: false, scrollwheel: false}, internal: {id: 'map-<%=trip.id%>'}}, function(){
           markers = <%= handler %>.addMarkers(<%=raw trip.gmaps_endpoints %>);
           polyline = <%= handler %>.addPolyline(<%=raw trip.gmaps_coordinates %>); 
           <%= handler %>.bounds.extendWith(polyline);

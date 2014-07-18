@@ -120,13 +120,13 @@ def make_trip_viewer_charts
       end
 
       readable_times = []
-      times.each { |time| readable_times.insert(-1, Time.at(time).strftime('%r'))}
+      times.each { |time| readable_times.insert(-1, Time.at(time/1000).strftime('%r'))}
 
-      f.series(:name => "Brake Event", :data => brakes)
-      f.series(:name => "Turn Event", :data => turns)
-      f.series(:name => "Acceleration Event", :data => accels)
-      f.series(:name => "Lane Change", :data => lanes)
-      f.xAxis(:categories => readable_times )
+      f.series(:name => "Brake Event", :data => brakes, :yAxis => 0)
+      f.series(:name => "Turn Event", :data => turns, :yAxis => 0)
+      f.series(:name => "Acceleration Event", :data => accels, :yAxis => 0)
+      f.series(:name => "Lane Change", :data => lanes, :yAxis => 0)
+      f.xAxis(:categories => readable_times,:labels => {:step => (readable_times.count/6).to_i} )
 
       f.yAxis [
         {:title => {:text => "Event Score", :margin => 70} },
@@ -134,7 +134,7 @@ def make_trip_viewer_charts
       ]
 
       f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
-      f.chart({:defaultSeriesType=>"scatter", :reflow => false, :width => 950})
+      f.chart({:defaultSeriesType=>"column", :reflow => false, :width => 950})
     end
   end
 

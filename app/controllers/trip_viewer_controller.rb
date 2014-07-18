@@ -73,7 +73,7 @@ def make_trip_viewer_charts
       ]
 
       f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical')
-      f.chart({:type=>"column", :reflow => false, :width => 950})
+      f.chart({:type=>"column", :reflow => false, :width => 1100})
     end 
 
     @chart2 = LazyHighCharts::HighChart.new('graph') do |f|
@@ -134,7 +134,7 @@ def make_trip_viewer_charts
       ]
 
       f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
-      f.chart({:defaultSeriesType=>"column", :reflow => false, :width => 950})
+      f.chart({:defaultSeriesType=>"column", :reflow => false, :width => 1100})
     end
   end
 

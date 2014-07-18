@@ -158,7 +158,7 @@ def make_trip_viewer_charts
       ]
 
       f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
-      
+      f.chart({ :reflow => false, :width => 1100})
     end
   end
 

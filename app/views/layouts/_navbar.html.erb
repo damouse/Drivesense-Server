@@ -66,14 +66,14 @@
                 name = current_user.email
               end%><%=name%>
               <% unless @inviteGroup.nil? %>
-                  <span class="glyphicon glyphicon-exclamation-sign"></span>
+                  <span class="badge">1</span>
               <% end %> 
                 <b class="caret"></b></a>
               <ul class="dropdown-menu">
 
                 <% unless @inviteGroup.nil? %>
                   <div class="divider"></div>
-                  <li><a rel="nofollow" href="#inviteModal" data-toggle="modal"><i class="fa fa-power-off"></i>  Group Invitation<span class="glyphicon glyphicon-exclamation-sign"></span></a></li>
+                  <li><a rel="nofollow" href="#inviteModal" data-toggle="modal"><i class="fa fa-power-off"></i>  Group Invitation <span class="badge">1</span></a></li>
                 <% end %>
                 <li><a rel="nofollow" href="/account"><i class="fa fa-gear"></i>  Account Settings</a></li>
                 <div class="divider"></div>

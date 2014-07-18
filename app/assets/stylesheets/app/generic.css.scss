@@ -21,19 +21,19 @@ h6 {
 }
 
 h1, {
-	font-size:350%;
+	font-size:450% !important;
 }
 
 h2 {
 	font-size:200%;
 }
 
-a {
+a.black_link {
     color: #000;
     text-decoration: none;
 }
 
-a:hover 
+a.black_link:hover 
 {
      color:#000; 
      text-decoration:none; 

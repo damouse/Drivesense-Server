@@ -13,6 +13,21 @@ class GroupsController < ApplicationController
 
   def show
     @members = @group.users
+    @chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(:text => "Member Average Scores")
+      f.xAxis(:categories => ["Average Score"])
+      @members.each do |member|
+        scores = Score.where( trip_id: member.trips.map(&:id))
+        f.series(:name => member.email, :data => [scores.average(:scoreAverage).to_f])
+      end
+
+      f.yAxis [
+        {:title => {:text => "Average Score", :margin => 70} }
+      ]
+
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
+      f.chart({:type=>"column", :reflow => false, :width => 1100})
+    end
   end
 
   def new
@@ -101,22 +116,7 @@ class GroupsController < ApplicationController
   end
 
   def stats
-    members = @group.users
-    @chart = LazyHighCharts::HighChart.new('graph') do |f|
-      f.title(:text => "Member Average Scores")
-      f.xAxis(:categories => ["Average Score"])
-      members.each do |member|
-        scores = Score.where( trip_id: member.trips.map(&:id))
-        f.series(:name => member.email, :data => [scores.average(:scoreAverage).to_f])
-      end
-
-      f.yAxis [
-        {:title => {:text => "Average Score", :margin => 70} }
-      ]
-
-      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
-      f.chart({:defaultSeriesType=>"column"})
-    end
+    
     
   end
 

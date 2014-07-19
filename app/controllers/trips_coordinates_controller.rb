@@ -16,7 +16,6 @@ class TripsCoordinatesController < ApplicationController
         #return
 		trip = Trip.new(new_trip)
     
-    trip.time_stamp = Time.new
 
         #render :json => trip and return
 

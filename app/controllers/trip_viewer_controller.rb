@@ -10,7 +10,7 @@ class TripViewerController < ApplicationController
     end
 
     if params[:id].nil?
-      @trips = current_user.trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 9)
+      @trips = current_user.trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 6)
       @scores = Score.where( trip_id: @trips.map(&:id))
     else
       owned_group = Group.find_by(owner_id: current_user.id)

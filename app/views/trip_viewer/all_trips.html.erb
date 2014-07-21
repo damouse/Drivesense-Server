@@ -17,14 +17,8 @@
   <% if flash[:warning] %>
     <div id="notice"><div class="alert alert-warning"><%= flash[:warning] %></div></div>
   <% end %>
-
-<% unless current_user.group.nil? %>
-  <p>You are a member of <%= "#{current_user.group.name}." %></p>
-<% end %>
-
-  
-
 </div>
+
 <ul class="nav nav-tabs">
   <li class="active"><a href="#trips" data-toggle="tab">Trips</a></li>
   <li><a href="#stats" data-toggle="tab">Stats</a></li>
@@ -43,7 +37,7 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
 <% rows = (@trips.size.to_f / 3).ceil - 1 %>
 <% cols = @trips.size  - ((@trips.size - 1) / 3) * 3 - 1%>
 
-<div class="black-container">
+
   <% for i in 0..rows %>
     <div class="row grid-row">
 
@@ -89,7 +83,7 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
     <% end %>
     </div>
   <% end %>
-</div>
+
 </div>
 <div class="tab-pane" id="stats">
 <%= high_chart("graph", @chart) %>

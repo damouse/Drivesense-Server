@@ -148,7 +148,7 @@ def make_trip_viewer_charts
       f.title(:text => "Scores vs Time")
       dates = []
       @all_trips.map(&:time_stamp).each {|x| dates.insert(-1, x.strftime('%D'))}
-      f.xAxis(:categories => dates,:labels => {:step => (dates.count/8).to_i, :staggerLines => 1})
+      f.xAxis(:categories => dates,:labels => {:step => dates.count/7, :staggerLines => 1})
       f.series(:type => "column", :name => "Individual Trip", :yAxis => 0, :data => @all_trips.map(&:score).map(&:scoreAverage))
       averages =[]
       scores = []

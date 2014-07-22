@@ -7,6 +7,7 @@ class Trip < ActiveRecord::Base
   validates :time_stamp, presence: true
   validates :coordinates, presence: true
   serialize :time, Tod::TimeOfDay
+  
 
   #build the endpoint coordinates required by gmaps
   def gmaps_endpoints

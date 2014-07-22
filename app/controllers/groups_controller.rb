@@ -87,11 +87,14 @@ class GroupsController < ApplicationController
     if not User.find_by(email: params[:email]).nil?
       if User.find_by(email: params[:email]).update_attribute(:invitation_id, @group.id)
         redirect_to @group, :flash => {:success => "An invitation was sent to #{params[:email]}."}
+        return
       else
         redirect_to @group, :flash => {:error => "A problem occured no invitation sent to #{params[:email]}."}
+        return
       end
     else
       redirect_to @group, :flash => {:error => "No user found with email: #{params[:email]}"}
+      return
     end
   end
 
@@ -125,6 +128,7 @@ class GroupsController < ApplicationController
     def admin_user
       unless current_user.admin?
         redirect_to trips_path, :flash => {:error => "You don't have admin privileges."}
+        return
       end
     end
 
@@ -139,18 +143,21 @@ class GroupsController < ApplicationController
     def is_group_admin
       unless current_user == Group.find(params[:id]).owner 
         redirect_to trips_path, :flash => {:error => "You are not the admin for this group."}
+        return
       end
     end
 
     def already_owns_group
       unless Group.find_by(owner_id: current_user.id).nil?
         redirect_to Group.find_by(owner_id: current_user.id), :flash => {:error => "You can only own one group."}
+        return
       end
     end
 
     def has_invitation
       if current_user.invitation_id.nil?
         redirect_to trips_path, :flash => {:error => "You must be invited to a group in order to join."}
+        return
       end
     end
 
@@ -158,8 +165,10 @@ class GroupsController < ApplicationController
       @member = User.find(params[:id])
       if @member.group.nil?
         redirect_to trips_path, :flash => {:error => "User has no group to remove."}
+        return
       elsif (not (@member.group.owner == current_user)) and (not (current_user == @member))
         redirect_to trips_path, :flash => {:error => "You do not have permission to remove this member."}
+        return
       end
     end
 

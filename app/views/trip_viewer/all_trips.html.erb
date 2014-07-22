@@ -86,7 +86,39 @@ Be careful! this will almost certainly mess with bs internals and cause calamity
 
 </div>
 <div class="tab-pane" id="stats">
-<%= high_chart("graph", @chart) %>
+<div class="panel-group no_hover" id="accordion">
+
+  <div class="panel panel-default no_hover">
+    <div class="panel-heading no_hover">
+      <h4 class="panel-title no_hover">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="no_hover">
+          Scores vs Time
+        </a>
+      </h4>
+    </div>
+    <div id="collapseOne" class="panel-collapse collapse in">
+      <div class="panel-body">
+        <%= high_chart("graph", @chart) %>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="no_hover">
+          Trips Based on Time of Day
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse">
+      <div class="panel-body">
+        <%= high_chart("graph2", @chart2) %>
+      </div>
+    </div>
+  </div>
+  
+</div>
 </div>
 </div>
 <hr />

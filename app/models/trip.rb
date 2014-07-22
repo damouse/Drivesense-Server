@@ -6,6 +6,7 @@ class Trip < ActiveRecord::Base
 	accepts_nested_attributes_for :coordinates, :score
   validates :time_stamp, presence: true
   validates :coordinates, presence: true
+  serialize :time, Tod::TimeOfDay
 
   #build the endpoint coordinates required by gmaps
   def gmaps_endpoints

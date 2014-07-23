@@ -56,7 +56,19 @@ p, tr {
 .navbar-custom {
     background-color:#000000;
     color:#ffffff;
-    border-radius:0;
+}
+
+.navbar-custom .navbar-toggle .icon-bar {
+  background-color: #ffffff;
+}
+
+.navbar-custom .navbar-toggle {
+  border-color: #333333;
+}
+
+.navbar-custom .navbar-toggle:hover,
+.navbar-custom .navbar-toggle:focus {
+  background-color: #333333;
 }
 
 .navbar-nav > li > a {

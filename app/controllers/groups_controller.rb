@@ -86,6 +86,7 @@ class GroupsController < ApplicationController
   def invite
     if not User.find_by(email: params[:email]).nil?
       if User.find_by(email: params[:email]).update_attribute(:invitation_id, @group.id)
+        MainMailer.group_invite_notification(User.find_by(email: params[:email]).id).deliver
         redirect_to @group, :flash => {:success => "An invitation was sent to #{params[:email]}."}
         return
       else

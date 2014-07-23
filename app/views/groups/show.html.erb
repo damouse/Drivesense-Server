@@ -2,14 +2,28 @@
 <div class='row'>
   <h1><%= @group.name %></h1> 
   <% if flash[:notice] %>
-    <div id="notice"><div class="alert alert-error"><%= flash[:notice] %></div></div>
-<% end %>
+    <div id="notice"><div class="alert alert-success"><%= flash[:notice] %></div></div>
+  <% end %>
+  <% if flash[:success] %>
+    <div id="notice"><div class="alert alert-success"><%= flash[:success] %></div></div>
+  <% end %>
+  <% if flash[:error] %>
+    <div id="notice"><div class="alert alert-danger"><%= flash[:error] %></div></div>
+  <% end %>
+  <% if flash[:warning] %>
+    <div id="notice"><div class="alert alert-warning"><%= flash[:warning] %></div></div>
+  <% end %>
   <p>You are the administrator of this group.</p>
 
-  <%= link_to 'Group Stats', {:controller => "groups", :action => "stats", :id => @group.id }, :class => 'btn btn-mini btn-danger' %>
+  <ul class="nav nav-tabs">
+  <li class="active"><a href="#members" data-toggle="tab">Members</a></li>
+  <li><a href="#stats" data-toggle="tab">Stats</a></li>
+  </ul>
 
-  <hr>
 </div>
+
+<div id='content' class="tab-content">
+      <div class="tab-pane active" id="members">
 
 <table class="table table-striped">
   <thead>
@@ -30,7 +44,7 @@
         <td><%= member.trips.count %></td>
         <% unless member.trips.count == 0 %>
           <% sum = 0%>
-          <% member.trips.map(&:score).each {|score| sum += score.score} %>
+          <% member.trips.map(&:score).each {|score| sum += score.scoreAverage} %>
           <td><%= (sum/member.trips.count).round(2) %></td>
           <td><%= member.trips.average(:distance).round(2) %> miles</td>
           <td><%= get_hours(member.trips.average(:duration)) %> hrs <%= get_mins(member.trips.average(:duration)) %> mins <%= get_secs(member.trips.average(:duration)) %> secs</td>
@@ -62,3 +76,9 @@
   		</div>
 	<% end %>
 </p>
+</div>
+<div class="tab-pane" id="stats">
+<%= high_chart("graph", @chart) %>
+</div>
+</div>
+<hr />

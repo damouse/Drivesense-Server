@@ -19,7 +19,7 @@
       <div class="container">
         <div class="navbar-header">
 
-          <a class="navbar-brand" href="/">Drivesense</a>
+          <a class="navbar-brand" href="/">KnowMyDrive</a>
         </div>
 
         <div class="navbar-collapse collapse">
@@ -64,10 +64,17 @@
               name = ''
               if current_user != nil
                 name = current_user.email
-                end%><%=name%> 
+              end%><%=name%>
+              <% unless @inviteGroup.nil? %>
+                  <span class="badge">1</span>
+              <% end %> 
                 <b class="caret"></b></a>
               <ul class="dropdown-menu">
 
+                <% unless @inviteGroup.nil? %>
+                  <div class="divider"></div>
+                  <li><a rel="nofollow" href="#inviteModal" data-toggle="modal"><i class="fa fa-power-off"></i>  Group Invitation <span class="badge">1</span></a></li>
+                <% end %>
                 <li><a rel="nofollow" href="/account"><i class="fa fa-gear"></i>  Account Settings</a></li>
                 <% unless @inviteGroup.nil? %>
                     <li><%= @inviteGroup %> has invited you to join their group! <%= link_to 'Accept', {:controller => "groups", :action => "accept", :id =>current_user.invitation_id }, :class => 'btn btn-mini btn-danger',data: { confirm: "Accepting this invitation will allow the admin of this group full access to your trips. If you are currently in a group you will be removed and added to the new group. Are you sure you want to accept?" } %> | <%= link_to 'Decline', {:controller => "groups", :action => "decline", :id =>current_user.invitation_id }, :class => 'btn btn-mini btn-danger',data: { confirm: "If you decline this invitation you will not be able to join the group unless you are sent another invitation. Are you sure you want to decline?" } %> </li>
@@ -84,3 +91,24 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
+  <% unless @inviteGroup.nil? %>
+    <div class="modal" id="inviteModal">
+      <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title">Group Invitation</h4>
+            </div>
+            <div class="modal-body">
+              <p>
+                    <%= @inviteGroup %> has invited you to join their group! Accepting this invitation will allow the admin of this group full access to your trips. If you are currently in a group you will be removed and added to the new group.  
+              </p>
+            </div>
+            <div class="modal-footer">
+              <%= link_to 'Decline', {:controller => "groups", :action => "decline", :id =>current_user.invitation_id }, :class => 'btn btn-danger' %>
+              <%= link_to 'Accept', {:controller => "groups", :action => "accept", :id =>current_user.invitation_id }, :class => 'btn btn-success' %>
+            </div>
+          </div>
+        </div>
+    </div>
+  <% end %>

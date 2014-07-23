@@ -5,7 +5,7 @@ module ApplicationHelper
 
 	#Returns the full title on a per-page basis
 	def full_title(page_title)
-		base_title = "DriveSense"
+		base_title = "KnowMyDrive"
 		if page_title.empty?
 			base_title
 		else

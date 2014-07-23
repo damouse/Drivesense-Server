@@ -27,6 +27,10 @@
 			<td><h4><%= get_hours(@trip.duration) %> hrs <%= get_mins(@trip.duration) %> mins <%= get_secs(@trip.duration) %> secs</h4></td>
 			<td><h4><%= @trip.distance.round(2) %> miles</h4></td>
       <td><%= link_to 'Delete Trip', {:controller => "trips_coordinates", :action => "delete_trip", :id =>@trip.id }, :class => 'btn btn-med btn-danger' %></td>
+      <br>
+      <br>
+      <br>
+      <br>
 		
 		</div>
 	</div>

@@ -65,7 +65,7 @@ class AccountController < ApplicationController
     if user.save
       render :json => {response:'user created',status:'success', user:user}
     else
-      render :json => {response:'registration failed',status:'success', errors:user.errors.full_messages}
+      render :json => {response:'registration failed',status:'fail', errors:user.errors.full_messages}
     end
   end
 end

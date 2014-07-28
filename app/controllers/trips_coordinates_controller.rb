@@ -15,8 +15,8 @@ class TripsCoordinatesController < ApplicationController
 		#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} and return
         #return
 		trip = Trip.new(new_trip)
+        trip.time_stamp = Time.at(trip.raw_time_stamp)
         trip.time = TimeOfDay.parse(trip.time_stamp.strftime("%H:%M:%S"))
-    
 
         #render :json => trip and return
 

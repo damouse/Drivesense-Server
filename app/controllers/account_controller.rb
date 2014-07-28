@@ -19,18 +19,22 @@ class AccountController < ApplicationController
 		pass = params[:password]
 
 		if not email.present? or not pass.present?
-			render :json => {response:'missing parameters', status:'fail'}
-		else
-			user = User.find_by_email(email)
+			render :json => {response:'missing parameters', status:'fail'} and return
+    end
 
-			if not user
-        return register_user_scratch(email, pass)
-				#render :json => {response:'user not found', status:'fail'}
-			else
-				user.ensure_authentication_token
-				render :json => {response:'user logged in',status:'success', user:user}
-			end
-		end
+		user = User.find_by_email(email)
+
+		if user.nil?
+      render :json => {response:'user not found', status:'fail'} and return 
+    end
+
+    if not user.valid_password?(pass)
+      render :json => {response:'wrong password', status:'fail'} and return 
+    end
+
+		user.ensure_authentication_token
+		render :json => {response:'user logged in',status:'success', user:user}
+
 	end
 
 	#create a new user with the passed user object

@@ -17,31 +17,13 @@
         <!-- Fixed navbar -->
     <div class="navbar navbar-custom navbar-fixed-top" role="navigation">
       <div class="container">
-        <div class="navbar-header">
-
-          <a class="navbar-brand" href="/">Drivesense</a>
-        </div>
-
-        <div class="navbar-collapse collapse">
-<!--           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-
-          </ul> -->
+        <a class="navbar-brand" href="/">KnowMyDrive</a>
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse navHeaderCollapse">
 
           <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
@@ -53,7 +35,7 @@
             <% elsif current_user.group.nil? %>
               <li><a class="navbar-item" <%= link_to "Create Group", {:controller => "groups", :action => "new" } %></a></li>
             <% end %>
-            <li><a class="navbar-item" <%= link_to "My Trips", {:controller => "trip_viewer", :action => "all_trips" }%></a></li>  
+            <li><a class="navbar-item" <%= link_to "My Trips", {:controller => "trip_viewer", :action => "all_trips" }, 'data-no-turbolink' => true %></a></li>  
           <% end %>      
             <li><a class="navbar-item" href="/about">About</a></li>
             <li><a class="navbar-item" href="/news">News</a></li>
@@ -64,10 +46,17 @@
               name = ''
               if current_user != nil
                 name = current_user.email
-                end%><%=name%> 
+              end%><%=name%>
+              <% unless @inviteGroup.nil? %>
+                  <span class="badge">1</span>
+              <% end %> 
                 <b class="caret"></b></a>
               <ul class="dropdown-menu">
 
+                <% unless @inviteGroup.nil? %>
+                  <div class="divider"></div>
+                  <li><a rel="nofollow" href="#inviteModal" data-toggle="modal"><i class="fa fa-power-off"></i>  Group Invitation <span class="badge">1</span></a></li>
+                <% end %>
                 <li><a rel="nofollow" href="/account"><i class="fa fa-gear"></i>  Account Settings</a></li>
                 <div class="divider"></div>
                 <li><a rel="nofollow" href="/users/sign_out" data-method="delete"><i class="fa fa-power-off"></i>  Log Out</a></li>
@@ -81,3 +70,24 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
+  <% unless @inviteGroup.nil? %>
+    <div class="modal" id="inviteModal">
+      <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+              <h4 class="modal-title">Group Invitation</h4>
+            </div>
+            <div class="modal-body">
+              <p>
+                    <%= @inviteGroup %> has invited you to join their group! Accepting this invitation will allow the admin of this group full access to your trips. If you are currently in a group you will be removed and added to the new group.  
+              </p>
+            </div>
+            <div class="modal-footer">
+              <%= link_to 'Decline', {:controller => "groups", :action => "decline", :id =>current_user.invitation_id }, :class => 'btn btn-danger' %>
+              <%= link_to 'Accept', {:controller => "groups", :action => "accept", :id =>current_user.invitation_id }, :class => 'btn btn-success' %>
+            </div>
+          </div>
+        </div>
+    </div>
+  <% end %>

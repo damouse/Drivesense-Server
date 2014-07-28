@@ -9,34 +9,29 @@
   letter-spacing: 1px;
 }
 
-#notice {
-  color: #f00;
-  ul {
-    list-style: none;
-    margin: 0 0 18px 0;
-  }
-}
 
 
 .black-container {
   background-color: #000;
-  padding: 20px;
+  padding: 10px;
 }
 
 .grid-row {
-  // background-color: #FF0000;
-  margin-bottom: 10px;
-  height: 250px
+  background-color: #FFF;
+  margin-bottom: 0px;
+  margin-right: 5px;
+  margin-left: 5px;
+  height: 280px;
 }
 
 .grid-cell {
-  background-color: #FFF; //green
-  height: 100%
+  background-color: #FFF; 
+  height: 280px;
 }
 
 .grid-map {
   background-color: #6699FF; //blue
-  height: 80%;
+  height: 200px;
   width: 100%
 }
 
@@ -64,48 +59,6 @@ Grid boxes labels
 Unknown
 /********************************/
 
-.widget.line p span {
-    color: #dbba34;
-}
-
-.widget.line p strong {
-    color: #637b85;
-    font-weight: 400;
-}
- 
-.canvas-container {
-    min-height: 300px;
-    max-height: 800px;
-    position: relative;
-}
-.widget {
-    position: relative;
-    background: #efefef;
-    padding: 0px;
-    margin-bottom: 30px;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.widget p {
-    margin-top: 0;
-    text-align: center;
-}
-.widget h3 {
-    padding: 12px;
-    width: 100%;
-    text-align: center;
-    color: #627b86;
-    line-height: 2em;
-    background: #d0dde3;
-}
-
-.vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-}
 
 /***************************
 Vertical Accordion

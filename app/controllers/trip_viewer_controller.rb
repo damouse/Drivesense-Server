@@ -10,21 +10,25 @@ class TripViewerController < ApplicationController
     end
 
     if params[:id].nil?
-      @trips = current_user.trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 9)
+      @all_trips = current_user.trips.order('time_stamp ASC')
+      @trips = current_user.trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 6)
       @scores = Score.where( trip_id: @trips.map(&:id))
     else
       owned_group = Group.find_by(owner_id: current_user.id)
 
       unless owned_group.nil?
         if owned_group.id == User.find(params[:id]).group_id
-          @trips = User.find(params[:id]).trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 9)
+          @all_trips = User.find(params[:id]).trips.order('time_stamp ASC')
+          @trips = User.find(params[:id]).trips.order('time_stamp ASC').paginate(:page => params[:page], :per_page => 6)
           @scores = Score.where( trip_id: @trips.map(&:id))
         else
-          redirect_to trips_path, notice: "This user is not a member of your group."
+          redirect_to trips_path, :flash => {:error => "This user is not a member of your group."}
+          return
         end
 
       else
-        redirect_to trips_path, notice: "You must own a group to see member trips"
+        redirect_to trips_path, :flash => {:error => "You must own a group to see member trips"}
+        return
       end
 
     end
@@ -51,7 +55,8 @@ class TripViewerController < ApplicationController
     end
 
     unless contains
-      redirect_to trips_path, notice: "You can only view trips which belong to you or a member of a group you own."
+      redirect_to trips_path, :flash => {:error => "You can only view trips which belong to you or a member of a group you own."}
+      return
     end
     make_trip_viewer_charts
   end
@@ -60,24 +65,24 @@ end
 private
 
 def make_trip_viewer_charts
-  @data = [@scores.average(:score), @scores.average(:scoreBreaks), @scores.average(:scoreAccels), @scores.average(:scoreTurns), @scores.average(:scoreLaneChanges)]
+  @data = [@scores.average(:scoreAverage), @scores.average(:scoreBreaks), @scores.average(:scoreAccels), @scores.average(:scoreTurns), @scores.average(:scoreLaneChanges)]
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => "Score vs Average")
       f.xAxis(:categories => ["Total Score", "Brake Score", "Acceleration Score", "Turn Score", "Lane Change Score"])
-      f.series(:name => "This Trip", :data => [@trip.score.score, @trip.score.scoreBreaks, @trip.score.scoreAccels, @trip.score.scoreTurns, @trip.score.scoreLaneChanges])
-      f.series(:name => "Average Trip", :data => [@scores.average(:score).to_f, @scores.average(:scoreBreaks).to_f, @scores.average(:scoreAccels).to_f, @scores.average(:scoreTurns).to_f, @scores.average(:scoreLaneChanges).to_f])
+      f.series(:name => "This Trip", :data => [@trip.score.scoreAverage, @trip.score.scoreBreaks, @trip.score.scoreAccels, @trip.score.scoreTurns, @trip.score.scoreLaneChanges])
+      f.series(:name => "Average Trip", :data => [@scores.average(:scoreAverage).to_f, @scores.average(:scoreBreaks).to_f, @scores.average(:scoreAccels).to_f, @scores.average(:scoreTurns).to_f, @scores.average(:scoreLaneChanges).to_f])
 
       f.yAxis [
         {:title => {:text => "Score", :margin => 70} },
 
       ]
 
-      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical')
-      f.chart({:type=>"column", :reflow => false, :width => 950})
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
+      f.chart({:type=>"column", :reflow => false, :width => 1100})
     end 
 
     @chart2 = LazyHighCharts::HighChart.new('graph') do |f|
-      f.title(:text => "Patterns")
+      f.title(:text => "Trip Events")
       times = @trip.score.patterns.map(&:start_time).sort
       raw_brakes = @trip.score.patterns.where(:pattern_type => "brake").sort_by(&:start_time)
       brakes = []
@@ -120,35 +125,35 @@ def make_trip_viewer_charts
       end
 
       readable_times = []
-      times.each { |time| readable_times.insert(-1, Time.at(time).strftime('%r'))}
+      times.each { |time| readable_times.insert(-1, Time.at(time/1000).strftime('%r'))}
 
-      f.series(:name => "Brake Event", :data => brakes)
-      f.series(:name => "Turn Event", :data => turns)
-      f.series(:name => "Acceleration Event", :data => accels)
-      f.series(:name => "Lane Change", :data => lanes)
-      f.xAxis(:categories => readable_times )
+      f.series(:name => "Brake Event", :data => brakes, :yAxis => 0)
+      f.series(:name => "Turn Event", :data => turns, :yAxis => 0)
+      f.series(:name => "Acceleration Event", :data => accels, :yAxis => 0)
+      f.series(:name => "Lane Change", :data => lanes, :yAxis => 0)
+      f.xAxis(:categories => readable_times,:labels => {:step => (readable_times.count/5).to_i, :staggerLines => 1} )
 
       f.yAxis [
         {:title => {:text => "Event Score", :margin => 70} },
 
       ]
 
-      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
-      f.chart({:defaultSeriesType=>"scatter", :reflow => false, :width => 950})
-    end
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
+      f.chart({:type=>"line", :reflow => false, :width => 1100})
+    end 
   end
 
   def make_all_trips_charts
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => "Scores vs Time")
       dates = []
-      @trips.map(&:time_stamp).each {|x| dates.insert(-1, x.strftime('%D'))}
-      f.xAxis(:categories => dates)
-      f.series(:type => "column", :name => "Individual Trip", :yAxis => 0, :data => @trips.map(&:score).map(&:score))
+      @all_trips.map(&:time_stamp).each {|x| dates.insert(-1, x.strftime('%D'))}
+      f.xAxis(:categories => dates,:labels => {:step => dates.count/7, :staggerLines => 1})
+      f.series(:type => "column", :name => "Individual Trip", :yAxis => 0, :data => @all_trips.map(&:score).map(&:scoreAverage))
       averages =[]
       scores = []
-      @trips.each do |trip|
-        scores.insert(-1, trip.score.score)
+      @all_trips.each do |trip|
+        scores.insert(-1, trip.score.scoreAverage)
         averages.insert(-1, (scores.inject(:+)/scores.count).round(2))
       end
       f.series(:name => "Average Trip", :yAxis => 0, :data => averages)
@@ -157,8 +162,52 @@ def make_trip_viewer_charts
         {:title => {:text => "Score", :margin => 70} },
       ]
 
-      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical',)
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
+      f.chart({ :reflow => false, :width => 1100})
+    end
+
+    @chart2 = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(:text => "Scores vs Time of Day")
+      f.xAxis(:categories => ["6:00AM-9:59AM","10:00AM-2:59PM","3:00PM-5:59PM","6:00PM-9:59PM","10:00PM-5:59AM"])
+      trips1 =[]
+      trips2 =[]
+      trips3 =[]
+      trips4 =[]
+      trips5 =[]
+      @all_trips.each do |trip|
+        if trip.time >= TimeOfDay.new(6) && trip.time < TimeOfDay.new(10)
+          trips1.insert(-1, trip.id)
+        elsif trip.time >= TimeOfDay.new(10) && trip.time < TimeOfDay.new(15)
+          trips2.insert(-1, trip.id)
+        elsif trip.time >= TimeOfDay.new(15) && trip.time < TimeOfDay.new(18)
+          trips3.insert(-1, trip.id)
+        elsif trip.time >= TimeOfDay.new(18) && trip.time < TimeOfDay.new(22)
+          trips4.insert(-1, trip.id)
+        elsif trip.time >= TimeOfDay.new(22) || trip.time < TimeOfDay.new(6)
+          trips5.insert(-1, trip.id)
+        end
+      end
+
+      sorted_trips = [trips1, trips2, trips3, trips4, trips5]
       
+      averages =[]
+
+      sorted_trips.each do |set|
+        scores = Score.where( trip_id: set)
+        averages.insert(-1, scores.average(:scoreAverage).to_f)
+      end
+      
+      f.series(:type => "column", :name => "Average Score", :yAxis => 0, :data => averages)
+
+      f.series(:type => "column", :name => "Number of Trips", :yAxis => 1, :data => [trips1.count, trips2.count, trips3.count, trips4.count, trips5.count])
+
+      f.yAxis [
+        {:title => {:text => "Score", :margin => 70} },
+        {:title => {:text => "Number of Trips"}, :opposite => true},
+      ]
+
+      f.legend(:align => 'right', :verticalAlign => 'top', :y => 75, :x => -50, :layout => 'vertical', :title => {:text => "Toggle Data Here"})
+      f.chart({ :reflow => false, :width => 1100})
     end
   end
 

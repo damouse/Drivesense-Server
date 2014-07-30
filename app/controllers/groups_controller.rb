@@ -13,6 +13,7 @@ class GroupsController < ApplicationController
 
   def show
     @members = @group.users
+
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => "Member Average Scores")
       f.xAxis(:categories => ["Average Score"])
@@ -164,6 +165,7 @@ class GroupsController < ApplicationController
 
     def remove_permission
       @member = User.find(params[:id])
+      
       if @member.group.nil?
         redirect_to trips_path, :flash => {:error => "User has no group to remove."}
         return

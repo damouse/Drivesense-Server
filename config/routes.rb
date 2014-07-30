@@ -30,7 +30,6 @@ Rails.application.routes.draw do
   #ajax tripviewer calls
   match '/trips_range', to: 'trip_viewer#trips_range', via: 'get'
   match '/trips_information', to: 'trip_viewer#trips_information', via: 'get'
-  match '/users_group', to: 'trip_viewer#users_group', via: 'get'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

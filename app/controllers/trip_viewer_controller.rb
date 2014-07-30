@@ -4,7 +4,7 @@ class TripViewerController < ApplicationController
   def all_trips
 
     #gon testing
-    gon.trips = current_user.trips
+    gon.group_users = ['1', '2']
 
     unless current_user.invitation_id.nil?
       @inviteGroup = Group.where(id: current_user.invitation_id).first.name
@@ -66,27 +66,60 @@ class TripViewerController < ApplicationController
 
   ''' Ajaxy calls from trip viewer '''
   #return all of the trips with the given date range and passed users
+  #silently fails if the user ID not found! TODO: show an error
   def trips_range
     user_ids = params['users']
-    start = params['start_date']
-    end_date = params['end_date']
+    start_date = DateTime.strptime(params['start_date'],'%Y-%m-%d %H:%M:%S %z')
+    end_date = DateTime.strptime(params['end_date'],'%Y-%m-%d %H:%M:%S %z')
 
-    users = Array.new
+    #holds the completed json for each user, including trips with coordinates
+    users = Array.new 
+
     user_ids.each do |id|
       user = User.find_by_id(id)
-      users.push(user) if user
+      
+      #include an error in the returned json if the user is not found by the passed id
+      if user
+        json = trips_for_user_window user, start_date, end_date
+        users.push(json)
+      end
     end
 
-    render :json => {users: users}
+    render :json => {users: users, start_date: start_date, end_date: end_date}
   end
 
   #given a set of trips, return the data associated with each: score objects, patterns, and speed
   def trips_information 
+    trip_ids = params['trips']
 
+    trips = Array.new
+    trip_ids.each do |id|
+      trip = Trip.find_by_id(id)
+
+      if trip
+        trips.push(trip)
+      end
+    end
+
+    render :json => {trips: trips.as_json(:include => 
+          {:score => {:include => 
+            {:patterns=> {:only => 
+              [:pattern_type, :raw_score, :start_time, :end_time]}
+            }
+          }
+        }
+      )}
   end
 
-  def users_group
 
+  private
+  #return a json with the user's information and their trips that match the start and end date
+  def trips_for_user_window user, start_date, end_date
+    trips = user.trips.where(time_stamp: start_date..end_date)
+    ret = {id: user.id, email: user.email, trips: trips.as_json(:include => 
+      {:coordinates => {except: [:id, :trip_id]}}
+      )}
+    return ret
   end
 end
 

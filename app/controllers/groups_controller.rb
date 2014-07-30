@@ -6,6 +6,7 @@ class GroupsController < ApplicationController
   before_action :already_owns_group, only: [:new, :create]
   before_action :has_invitation, only: [:accept, :decline]
   before_action :remove_permission, only: [:remove]
+  before_action :group_params, only: [:create]
   
   def index
     @groups = Group.all

@@ -1,12 +1,10 @@
-<%= form_for(@group) do |f| %>
-
-  <div class="field">
-    <%= f.label :name %><br>
-    <%= f.text_field :name %>
+<%= simple_form_for(@group, :html => { :class => 'form-vertical' }) do |f| %>
+  <div class="form-vertical">
+    <%= f.input :name, required: true, autofocus: true %>
   </div>
   <br>
-  <div class='actions'>
-    <%= f.submit %>
+  <div class="form-actions">
+    <%= f.button :submit, "Submit", :class => "btn btn-success" %>
   </div>
   <br>
 <% end %>

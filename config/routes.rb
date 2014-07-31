@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   match '/news', to: 'public#news', via: 'get'
   match '/about', to: 'public#about', via: 'get'
 
+  match '/manage_trips', to: 'manage_trips#manage_trips', via: 'get'
   match '/trips', to: 'trip_viewer#all_trips', via: 'get'
   match '/tripviewer/:id', to: 'trip_viewer#trip_viewer', via: 'get', as: 'tripviewer'
   match '/upload', to: 'trips_coordinates#new_trip', via: 'post'

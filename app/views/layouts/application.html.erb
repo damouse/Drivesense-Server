@@ -7,7 +7,10 @@
   <meta name="description" content="Drivesense">
   <meta name="author" content="Mickey Barboi">
 
-  <title><%= full_title(yield(:title)) %></title>
+  <link rel="icon" 
+      type="image/png" 
+      href="/assets/car.png" />
+  <title><%=full_title(yield(:title)) %></title>
 
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
@@ -25,7 +28,7 @@
   <% end %>
 
   <% unless content_for?(:conditional_nav) %>
-    <div class="container fill">
+    <div class="container fill footer-space">
   <% end %>
 
   <%= yield %>
@@ -34,10 +37,11 @@
     </div>
   <% end %>
 
+  
 </body>
 
 <% unless content_for?(:conditional_nav) %>
   <%= render :partial => 'layouts/footer' %>
-<% end %>
+  <% end %>
 
 </html>

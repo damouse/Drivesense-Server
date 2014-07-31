@@ -16,7 +16,7 @@ h4,
 h5,
 h6 {
   margin: 0 0 35px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   font-style:normal;
   font-weight: 100;
   letter-spacing: 1px;
@@ -26,16 +26,28 @@ h1, {
 	font-size:400% !important;
 
 }
-
-.landing-title{
-  font-size:8vw !important;
-  margin-bottom: 150px !important;
-  margin-left: 20px !important;
-  margin-right: 20px !important;
+@media (min-width: 600px) {
+  .landing-title{
+    font-size:8vw !important;
+    margin-bottom: 150px !important;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+  }
 }
 
-.landing-icon{
-  font-size: 5vw !important;
+@media (max-width: 599px) {
+  .landing-title{
+    font-size:15vw !important;
+    margin-bottom: 150px !important;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .landing-icon{
+    font-size: 5vw !important;
+  }
 }
 
 h2 {
@@ -71,38 +83,20 @@ p, tr {
   width: 1100px !important;
 }
 
+.group-margin{
+  margin-top: 20px !important;
+}
+
 .fill{
   min-height: 100%;
   height: 100%;
 }
 
-.navbar-custom {
-    background-color:#000000;
-    color:#ffffff;
-}
 
-.navbar-custom .navbar-toggle .icon-bar {
-  background-color: #ffffff;
-}
-
-.navbar-custom .navbar-toggle {
-  border-color: #333333;
-}
-
-.navbar-custom .navbar-toggle:hover,
-.navbar-custom .navbar-toggle:focus {
-  background-color: #333333;
-}
 
 .navbar-nav > li > a {
     color:#fff;
     background-color:black;
-}
-
-
-.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
-    color: #ffffff;
-    background-color:transparent;
 }
 
 #title {
@@ -129,7 +123,7 @@ Nav
 }
 
 ul.nav a:hover { 
-  color: #fff !important; 
+  color: #999999 !important; 
 }
 
 .navbar-brand {
@@ -155,6 +149,12 @@ div.navbar a.navbar-brand:hover {
 
 .red{
   color: red;
+}
+
+@media (min-width: 768px) {
+  .form-control{
+    width: 50% !important;
+  }
 }
 
 /***************************

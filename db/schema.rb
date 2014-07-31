@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20140721182138) do
   create_table "trips", force: true do |t|
     t.string   "name"
     t.datetime "time_stamp"
+    t.float    "raw_time_stamp"
     t.float    "distance"
     t.float    "duration"
     t.integer  "score"

@@ -29,6 +29,10 @@ Rails.application.routes.draw do
   match '/remove/:id', to: 'groups#remove', via: 'get'
   match '/stats/:id', to: 'groups#stats', via: 'get'
 
+  #ajax tripviewer calls
+  match '/trips_range', to: 'trip_viewer#trips_range', via: 'get'
+  match '/trips_information', to: 'trip_viewer#trips_information', via: 'get'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

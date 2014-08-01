@@ -22,65 +22,14 @@
       <br/>
       <div id="table" style="height:60%">
           <div id="accordion"> 
-          <h3>USER 1</h3>
-            <div>
-              <p>
-                TRIPS
-              </p>
-            </div>
-          <h3>USER 2</h3>
-            <div>
-              <p>
-                TRIPS
-              </p>
-            </div>
           </div>
       </div>
   </div>
+  <div id="trips_data_text" style="visibility:hidden;"></div>
+  <div id="trips_range_text" style="visibility:hidden;"></div>
 </div> 
-<script type="text/javascript">
-  function initialize() {
-  var mapOptions = {
-    center: new google.maps.LatLng(-34.397, 150.644),
-    zoom: 8
-  };
-  var map = new google.maps.Map(document.getElementById("map-canvas"),
-    mapOptions);
-  }
-  google.maps.event.addDomListener(window, 'load', initialize);
-</script>
 <script>
 $( document ).ready(function() {
-  console.log("ready");
-  $(function () {
-    
-   $('#graph').highcharts({
-	credits: {
-	    enabled: false
-	},
-	chart: {
-            type: 'bar'
-        },
-        title: {
-            text: 'Fruit Consumption'
-        },
-        xAxis: {
-            categories: ['Apples', 'Bananas', 'Oranges']
-        },
-        yAxis: {
-            title: {
-                text: 'Fruit eaten'
-            }
-        },
-        series: [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }]
-    });
-  });
   $(function() {
     $( "#accordion" ).accordion({collapsible:true});
   });
@@ -141,5 +90,139 @@ $( document ).ready(function() {
     return hours + ":" + minutes + " " + time;
   }
   slideTime();
+  //GET USERS ON PAGELOAD
+  trips_with_range(["1"], "2012-07-15 20:40:00 -5", '2017-07-20 01:32:44 -5');
 });
+var map;
+function initialize() {
+  var mapOptions = {
+    center: new google.maps.LatLng(-34.397, 150.644),
+    zoom: 8
+  };
+  map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+var user_json;
+function updateUserJSON(){
+  user_json = jQuery.parseJSON($("#trips_range_text").html())
+  var lis = ""
+  for (var i = 0, u; i <user_json.users.length; i++) {
+     lis = lis.concat("<h3>");
+     u = user_json.users[i];
+     lis = lis.concat(u.email);
+     lis = lis.concat("</h3>");
+     if (u.trips.length == 0){
+       lis = lis.concat("<div><p>No Trips!</p></div>");
+     }
+     lis = lis.concat("<div><p><ul class='list-group'>");
+     for (var j = 0, t; j <u.trips.length; j++){
+       lis = lis.concat("<li class='list-group-item trip' onclick='selected(");
+       lis = lis.concat(u.trips[j].id);
+       lis = lis.concat(")'>");
+       d = new Date(u.trips[j].created_at);
+       lis = lis.concat(u.trips[j].name);
+       lis = lis.concat("<br/>");
+       lis = lis.concat(timeSince(d));
+       lis = lis.concat("<br/>SCORE: ");
+       lis = lis.concat(u.trips[j].score.scoreAverage);
+       lis = lis.concat("</li>");
+       drawRoute(u.trips[j]);
+     }
+     lis = lis.concat("</ul></p></div>");
+  }
+  $("#accordion").html(lis);
+  $("#accordion").accordion("refresh");
+}
+function drawRoute(trip){
+  var tripCoordinates = [];
+  for (var i = 0; i < trip.coordinates.length; i++){
+    tripCoordinates.push(new google.maps.LatLng(trip.coordinates[i].latitude, trip.coordinates[i].longitude));
+  }
+  var tripPath = new google.maps.Polyline({
+    path: tripCoordinates,
+    geodesic: true,
+    strokeColor: "#" + Math.random().toString(16).slice(2, 8),
+    strokeOpacity: 1.0,
+    strokeWeight: 2
+  });
+  half = parseInt(trip.coordinates.length/2);
+  map.setCenter(new google.maps.LatLng(trip.coordinates[half].latitude,trip.coordinates[half].longitude))
+  tripPath.setMap(map);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+function timeSince(date) {
+
+    var seconds = Math.floor((new Date() - date) / 1000);
+
+    var interval = Math.floor(seconds / 31536000);
+
+    if (interval > 1) {
+        return interval + " years ago";
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return interval + " months ago";
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return interval + " days ago";
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+        return interval + " hours ago";
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return interval + " minutes ago";
+    }
+    return Math.floor(seconds) + " seconds ago";
+}
+function drawChart(){
+   trips_json = jQuery.parseJSON($("#trips_data_text").html());
+   dic_list = [];
+   for (var j = 0; j < trips_json.trips.length; j++){ 
+     var dic = {};
+     dic['name'] = "";
+     dic['data'] = []
+     for (var i = 0; i < trips_json.trips[j].score.patterns.length; i++){
+       tups = [];
+       var z = trips_json.trips[j].score.patterns[i];
+       var a = z.start_time;
+       var b = z.raw_score;
+       dic['data'].push([a,b]);
+     }
+     dic_list.push(dic);
+   }
+   $('#graph').highcharts({
+        credits: {
+            enabled: false
+        },
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: 'Chart'
+        },
+        xAxis: {
+            title: {
+                text: 'time'
+            }
+        },
+        yAxis: {
+            title: {
+                text: 'score'
+            }
+        },
+        series: dic_list
+    });
+}
+var all_selected = []
+function selected(trip_id){
+  if ($.inArray(trip_id, all_selected)>-1){
+    all_selected.splice( $.inArray(trip_id, all_selected), 1 );
+  }else{
+    all_selected.push(trip_id);
+    trips_data(all_selected);
+  }
+}
 </script>

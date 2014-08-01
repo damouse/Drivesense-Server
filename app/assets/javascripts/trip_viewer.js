@@ -2,7 +2,7 @@ $(function(){
 
   //Demo buttons and function usage
   $('#trips_range').click(function() {
-    trips_with_range(['1'], "2014-07-15 20:40:00 -5", '2014-07-20 01:32:44 -5');
+    trips_with_range(['1'], "2013-07-15 20:40:00 -5", '2014-08-20 01:32:44 -5');
   });
 
   $('#trips_data').click(function() {
@@ -36,7 +36,8 @@ function trips_with_range(user_ids, start_date, end_date) {
       dataType: 'script',
 
       complete: function(data){
-        $('#trips_range_text').append(data.responseText);
+        $('#trips_range_text').html(data.responseText);
+        updateUserJSON();
       }
    });
 }
@@ -52,7 +53,8 @@ function trips_data(trip_ids) {
       dataType: 'script',
 
       complete: function(data){
-        $('#trips_data_text').append(data.responseText);
+        $('#trips_data_text').html(data.responseText);
+        drawChart();
       }
    });
 }

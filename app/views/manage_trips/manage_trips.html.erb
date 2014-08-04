@@ -12,10 +12,15 @@
     </div>
     <div class="col-md-4 fill">
       <div id="selectors" style="height:30%">
-        <label for="from">From</label>
+        <div class="input-append date">
+          <span class='add-on'>
+            <i class="icon-calendar"></i>
+          </span>
+        </div>
         <input type="text" id="from" name="from">
-        <label for="to">to</label>
+        <div for="to">To</div>
         <input type="text" id="to" name="to"> 
+        <br/><br/>
         <div id="slider-range"></div>
         <span id="time"></span>
       </div>
@@ -25,38 +30,25 @@
           </div>
       </div>
   </div>
-  <div id="trips_data_text" style="visibility:hidden;"></div>
-  <div id="trips_range_text" style="visibility:hidden;"></div>
+  <div id="trips_data_text" style="display:none;"></div>
+  <div id="trips_range_text" style="display:none;"></div>
 </div> 
 <script>
 $( document ).ready(function() {
-  
+  console.log("Hey, ");
+  console.log(<%= @name %>); 
   $(function() {
     $( "#accordion" ).accordion({collapsible:true});
   });
   $(function() {
-    $( "#from" ).datepicker({
-      defaultDate: "+1w",
-      changeMonth: true,
-      numberOfMonths: 3,
-      onClose: function( selectedDate ) {
-        $( "#to" ).datepicker( "option", "minDate", selectedDate );
-      }
-    });
-    $( "#to" ).datepicker({
-      defaultDate: "+1w",
-      changeMonth: true,
-      numberOfMonths: 3,
-      onClose: function( selectedDate ) {
-        $( "#from" ).datepicker( "option", "maxDate", selectedDate );
-      }
-    });
+    $( "#from" ).datepicker();
+    $( "#to" ).datepicker();
   });
   $("#slider-range").slider({
         range: true,
         min: 0,
         max: 1439,
-        values: [540, 1020],
+        values: [0, 1439],
         slide: slideTime
   });
   function slideTime(event, ui){
@@ -98,7 +90,7 @@ var map;
 function initialize() {
   var mapOptions = {
     center: new google.maps.LatLng(-34.397, 150.644),
-    zoom: 8
+    zoom: 15
   };
   map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 }
@@ -230,7 +222,13 @@ function selected(trip_id){
     all_selected.splice( $.inArray(trip_id, all_selected), 1 );
   }else{
     all_selected.push(trip_id);
+  }
+  if (all_selected.length > 0){
     trips_data(all_selected);
+    $('#graph').show();
+  }
+  else{
+    $('#graph').hide();
   }
 }
 </script>

@@ -30,6 +30,7 @@
 </div> 
 <script>
 $( document ).ready(function() {
+  
   $(function() {
     $( "#accordion" ).accordion({collapsible:true});
   });
@@ -132,6 +133,9 @@ function updateUserJSON(){
   }
   $("#accordion").html(lis);
   $("#accordion").accordion("refresh");
+  $(".trip").click(function () {
+    $(this).toggleClass("blue");
+  });
 }
 function drawRoute(trip){
   var tripCoordinates = [];
@@ -184,12 +188,15 @@ function drawChart(){
      var dic = {};
      dic['name'] = "";
      dic['data'] = []
+     ini = trips_json.trips[j].score.patterns[0].start_time
      for (var i = 0; i < trips_json.trips[j].score.patterns.length; i++){
        tups = [];
        var z = trips_json.trips[j].score.patterns[i];
-       var a = z.start_time;
+       var a = z.start_time - ini;
        var b = z.raw_score;
-       dic['data'].push([a,b]);
+       if (b > 0){
+         dic['data'].push([a,b]);
+       }
      }
      dic_list.push(dic);
    }
@@ -198,7 +205,8 @@ function drawChart(){
             enabled: false
         },
         chart: {
-            type: 'line'
+            type: 'scatter',
+            zoomType: 'xy'
         },
         title: {
             text: 'Chart'
@@ -226,3 +234,7 @@ function selected(trip_id){
   }
 }
 </script>
+<style>
+.trip { background-color: #FFFFFF; }
+.trip.blue { background-color: #AFEEEE; border-color:black }
+</style>

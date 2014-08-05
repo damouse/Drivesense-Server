@@ -107,7 +107,11 @@ function updateUserJSON(){
      }
      lis = lis.concat("<div><p><ul class='list-group'>");
      for (var j = 0, t; j <u.trips.length; j++){
-       lis = lis.concat("<li class='list-group-item trip' onclick='selected(");
+       var color = "#" + Math.random().toString(16).slice(2, 8)
+       lis = lis.concat("<li class='list-group-item trip' ") 
+       lis = lis.concat("style='box-shadow: -3px 0px ");
+       lis = lis.concat(color);
+       lis = lis.concat("' onclick='selected(");
        lis = lis.concat(u.trips[j].id);
        lis = lis.concat(")'><b>");
        d = new Date(u.trips[j].created_at);
@@ -117,7 +121,7 @@ function updateUserJSON(){
        lis = lis.concat("<br/>SCORE: ");
        lis = lis.concat(u.trips[j].score.scoreAverage);
        lis = lis.concat("</li>");
-       drawRoute(u.trips[j]);
+       drawRoute(u.trips[j],color);
      }
      lis = lis.concat("</ul></p></div>");
   }
@@ -127,7 +131,7 @@ function updateUserJSON(){
     $(this).toggleClass("blue");
   });
 }
-function drawRoute(trip){
+function drawRoute(trip,color){
   var tripCoordinates = [];
   for (var i = 0; i < trip.coordinates.length; i++){
     tripCoordinates.push(new google.maps.LatLng(trip.coordinates[i].latitude, trip.coordinates[i].longitude));
@@ -135,7 +139,7 @@ function drawRoute(trip){
   var tripPath = new google.maps.Polyline({
     path: tripCoordinates,
     geodesic: true,
-    strokeColor: "#" + Math.random().toString(16).slice(2, 8),
+    strokeColor: color,
     strokeOpacity: 1.0,
     strokeWeight: 2
   });
@@ -257,5 +261,6 @@ function selected(trip_id){
 </script>
 <style>
 .trip { background-color: #FFFFFF; }
-.trip.blue { background-color: #AFEEEE;}
+.trip.hover {background-color: #AFEEFF;}
+.trip.blue { background-color: #CFEEFF;}
 </style>

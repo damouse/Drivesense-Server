@@ -35,8 +35,6 @@
 </div> 
 <script>
 $( document ).ready(function() {
-  console.log("Hey, ");
-  console.log(<%= @name %>); 
   $(function() {
     $( "#accordion" ).accordion({collapsible:true});
   });
@@ -178,7 +176,7 @@ function drawChart(){
    dic_list = [];
    for (var j = 0; j < trips_json.trips.length; j++){ 
      var dic = {};
-     dic['name'] = "";
+     dic['name'] = trips_json.trips[j].name;
      dic['data'] = []
      ini = trips_json.trips[j].score.patterns[0].start_time
      for (var i = 0; i < trips_json.trips[j].score.patterns.length; i++){

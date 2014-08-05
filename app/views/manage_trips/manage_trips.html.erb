@@ -109,7 +109,7 @@ function updateUserJSON(){
      for (var j = 0, t; j <u.trips.length; j++){
        var color = "#" + Math.random().toString(16).slice(2, 8)
        lis = lis.concat("<li class='list-group-item trip' ") 
-       lis = lis.concat("style='box-shadow: -3px 0px ");
+       lis = lis.concat("style='cursor: pointer; box-shadow: -3px 0px ");
        lis = lis.concat(color);
        lis = lis.concat("' onclick='selected(");
        lis = lis.concat(u.trips[j].id);

@@ -15,7 +15,7 @@ raw_coordinates = [{"id"=>1632, "time_stamp"=>1406651985437.0, "latitude"=>43.15
 raw_coordinates.each {|h| h.except!('id')}
 
 #Users
-u = User.create({email: 'test1@test.com', password: '12345678', password_confirmation: '12345678'})
+u = User.create({email: 'test@test.com', password: '12345678', password_confirmation: '12345678'})
 u2 = User.create({email: 'test2@test.com', password: '12345678', password_confirmation: '12345678'})
 
 trips = []

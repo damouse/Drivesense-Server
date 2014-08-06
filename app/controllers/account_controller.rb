@@ -5,9 +5,9 @@ class AccountController < ApplicationController
 	#sample: /sess?user_email=test@test.com&user_token=UiMpEYVmusxnJfKvHsSk
 	def sess
 		if user_signed_in?
-			render :json => {response:'accepted auth token', status:'success'}
+			render :json => {response:'accepted auth token'}, :status => :accepted
 		else
-			render :json => {response:'auth token not accepted', status:'fail'}
+			render :json => {response:'auth token not accepted'}, :status => :bad_request
 		end
 	end
 
@@ -25,7 +25,7 @@ class AccountController < ApplicationController
 		user = User.find_by_email(email)
 
 		if user.nil?
-      render :json => {response:'user not found'}, :status => :not_found and return 
+      render :json => {response:'user not found'}, :status => :bad_request and return 
     end
 
     if not user.valid_password?(pass)
@@ -33,7 +33,7 @@ class AccountController < ApplicationController
     end
 
 		user.ensure_authentication_token
-		render :json => {response:'user logged in', user:user}, :status => :accepted
+		render :json => user, :status => :accepted
 
 	end
 
@@ -45,27 +45,21 @@ class AccountController < ApplicationController
 		pass = json["password"]
 
     if not email.present? or not pass.present?
-      render :json => {response:'missing parameters', status:'fail'}
+      render :json => {response:'missing parameters'}, :status => :bad_request
       return
     end
 
     if User.find_by_email(email)
-      render :json => {response:'user already exists with that email', status:'fail'}
+      render :json => {response:'user already exists with that email'}, :status => :bad_request
       return
     end
 
-    return register_user_scratch(email, pass)
-	end
-
-  private
-
-  def register_user_scratch(email, password)
-    user = User.new(email:email, password:password)
+    user = User.new(email:email, password:pass)
 
     if user.save
-      render :json => {response:'user created',status:'success', user:user}
+      render :json => user, :status => :created
     else
-      render :json => {response:'registration failed',status:'fail', errors:user.errors.full_messages}
+      render :json => {response:'registration failed', errors:user.errors.full_messages}, :status => :internal_server_error
     end
   end
 end

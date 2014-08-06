@@ -19,21 +19,21 @@ class AccountController < ApplicationController
 		pass = params[:password]
 
 		if not email.present? or not pass.present?
-			render :json => {response:'missing parameters', status:'fail'} and return
+			render :json => {response:'missing parameters'}, :status => :bad_request and return
     end
 
 		user = User.find_by_email(email)
 
 		if user.nil?
-      render :json => {response:'user not found', status:'fail'} and return 
+      render :json => {response:'user not found'}, :status => :not_found and return 
     end
 
     if not user.valid_password?(pass)
-      render :json => {response:'wrong password', status:'fail'} and return 
+      render :json => {response:'wrong password'}, :status => :bad_request and return 
     end
 
 		user.ensure_authentication_token
-		render :json => {response:'user logged in',status:'success', user:user}
+		render :json => {response:'user logged in', user:user}, :status => :accepted
 
 	end
 

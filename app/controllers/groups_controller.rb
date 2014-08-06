@@ -6,6 +6,7 @@ class GroupsController < ApplicationController
   before_action :already_owns_group, only: [:new, :create]
   before_action :has_invitation, only: [:accept, :decline]
   before_action :remove_permission, only: [:remove]
+  before_action :group_params, only: [:create]
   
   def index
     @groups = Group.all
@@ -13,6 +14,7 @@ class GroupsController < ApplicationController
 
   def show
     @members = @group.users
+
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(:text => "Member Average Scores")
       f.xAxis(:categories => ["Average Score"])
@@ -164,6 +166,7 @@ class GroupsController < ApplicationController
 
     def remove_permission
       @member = User.find(params[:id])
+      
       if @member.group.nil?
         redirect_to trips_path, :flash => {:error => "User has no group to remove."}
         return

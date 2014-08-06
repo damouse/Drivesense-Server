@@ -25,7 +25,7 @@
 <div id='content' class="tab-content">
       <div class="tab-pane active" id="members">
 
-<table class="table table-striped">
+<table class="table table-striped group-margin">
   <thead>
     <tr>
       <th>Member Email</th>
@@ -62,17 +62,20 @@
 
   
 </table>
+<hr>
 <%= link_to "Edit Group", {:controller => "groups", :action => "edit", :id =>@group.id } %> | <%= link_to "Delete Group", @group, method: :delete, data: { confirm: "Deleting this group will remove the group and all its members. Are you sure you want to do this?" } %> 
-
+<hr>
 <p>
 	<h3>Invite users to your group.</h3>
 	<%= form_tag("/invite", method: "post") do %>
 
-  		<div class="field">
+  		<div class="fields">
     		<%= label_tag(:email, "User Email:") %>
-    		<%= text_field_tag(:email) %>
+        <br>
+    		<%= text_field_tag(:email, nil, :placeholder => "Email", :class => "form-control") %>
     		<%= hidden_field_tag :id, @group.id %>
-    		<%= submit_tag("Invite")  %>
+        <br>
+    		<%= submit_tag("Invite", :class => "btn btn-primary")  %>
   		</div>
 	<% end %>
 </p>
@@ -82,3 +85,5 @@
 </div>
 </div>
 <hr />
+<br>
+<br>

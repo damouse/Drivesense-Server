@@ -35,6 +35,7 @@
             <% elsif current_user.group.nil? %>
               <li><a class="navbar-item" <%= link_to "Create Group", {:controller => "groups", :action => "new" } %></a></li>
             <% end %>
+            <li><a class="navbar-item" <%= link_to "Manage Trips", {:controller => "manage_trips", :action => "manage_trips" }, 'data-no-turbolink' => true %></a></li>
             <li><a class="navbar-item" <%= link_to "My Trips", {:controller => "trip_viewer", :action => "all_trips" }, 'data-no-turbolink' => true %></a></li>  
           <% end %>      
             <li><a class="navbar-item" href="/about">About</a></li>

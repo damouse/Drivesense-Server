@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   match '/news', to: 'public#news', via: 'get'
   match '/about', to: 'public#about', via: 'get'
 
+  match '/manage_trips', to: 'manage_trips#manage_trips', via: 'get'
   match '/trips', to: 'trip_viewer#all_trips', via: 'get'
   match '/tripviewer/:id', to: 'trip_viewer#trip_viewer', via: 'get', as: 'tripviewer'
   match '/upload', to: 'trips_coordinates#new_trip', via: 'post'
@@ -27,6 +28,10 @@ Rails.application.routes.draw do
   match '/decline', to: 'groups#decline', via: 'get'
   match '/remove/:id', to: 'groups#remove', via: 'get'
   match '/stats/:id', to: 'groups#stats', via: 'get'
+
+  #ajax tripviewer calls
+  match '/trips_range', to: 'trip_viewer#trips_range', via: 'get'
+  match '/trips_information', to: 'trip_viewer#trips_information', via: 'get'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

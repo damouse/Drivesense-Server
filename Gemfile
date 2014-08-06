@@ -10,6 +10,9 @@ gem 'will_paginate'
 gem 'lazy_high_charts'
 gem 'haml'
 
+# ??
+gem 'nokogiri', '1.6.3.1'
+gem 'gon'
 
 #Preprocessors --
 gem 'sass-rails', '~> 4.0.1'
@@ -54,3 +57,4 @@ group :test do
   gem 'capybara'
   gem 'faker'
 end
+

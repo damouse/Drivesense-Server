@@ -26,14 +26,14 @@ class TripsCoordinatesController < ApplicationController
         #     render :json => {status: 'success', new_trip:trip}
         # end
         if trip.user != current_user
-           render :json => {status: 'failed attempt to post(wrong user)', posted_content:trip}
+           render :json => {response: 'failed attempt to post(wrong user)'}, :status => :bad_request
            return
         end
 
 		if trip.save
-			render :json => {status: 'success', new_trip:trip}
+			render :json => trip, :status => :accepted
 		else
-			render :json => {status: 'failure', posted_content:trip, errors: trip.errors}
+			render :json => {errors: trip.errors}, , :status => :bad_request
 		end
 	end
 
@@ -51,7 +51,7 @@ class TripsCoordinatesController < ApplicationController
   #check to make sure the auth token is accepted. 
   def ensure_logged_in
     if not user_signed_in?
-      render :json => {response:'auth token not accepted', status:'fail'}
+      render :json => {response:'auth token not accepted'}, :status => :bad_request
       return false
     end
 

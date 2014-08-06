@@ -33,7 +33,7 @@ class TripsCoordinatesController < ApplicationController
 		if trip.save
 			render :json => trip, :status => :accepted
 		else
-			render :json => {errors: trip.errors}, , :status => :bad_request
+			render :json => {errors: trip.errors}, :status => :bad_request
 		end
 	end
 

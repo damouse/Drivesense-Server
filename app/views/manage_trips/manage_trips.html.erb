@@ -3,29 +3,24 @@
 <script src="//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js" type="text/javascript"></script>
 <% provide(:title, 'Manage Trips') %>
 <%= include_gon %>
-<div class="container well fill" style="background-color:ghostwhite">
+<div class="container well fill" style="min-height: 95%; height:95%; background-color:ghostwhite">
   <br/>
   <div class="row fill">
     <div class="col-md-8 fill">
-      <div id="map-canvas" class="well" onload="initialize" style="width: 100%; height: 50%"></div>  
+      <div id="map-canvas" class="well" onload="initialize" style="width: 100%; height: 90%"></div>  
       <br/>
-      <div id="graph" style="height:40%"></div>
+      <div id="graph" style="height:0%"></div>
     </div>
     <div class="col-md-4 fill">
-      <div id="selectors" style="display: none; height:30%">
-        <div class="input-append date">
-          <span class='add-on'>
-            <i class="icon-calendar"></i>
-          </span>
-        </div>
-        <input type="text" id="from" name="from">
-        <div for="to">To</div>
-        <input type="text" id="to" name="to"> 
+      <div id="selectors" height:30%">
+        <input onchange=update() value="" type="text" id="from" name="from">
+        <div>To</div>
+        <input onchange=update() value="" type="text" id="to" name="to"> 
         <br/><br/>
-        <div id="slider-range"></div>
-        <span id="time"></span>
+        <div style="display:none" id="slider-range"></div>
+        <span style="display:none" id="time"></span>
       </div>
-      <div id="table" style="height:60%">
+      <div id="table" style="height:70%; overflow:auto">
           <div id="accordion"> 
           </div>
       </div>
@@ -34,6 +29,17 @@
   <div id="trips_range_text" style="display:none;"></div>
 </div> 
 <script>
+function update(){
+  var start = $('#from').datepicker('getDate');
+  var end = $('#to').datepicker('getDate');
+  start = reasonableTime(start);
+  end = reasonableTime(end);
+  trips_with_range([gon.current_user,1], start, end);
+}
+function reasonableTime(time){
+   var retTime = time.getFullYear() + "-" + time.getMonth() + 1 + "-" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + " " + (0 - time.getTimezoneOffset()/60);
+   return retTime
+}
 $( document ).ready(function() {
   $(function() {
     $( "#accordion" ).accordion({collapsible:true});
@@ -41,6 +47,11 @@ $( document ).ready(function() {
   $(function() {
     $( "#from" ).datepicker();
     $( "#to" ).datepicker();
+    to = new Date();
+    from = new Date();
+    from.setDate(from.getDate() - 365);
+    $("#to").val(to);
+    $("#from").val(from);
   });
   $("#slider-range").slider({
         range: true,
@@ -82,7 +93,12 @@ $( document ).ready(function() {
   }
   slideTime();
   //GET USERS ON PAGELOAD
-  trips_with_range([gon.current_user,1], "2012-07-15 20:40:00 -5", '2017-07-20 01:32:44 -5');
+  var now = new Date();
+  now = reasonableTime(now);
+  var oYA = new Date();
+  oYA.setDate(oYA.getDate() - 365);
+  oYA = reasonableTime(oYA);
+  trips_with_range([gon.current_user,1], oYA, now);
 });
 var map;
 function initialize() {
@@ -193,7 +209,6 @@ function drawChart(){
        tmp_dic['y'] = z.raw_score;
        if (tmp_dic['y'] > 0){
          dic['data'].push(tmp_dic);
-         console.log(tmp_dic);
        }
      }
      dic_list.push(dic);
@@ -253,11 +268,12 @@ function selected(trip_id){
     all_selected.push(trip_id);
   }
   if (all_selected.length > 0){
-    trips_data(all_selected);
-    $('#graph').show();
+    $('#map-canvas').animate({height: '50%'},200,function(){$('#graph').css('height','40%');  $('#graph').show(); trips_data(all_selected);}); 
   }
   else{
     $('#graph').hide();
+    $('#graph').animate({height:'0%'});
+    $('#map-canvas').animate({height: '90%'});
   }
 }
 </script>

@@ -105,25 +105,27 @@ function updateUserJSON(){
      if (u.trips.length == 0){
        lis = lis.concat("<div><p>No Trips!</p></div>");
      }
-     lis = lis.concat("<div><p><ul class='list-group'>");
-     for (var j = 0, t; j <u.trips.length; j++){
-       var color = "#" + Math.random().toString(16).slice(2, 8)
-       lis = lis.concat("<li class='list-group-item trip' ") 
-       lis = lis.concat("style='cursor: pointer; box-shadow: -3px 0px ");
-       lis = lis.concat(color);
-       lis = lis.concat("' onclick='selected(");
-       lis = lis.concat(u.trips[j].id);
-       lis = lis.concat(")'><b>");
-       d = new Date(u.trips[j].created_at);
-       lis = lis.concat(u.trips[j].name);
-       lis = lis.concat("</b><br/>");
-       lis = lis.concat(timeSince(d));
-       lis = lis.concat("<br/>SCORE: ");
-       lis = lis.concat(u.trips[j].score.scoreAverage);
-       lis = lis.concat("</li>");
-       drawRoute(u.trips[j],color);
-     }
-     lis = lis.concat("</ul></p></div>");
+     else {
+       lis = lis.concat("<div><p><ul class='list-group'>");
+       for (var j = 0, t; j <u.trips.length; j++){
+         var color = "#" + Math.random().toString(16).slice(2, 8)
+         lis = lis.concat("<li class='list-group-item trip' ") 
+         lis = lis.concat("style='cursor: pointer; box-shadow: -3px 0px ");
+         lis = lis.concat(color);
+         lis = lis.concat("' onclick='selected(");
+         lis = lis.concat(u.trips[j].id);
+         lis = lis.concat(")'><b>");
+         d = new Date(u.trips[j].created_at);
+         lis = lis.concat(u.trips[j].name);
+         lis = lis.concat("</b><br/>");
+         lis = lis.concat(timeSince(d));
+         lis = lis.concat("<br/>SCORE: ");
+         lis = lis.concat(u.trips[j].score.scoreAverage);
+         lis = lis.concat("</li>");
+         drawRoute(u.trips[j],color);
+       }
+       lis = lis.concat("</ul></p></div>");
+     } 
   }
   $("#accordion").html(lis);
   $("#accordion").accordion("refresh");

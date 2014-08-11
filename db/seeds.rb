@@ -29,40 +29,40 @@ for i in 0..5
 end
 
 
-# #trip object init
-# 4.times do
-#   trip = Trip.create(raw_trip)
-#   trip.score = Score.create(raw_score)
-#   trips.append trip
-# end
+#trip object init
+4.times do
+  trip = Trip.create(raw_trip)
+  trip.score = Score.create(raw_score)
+  trips.append trip
+end
 
-# #raw json parse and object creation
-# raw_patterns.each do |pattern_hash|
-#   scores.each do |score|
-#     score.patterns.append(Pattern.create(pattern_hash))
-#   end
-# end
+#raw json parse and object creation
+raw_patterns.each do |pattern_hash|
+  scores.each do |score|
+    score.patterns.append(Pattern.create(pattern_hash))
+  end
+end
 
-# raw_coordinates.each do |coordinate_hash|
-#   trips.each do |trip|
-#     trip.coordinates.append(Coordinate.create(coordinate_hash))
-#   end
-# end
+raw_coordinates.each do |coordinate_hash|
+  trips.each do |trip|
+    trip.coordinates.append(Coordinate.create(coordinate_hash))
+  end
+end
 
-# trips.each do |trip| 
-#   trip.score.save
-#   trip.save
-# end
+trips.each do |trip| 
+  trip.score.save
+  trip.save
+end
 
-# trips[0].update_attributes(time_stamp: "Sat, 09 Jan 2014 19:51:10 CST -06:00")
-# trips[1].update_attributes(time_stamp: "Fri, 08 Jan 2014 17:51:10 CST -06:00")
-# trips[2].update_attributes(time_stamp: "Thursday, 07 Jan 2014 20:51:10 CST -06:00")
-# trips[3].update_attributes(time_stamp: "Fri, 09 Jan 2014 11:51:10 CST -06:00")
+trips[0].update_attributes(time_stamp: "Sat, 09 Jan 2014 19:51:10 CST -06:00")
+trips[1].update_attributes(time_stamp: "Fri, 08 Jan 2014 17:51:10 CST -06:00")
+trips[2].update_attributes(time_stamp: "Thursday, 07 Jan 2014 20:51:10 CST -06:00")
+trips[3].update_attributes(time_stamp: "Fri, 09 Jan 2014 11:51:10 CST -06:00")
 
-# users[0].trips.append(trips[0], trips[1])
-# users[1].trips.append(trips[2], trips[3])
-# users[2].trips.append(trips[1], trips[1])
-# users[3].trips.append(trips[2], trips[3])
+users[0].trips.append(trips[0], trips[1])
+users[1].trips.append(trips[2], trips[3])
+users[2].trips.append(trips[1], trips[1])
+users[3].trips.append(trips[2], trips[3])
 
 #create group heirarchy
 groups[0].admins.append(users[0])

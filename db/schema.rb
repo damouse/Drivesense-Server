@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20140721182138) do
 
   create_table "groups", force: true do |t|
     t.string   "name"
-    t.integer  "owner_id"
+    t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -76,12 +76,13 @@ ActiveRecord::Schema.define(version: 20140721182138) do
     t.datetime "updated_at"
     t.string   "authentication_token"
     t.integer  "group_id"
+    t.integer  "admins_id"
+    t.integer  "invited_id"
     t.boolean  "admin",                  default: false
     t.integer  "invitation_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["group_id"], name: "index_group_id"
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
 end

@@ -12,14 +12,13 @@
       <div id="graph" style="height:0%"></div>
     </div>
     <div class="col-md-4 fill">
-      <div id="selectors" height:30%">
-        <input onchange=update() value="" type="text" id="from" name="from">
-        <div>To</div>
-        <input onchange=update() value="" type="text" id="to" name="to"> 
-        <br/><br/>
+      <div class= "row" id="selectors" height:30%">
+        <div class = "col-md-6" onchange=update() value="" style="font-size: 7px" id="from" name="from"></div>
+        <div class = "col-md-6" onchange=update() value="" style="font-size: 7px" id="to" name="to"></div>
         <div style="display:none" id="slider-range"></div>
         <span style="display:none" id="time"></span>
       </div>
+      <br/>
       <div id="table" style="height:70%; overflow:auto">
           <div id="accordion"> 
           </div>
@@ -32,13 +31,17 @@
 function update(){
   var start = $('#from').datepicker('getDate');
   var end = $('#to').datepicker('getDate');
-  start = reasonableTime(start);
-  end = reasonableTime(end);
-  trips_with_range([gon.current_user,1], start, end);
+  start = datePickerToTime(start);
+  end = datePickerToTime(end);
+  trips_with_range([gon.current_user], start, end);
 }
 function reasonableTime(time){
-   var retTime = time.getFullYear() + "-" + time.getMonth() + 1 + "-" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + " " + (0 - time.getTimezoneOffset()/60);
+   var retTime = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + " " + (0 - time.getTimezoneOffset()/60);
    return retTime
+}
+function datePickerToTime(date){
+  var retTime = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " 00:00:00 -5";
+  return retTime
 }
 $( document ).ready(function() {
   $(function() {
@@ -131,7 +134,7 @@ function updateUserJSON(){
          lis = lis.concat("' onclick='selected(");
          lis = lis.concat(u.trips[j].id);
          lis = lis.concat(")'><b>");
-         d = new Date(u.trips[j].created_at);
+         d = new Date(u.trips[j].time_stamp);
          lis = lis.concat(u.trips[j].name);
          lis = lis.concat("</b><br/>");
          lis = lis.concat(timeSince(d));

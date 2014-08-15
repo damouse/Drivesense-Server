@@ -11,13 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140721182138) do
+ActiveRecord::Schema.define(version: 20140613012205) do
 
   create_table "coordinates", force: true do |t|
     t.float   "time_stamp"
     t.float   "latitude"
     t.float   "longitude"
     t.integer "trip_id"
+    t.integer "gps_id"
+    t.integer "speed"
   end
 
   create_table "groups", force: true do |t|
@@ -29,12 +31,14 @@ ActiveRecord::Schema.define(version: 20140721182138) do
 
   create_table "patterns", force: true do |t|
     t.string   "pattern_type"
-    t.float    "raw_score"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "score_id"
     t.float    "start_time"
     t.float    "end_time"
+    t.float    "raw_score"
+    t.integer  "score_id"
+    t.integer  "gps_index_start"
+    t.integer  "gps_index_end"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "scores", force: true do |t|
@@ -43,22 +47,20 @@ ActiveRecord::Schema.define(version: 20140721182138) do
     t.float    "scoreBreaks"
     t.float    "scoreLaneChanges"
     t.float    "scoreTurns"
+    t.integer  "trip_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "trip_id"
   end
 
   create_table "trips", force: true do |t|
     t.string   "name"
     t.datetime "time_stamp"
-    t.float    "raw_time_stamp"
     t.float    "distance"
     t.float    "duration"
     t.integer  "score"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "user_id"
-    t.time     "time"
   end
 
   create_table "users", force: true do |t|
@@ -72,12 +74,12 @@ ActiveRecord::Schema.define(version: 20140721182138) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.integer  "invited_id"
+    t.integer  "admins_id"
+    t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "authentication_token"
-    t.integer  "group_id"
-    t.integer  "admins_id"
-    t.integer  "invited_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

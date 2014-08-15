@@ -7,6 +7,8 @@ class CreateScores < ActiveRecord::Migration
       t.float :scoreLaneChanges
       t.float :scoreTurns
 
+      t.integer :trip_id
+
       t.timestamps
     end
   end

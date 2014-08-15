@@ -12,23 +12,8 @@ class TripsCoordinatesController < ApplicationController
 		new_trip = json["trip"]
 
 		#properly prints out the arguments
-		#render :json => {status: 'success', submitted_content:json, new_trip:new_trip} and return
-        #return
 		trip = Trip.new(new_trip)
-        trip.time_stamp = Time.at(trip.raw_time_stamp)
-        trip.time = TimeOfDay.parse(trip.time_stamp.strftime("%H:%M:%S"))
-
-        #render :json => trip and return
-
-        # if trip.valid?
-        #     render :json => {status: 'success', new_trip:trip}
-        # else
-        #     render :json => {status: 'success', new_trip:trip}
-        # end
-        if trip.user != current_user
-           render :json => {response: 'failed attempt to post(wrong user)'}, :status => :bad_request
-           return
-        end
+    render json: trip.as_json(include: {coordinates: {}, score: {include: :patterns}}) and return
 
 		if trip.save
 			render :json => trip, :status => :accepted
@@ -74,7 +59,7 @@ class TripsCoordinatesController < ApplicationController
     # Notice how we use Devise.secure_compare to compare the token
     # in the database with the token given in the params, mitigating
     # timing attacks.
-    if user && Devise.secure_compare(user.authentication_token, user_json["auth_token"])
+    if user && Devise.secure_compare(user.authentication_token, user_json["authentication_token"])
       sign_in user, store: false
     end
   end

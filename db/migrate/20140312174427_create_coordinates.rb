@@ -1,10 +1,12 @@
 class CreateCoordinates < ActiveRecord::Migration
   def change
     create_table :coordinates do |t|
-      t.float :time_stamp
-      t.float :lat
-      t.float :lon
+      t.time :time_stamp
+      t.float :latitude
+      t.float :longitude
       t.integer :trip_id
+      t.integer :gps_id
+      t.integer :speed
 
     end
   end

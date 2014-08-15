@@ -18,15 +18,15 @@ raw_coordinates.each {|h| h.except!('id')}
 #set up model object containers
 users, groups, trips, scores = [], [], [], []
 
-#groups
-# for i in 0..1
-#   groups.append Group.create(name: "#{i} Level Group")
-# end
+groups
+for i in 0..1
+  groups.append Group.create(name: "#{i} Level Group")
+end
 
-# #Users
-# for i in 0..5
-#   users.append User.create({email: "test#{i}@test.com", password: '12345678', password_confirmation: '12345678'})
-# end
+#Users
+for i in 0..5
+  users.append User.create({email: "test#{i}@test.com", password: '12345678', password_confirmation: '12345678'})
+end
 
 # #trip object init
 # 4.times do
@@ -64,12 +64,12 @@ users, groups, trips, scores = [], [], [], []
 # users[3].trips.append(trips[2], trips[3])
 
 #create group heirarchy
-groups[0].admins.append(users[0])
-groups[0].children.append(users[1])
-groups[0].children.append(users[2])
+# groups[0].admins.append(users[0])
+# groups[0].children.append(users[1])
+# groups[0].children.append(users[2])
 
-groups[1].admins.append users[3]
-groups[1].children.append users[4]
-groups[1].invited.append users[5]
+# groups[1].admins.append users[3]
+# groups[1].children.append users[4]
+# groups[1].invited.append users[5]
 
-groups[0].groups.append groups[1]
+# groups[0].groups.append groups[1]

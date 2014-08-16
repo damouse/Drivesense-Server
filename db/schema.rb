@@ -11,15 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140613012205) do
+ActiveRecord::Schema.define(version: 20140816020217) do
+
+  create_table "call_histories", force: true do |t|
+    t.string   "json"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "coordinates", force: true do |t|
-    t.float   "time_stamp"
-    t.float   "latitude"
-    t.float   "longitude"
-    t.integer "trip_id"
-    t.integer "gps_id"
-    t.integer "speed"
+    t.datetime "time_stamp"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.integer  "trip_id"
+    t.integer  "gps_id"
+    t.integer  "speed"
   end
 
   create_table "groups", force: true do |t|
@@ -31,25 +37,21 @@ ActiveRecord::Schema.define(version: 20140613012205) do
 
   create_table "patterns", force: true do |t|
     t.string   "pattern_type"
-    t.float    "start_time"
-    t.float    "end_time"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.float    "raw_score"
     t.integer  "score_id"
     t.integer  "gps_index_start"
     t.integer  "gps_index_end"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "scores", force: true do |t|
-    t.float    "scoreAverage"
-    t.float    "scoreAccels"
-    t.float    "scoreBreaks"
-    t.float    "scoreLaneChanges"
-    t.float    "scoreTurns"
-    t.integer  "trip_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.float   "scoreAverage"
+    t.float   "scoreAccels"
+    t.float   "scoreBreaks"
+    t.float   "scoreLaneChanges"
+    t.float   "scoreTurns"
+    t.integer "trip_id"
   end
 
   create_table "trips", force: true do |t|

@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20140816020217) do
     t.float    "longitude"
     t.integer  "trip_id"
     t.integer  "gps_id"
-    t.integer  "speed"
+    t.float    "speed"
   end
 
   create_table "groups", force: true do |t|

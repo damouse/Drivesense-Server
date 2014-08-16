@@ -20,7 +20,6 @@ class TripsCoordinatesController < ApplicationController
 
 		if trip.save
 			render :json => trip, :status => :accepted
-      CallHistory.create(json:body)
 		else
 			render :json => {errors: trip.errors}, :status => :bad_request
 		end

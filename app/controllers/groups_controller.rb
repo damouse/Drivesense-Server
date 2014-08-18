@@ -122,8 +122,6 @@ class GroupsController < ApplicationController
   end
 
   def stats
-    
-    
   end
 
   private

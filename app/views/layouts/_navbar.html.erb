@@ -28,18 +28,17 @@
           <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
             <% ownedGroup = current_user.group %>
+
             <% if not ownedGroup.nil? %>
-              
               <li><a class="navbar-item" <%= link_to ownedGroup.name, {:controller => "groups", :action => "show", :id =>ownedGroup.id } %></a></li>
-            
-            <% elsif current_user.group.nil? %>
-              <li><a class="navbar-item" <%= link_to "Create Group", {:controller => "groups", :action => "new" } %></a></li>
             <% end %>
+
             <li><a class="navbar-item" <%= link_to "Manage Trips", {:controller => "manage_trips", :action => "manage_trips" }, 'data-no-turbolink' => true %></a></li>
-            <li><a class="navbar-item" <%= link_to "My Trips", {:controller => "trip_viewer", :action => "all_trips" }, 'data-no-turbolink' => true %></a></li>  
           <% end %>      
+
             <li><a class="navbar-item" href="/about">About</a></li>
             <li><a class="navbar-item" href="/news">News</a></li>
+
           <% if user_signed_in? %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle navbar-item" data-toggle="dropdown">
@@ -48,9 +47,11 @@
               if current_user != nil
                 name = current_user.email
               end%><%=name%>
+
               <% unless @inviteGroup.nil? %>
                   <span class="badge">1</span>
               <% end %> 
+              
                 <b class="caret"></b></a>
               <ul class="dropdown-menu">
 

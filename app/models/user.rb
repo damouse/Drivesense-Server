@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   has_many :trips
   belongs_to :group
 
-  before_save :ensure_authentication_token
+  before_save :ensure_authentication_token, :ensure_group
  
   def ensure_authentication_token
     if authentication_token.blank?
@@ -21,6 +21,13 @@ class User < ActiveRecord::Base
     loop do
       token = Devise.friendly_token
       break token unless User.where(authentication_token: token).first
+    end
+  end
+
+  #initialization method that wraps this user in a group
+  def ensure_group 
+    if self.group == nil
+      self.group = Group.create(name: "#{self.email} Group")
     end
   end
 end

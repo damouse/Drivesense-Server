@@ -13,12 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20140816020217) do
 
-  create_table "call_histories", force: true do |t|
-    t.string   "json"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "coordinates", force: true do |t|
     t.datetime "time_stamp"
     t.float    "latitude"

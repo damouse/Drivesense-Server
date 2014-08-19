@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140816020217) do
+ActiveRecord::Schema.define(version: 20140613012205) do
 
   create_table "coordinates", force: true do |t|
     t.datetime "time_stamp"

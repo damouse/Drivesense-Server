@@ -7,6 +7,7 @@ class ManageTripsController < ApplicationController
 
   def manage_trips
     gon.current_user = current_user.id 
+    gon.groups =  {groups: current_user.as_json(include: :trips)}
 
     # #is member admin of a group?
     # group = Group.find_by_id(current_user.admins_id)
@@ -20,20 +21,13 @@ class ManageTripsController < ApplicationController
     #   @group_data = current_user.trips.to_json and return
     # end
 
-    # render json: {groups: group.as_json(include: 
-    #       {children: 
-    #         {include: :trips}
+    #   render :json => {trips: trips.as_json(:include => 
+    #     {:score => {:include => 
+    #       {:patterns=> {:only => 
+    #         [:pattern_type, :raw_score, :start_time, :end_time]}
     #       }
-    #     )
+    #     }
     #   }
-
-      #   render :json => {trips: trips.as_json(:include => 
-      #     {:score => {:include => 
-      #       {:patterns=> {:only => 
-      #         [:pattern_type, :raw_score, :start_time, :end_time]}
-      #       }
-      #     }
-      #   }
-      # )}
+    # )}
   end 
 end 

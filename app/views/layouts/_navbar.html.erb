@@ -51,7 +51,7 @@
               <% unless @inviteGroup.nil? %>
                   <span class="badge">1</span>
               <% end %> 
-              
+
                 <b class="caret"></b></a>
               <ul class="dropdown-menu">
 
@@ -61,7 +61,7 @@
                 <% end %>
                 <li><a rel="nofollow" href="/account"><i class="fa fa-gear"></i>  Account Settings</a></li>
                 <% unless @inviteGroup.nil? %>
-                    <li><%= @inviteGroup %> has invited you to join their group! <%= link_to 'Accept', {:controller => "groups", :action => "accept", :id =>current_user.invitation_id }, :class => 'btn btn-mini btn-danger',data: { confirm: "Accepting this invitation will allow the admin of this group full access to your trips. If you are currently in a group you will be removed and added to the new group. Are you sure you want to accept?" } %> | <%= link_to 'Decline', {:controller => "groups", :action => "decline", :id =>current_user.invitation_id }, :class => 'btn btn-mini btn-danger',data: { confirm: "If you decline this invitation you will not be able to join the group unless you are sent another invitation. Are you sure you want to decline?" } %> </li>
+                    <li><%= @inviteGroup %> has invited you to join their group! <%= link_to 'Accept', {:controller => "groups", :action => "accept", :id =>current_user.invitation_id }, :class => 'btn btn-mini btn-danger',data: { confirm: "Accepting this invitation will allow the admin of this group full access to your trips. If you are currently in a group you will be removed and added to the new group. Are you sure you want to accept?" } %> | <%= link_to 'Decline', {:controller => "groups", :action => "decline", :id =>current_user.invitation_id }, :class => 'btn btn-mini btn-danger',data: { confirm: "If you decline this invitation you will not be able to join the group unless you are sent another invitation. Are you sure you want to decline?" } %> </li>r
                 <% end %>
                 <div class="divider"></div>
                 <li><a rel="nofollow" href="/users/sign_out" data-method="delete"><i class="fa fa-power-off"></i>  Log Out</a></li>

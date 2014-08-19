@@ -103,7 +103,7 @@ $( document ).ready(function() {
   var oYA = new Date();
   oYA.setDate(oYA.getDate() - 365);
   oYA = reasonableTime(oYA);
-  trips_with_range([gon.current_user,1], oYA, now);
+  trips_with_range([gon.current_user], oYA, now);
 });
 var map;
 function initialize() {

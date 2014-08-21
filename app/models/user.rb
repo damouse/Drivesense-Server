@@ -24,6 +24,21 @@ class User < ActiveRecord::Base
     end
   end
 
+  #return the group that owns this user, or false if user is not a member of a group
+  def get_owning_group
+
+  end
+
+  #return the group that most recently invited this user
+  def get_invited_group
+
+  end
+
+  #returns the group that this user administrates, or false if none existsd
+  def get_admin_group
+
+  end
+
   def ensure_authentication_token
     if authentication_token.blank?
       self.authentication_token = generate_authentication_token

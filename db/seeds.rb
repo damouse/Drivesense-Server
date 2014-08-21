@@ -68,12 +68,12 @@ end
 # users[3].trips.append(trips[2], trips[3])
 
 #create group heirarchy
-# groups[0].admins.append(users[0])
-# groups[0].children.append(users[1])
-# groups[0].children.append(users[2])
+groups[0].admins.append(users[0])
+groups[0].children.append(users[1])
+groups[0].children.append(users[2])
 
-# groups[1].admins.append users[3]
-# groups[1].children.append users[4]
-# groups[1].invited.append users[5]
+groups[1].admins.append users[3]
+groups[1].children.append users[4]
+groups[1].invited.append users[5]
 
-# groups[0].groups.append groups[1]
+groups[0].groups.append groups[1]

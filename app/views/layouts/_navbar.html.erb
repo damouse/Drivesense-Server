@@ -29,6 +29,10 @@
           
           <% if user_signed_in? %>
             <li><a class="navbar-item" <%= link_to "Manage Trips", trips_path, 'data-no-turbolink' => true %></a></li>
+          <% end %> 
+
+          <% if user_signed_in? %>
+            <li><a class="navbar-item" <%= link_to "Manage Trips", trips_path, 'data-no-turbolink' => true %></a></li>
           <% end %>      
 
           <li><a class="navbar-item" href="/about">About</a></li>

@@ -6,9 +6,9 @@ class MainMailer < ActionMailer::Base
   #
   #   en.main_mailer.group_invite_notification.subject
   #
-  def group_invite_notification(invitee_id)
-    @invitee = User.find(invitee_id)
-    @group = Group.find(@invitee.invitation_id).name
+  def group_invite_notification(user, group)
+    @invitee = user
+    @group = group.name
 
     mail to: @invitee.email
   end

@@ -14,7 +14,7 @@
       </ul>
     </div> -->
 
-        <!-- Fixed navbar -->
+    <!-- Fixed navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <a class="navbar-brand" href="/">KnowMyDrive</a>
@@ -26,18 +26,13 @@
         <div class="collapse navbar-collapse navHeaderCollapse">
 
           <ul class="nav navbar-nav navbar-right">
+          
           <% if user_signed_in? %>
-            <% ownedGroup = current_user.group %>
-
-            <% if not ownedGroup.nil? %>
-              <li><a class="navbar-item" <%= link_to ownedGroup.name, {:controller => "groups", :action => "show", :id =>ownedGroup.id } %></a></li>
-            <% end %>
-
-            <li><a class="navbar-item" <%= link_to "Manage Trips", {:controller => "manage_trips", :action => "manage_trips" }, 'data-no-turbolink' => true %></a></li>
+            <li><a class="navbar-item" <%= link_to "Manage Trips", trips_path, 'data-no-turbolink' => true %></a></li>
           <% end %>      
 
-            <li><a class="navbar-item" href="/about">About</a></li>
-            <li><a class="navbar-item" href="/news">News</a></li>
+          <li><a class="navbar-item" href="/about">About</a></li>
+          <li><a class="navbar-item" href="/news">News</a></li>
 
           <% if user_signed_in? %>
             <li class="dropdown">
@@ -48,7 +43,7 @@
                 name = current_user.email
               end%><%=name%>
 
-              <% unless @inviteGroup.nil? %>
+              <% if current_user.outstanding_invitation %>
                   <span class="badge">1</span>
               <% end %> 
 

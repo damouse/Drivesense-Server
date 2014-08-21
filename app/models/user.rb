@@ -7,8 +7,23 @@ class User < ActiveRecord::Base
   has_many :trips
   belongs_to :group
 
-  before_save :ensure_authentication_token, :ensure_group
+  before_save :ensure_authentication_token
  
+  #searches through all groups to check if this user is invited to any of them. 
+  #if so, sets the :outstanding_invite attribute and saves. Call when invite status changes
+  def check_invitation
+    invited = false
+    Group.all.each do |group|
+      if group.invited.include? self
+        invited = true
+      end
+    end
+
+    if self.outstanding_invitation != invited
+      self.update_attributes(outstanding_invitation: invited)
+    end
+  end
+
   def ensure_authentication_token
     if authentication_token.blank?
       self.authentication_token = generate_authentication_token
@@ -21,13 +36,6 @@ class User < ActiveRecord::Base
     loop do
       token = Devise.friendly_token
       break token unless User.where(authentication_token: token).first
-    end
-  end
-
-  #initialization method that wraps this user in a group
-  def ensure_group 
-    if self.group == nil
-      self.group = Group.create(name: "#{self.email} Group")
     end
   end
 end

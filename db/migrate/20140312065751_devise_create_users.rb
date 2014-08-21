@@ -39,6 +39,8 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.timestamps
 
       t.string :authentication_token
+
+      t.boolean :outstanding_invitation, default: false
     end
 
     add_index :users, :email,                :unique => true

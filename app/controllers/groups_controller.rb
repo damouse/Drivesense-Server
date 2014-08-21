@@ -1,13 +1,11 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_group, only: [:show, :edit, :update, :destroy, :invite, :stats]
-  before_action :admin_user, only: [:index]
   before_action :has_invitation, only: [:accept, :decline]
   before_action :remove_permission, only: [:remove]
   before_action :group_params, only: [:create]
   
   def index
-    @groups = Group.all
   end
 
   def show

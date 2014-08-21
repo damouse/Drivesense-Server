@@ -28,6 +28,8 @@
     <%= render :partial => 'layouts/navbar' %>
   <% end %>
 
+  <%= render partial: "layouts/messages" %>
+
   <% unless content_for?(:conditional_nav) %>
     <div class="container fill footer-space">
   <% end %>

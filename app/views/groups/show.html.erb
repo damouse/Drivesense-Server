@@ -1,18 +1,8 @@
 <% provide(:title, @group.name) %>
+
 <div class='row'>
   <h1><%= @group.name %></h1> 
-  <% if flash[:notice] %>
-    <div id="notice"><div class="alert alert-success"><%= flash[:notice] %></div></div>
-  <% end %>
-  <% if flash[:success] %>
-    <div id="notice"><div class="alert alert-success"><%= flash[:success] %></div></div>
-  <% end %>
-  <% if flash[:error] %>
-    <div id="notice"><div class="alert alert-danger"><%= flash[:error] %></div></div>
-  <% end %>
-  <% if flash[:warning] %>
-    <div id="notice"><div class="alert alert-warning"><%= flash[:warning] %></div></div>
-  <% end %>
+
   <p>You are the administrator of this group.</p>
 
   <ul class="nav nav-tabs">
@@ -23,7 +13,7 @@
 </div>
 
 <div id='content' class="tab-content">
-      <div class="tab-pane active" id="members">
+<div class="tab-pane active" id="members">
 
 <table class="table table-striped group-margin">
   <thead>

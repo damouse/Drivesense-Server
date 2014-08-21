@@ -1,0 +1,42 @@
+.row.page-header
+  %h1 Groups
+
+/Groups this user adminstrates
+.row
+  - if current_user.group_admin.size != 0
+    .row.group-header
+      %h2 Administered Groups
+
+    -current_user.group_admin.each do |group|
+      .row.group-row
+        %h4 
+          You are an administrator of 
+          =group.name
+
+      .row
+        =link_to "Remove Yourself as Administrator", groups_path, class: "button btn btn-primary"
+
+
+/Groups this user is a member of
+- if current_user.group_member.size != 0
+  -current_user.group_member.each do |group|
+    .row
+      %h5 
+        You are a member of 
+        =group.name
+
+      Leave this group?
+
+
+/Groups this user has been invited to
+- if current_user.group_invite.size != 0
+  -current_user.group_invite.each do |group|
+    .row
+      %h5 
+        You have been invited to join  
+        =group.name
+
+      Accept invitation
+      Decline Invitation
+
+/ =render "group_table", locals: {group: @groups[0]}

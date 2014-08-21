@@ -7,37 +7,17 @@ class User < ActiveRecord::Base
   has_many :trips
   belongs_to :group
 
+  #each of the second attribute returns the groups this user is an admin over, a member over, or is invited to
+  has_many :group_admins
+  has_many :group_admin, through: :group_admins, source: :group
+
+  has_many :group_memberships
+  has_many :group_member, through: :group_memberships, source: :group
+
+  has_many :group_invites
+  has_many :group_invite, through: :group_invites, source: :group
+
   before_save :ensure_authentication_token
- 
-  #searches through all groups to check if this user is invited to any of them. 
-  #if so, sets the :outstanding_invite attribute and saves. Call when invite status changes
-  def check_invitation
-    invited = false
-    Group.all.each do |group|
-      if group.invited.include? self
-        invited = true
-      end
-    end
-
-    if self.outstanding_invitation != invited
-      self.update_attributes(outstanding_invitation: invited)
-    end
-  end
-
-  #return the group that owns this user, or false if user is not a member of a group
-  def get_owning_group
-
-  end
-
-  #return the group that most recently invited this user
-  def get_invited_group
-
-  end
-
-  #returns the group that this user administrates, or false if none existsd
-  def get_admin_group
-
-  end
 
   def ensure_authentication_token
     if authentication_token.blank?

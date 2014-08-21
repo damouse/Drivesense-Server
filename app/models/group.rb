@@ -3,9 +3,15 @@ class Group < ActiveRecord::Base
 
   belongs_to :group
 
-  has_many :children, class_name: 'User', foreign_key: 'group_id'
-  has_many :admins, class_name: 'User', foreign_key: 'admins_id'
-  has_many :invited, class_name: 'User', foreign_key: 'invited_id'
+  #Users can fit into three categories in groups, administrators, members, or invitees
+  has_many :group_admins
+  has_many :admins, through: :group_admins, source: :user
+
+  has_many :group_memberships
+  has_many :users, through: :group_memberships, source: :user
+
+  has_many :group_invites
+  has_many :users, through: :group_invites, source: :user
 
   has_many :groups
 end

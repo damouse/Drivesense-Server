@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140613012205) do
+ActiveRecord::Schema.define(version: 20140821202528) do
 
   create_table "coordinates", force: true do |t|
     t.datetime "time_stamp"
@@ -20,6 +20,27 @@ ActiveRecord::Schema.define(version: 20140613012205) do
     t.integer  "trip_id"
     t.integer  "gps_id"
     t.float    "speed"
+  end
+
+  create_table "group_admins", force: true do |t|
+    t.integer  "group_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "group_invites", force: true do |t|
+    t.integer  "group_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "group_memberships", force: true do |t|
+    t.integer  "group_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "groups", force: true do |t|
@@ -70,9 +91,6 @@ ActiveRecord::Schema.define(version: 20140613012205) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.integer  "invited_id"
-    t.integer  "admins_id"
-    t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "authentication_token"

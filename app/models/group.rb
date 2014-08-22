@@ -8,10 +8,10 @@ class Group < ActiveRecord::Base
   has_many :admins, through: :group_admins, source: :user
 
   has_many :group_memberships
-  has_many :users, through: :group_memberships, source: :user
+  has_many :members, through: :group_memberships, source: :user
 
   has_many :group_invites
-  has_many :users, through: :group_invites, source: :user
+  has_many :invitees, through: :group_invites, source: :user
 
   has_many :groups
 end

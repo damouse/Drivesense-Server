@@ -9,7 +9,6 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @members = @group.children 
   end
 
   def new

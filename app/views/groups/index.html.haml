@@ -2,41 +2,55 @@
   %h1 Groups
 
 /Groups this user adminstrates
-.row
-  - if current_user.group_admin.size != 0
-    .row.group-header
-      %h2 Administered Groups
+.row.group-header
+  %h2 Administered Groups
 
+  - if current_user.group_admin.size != 0
     -current_user.group_admin.each do |group|
       .row.group-row
         %h4 
           You are an administrator of 
-          =group.name
-
-      .row
-        =link_to "Remove Yourself as Administrator", groups_path, class: "button btn btn-primary"
-
+          = link_to group.name, group_path(group)
+        / .col-sm-8
+        /   Invite User
+        / .col-sm-4
+        /   =link_to "Remove Yourself as Administrator", groups_path, class: "button btn btn-primary"
+%hr
 
 /Groups this user is a member of
-- if current_user.group_member.size != 0
-  -current_user.group_member.each do |group|
-    .row
-      %h5 
-        You are a member of 
-        =group.name
+.row.group-header
+  %h2 Your Groups
 
-      Leave this group?
+  - if current_user.group_member.size != 0
+    -current_user.group_member.each do |group|
+      .row.group-row 
+        .row
+          .col-sm-8
+            %h4 
+              You are an member of 
+              =group.name
+          .col-sm-4
+            =link_to "Leave this Group", groups_path, class: "button btn btn-primary"
+
+  - else
+    %p You are not a member of any groups.
+%hr
 
 
 /Groups this user has been invited to
 - if current_user.group_invite.size != 0
-  -current_user.group_invite.each do |group|
-    .row
-      %h5 
-        You have been invited to join  
-        =group.name
+  .row.group-header
+    %h2 Group Invites
 
-      Accept invitation
-      Decline Invitation
+    -current_user.group_invite.each do |group|
+      .row.group-row
+        .col-sm-8
+          %h5 
+            You have been invited to join  
+            =group.name
+        .col-sm-2
+          =link_to "Accept", groups_path, class: "button btn btn-primary"
+        .col.sm-2
+          =link_to "Decline", groups_path, class: "button btn btn-primary"
 
 / =render "group_table", locals: {group: @groups[0]}

@@ -60,6 +60,50 @@ Unknown
 /********************************/
 
 
+
 /***************************
-Vertical Accordion
+Migrated Styles from Trip Viewer
 /********************************/
+
+.trip { 
+  background-color: #FFFFFF; 
+}
+
+.trip.hover {
+  background-color: #AFEEFF;
+}
+
+.trip.blue { 
+  background-color: #CFEEFF;
+}
+
+#trip-table {
+  height:65%; 
+  overflow:auto
+}
+
+#trips_data_text {
+  display:none;
+}
+
+#trips_range_text {
+  display:none;
+}
+
+.calendar {
+  font-size: 7px;
+}
+
+#graph {
+  height: 50%;
+}
+
+#map-canvas {
+  width: 100%; 
+  height: 50%
+}
+
+.trip-viewer-container {
+  min-height: 95%; 
+  height:95%;
+}

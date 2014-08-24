@@ -2,7 +2,7 @@ $(function(){
 
   //Demo buttons and function usage
   $('#trips_range').click(function() {
-    trips_with_range(['1'], "2013-07-15 20:40:00 -5", '2014-08-20 01:32:44 -5');
+    trips_with_range(['3'], "2013-07-15 20:40:00 -5", '2014-08-20 01:32:44 -5');
   });
 
   $('#trips_data').click(function() {

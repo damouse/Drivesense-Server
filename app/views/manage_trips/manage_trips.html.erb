@@ -298,12 +298,13 @@ function selected(trip_id){
     all_selected.push(trip_id);
   }
   if (all_selected.length > 0){
-    $('#map-canvas').animate({height: '50%'},200,function(){$('#graph').css('height','40%');  $('#graph').show(); trips_data(all_selected);}); 
+    $('#map-canvas').animate({height: '50%'},200,function(){$('#graph').css('height','40%');  $('#graph').show(); trips_data(all_selected);google.maps.event.trigger(map, 'resize');}); 
   }
   else{
     $('#graph').hide();
     $('#graph').animate({height:'0%'});
-    $('#map-canvas').animate({height: '90%'});
+    //$('#map-canvas').animate({height: '90%'});
+    $('#map-canvas').css('height','90%')
   }
 }
 </script>

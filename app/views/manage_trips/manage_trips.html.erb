@@ -35,7 +35,7 @@ function update(){
   var end = $('#to').datepicker('getDate');
   start = datePickerToTime(start);
   end = datePickerToTime(end);
-  trips_with_range([gon.current_user], start, end);
+  trips_with_range([gon.current_user,3], start, end);
 }
 function reasonableTime(time){
    var retTime = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + " " + (0 - time.getTimezoneOffset()/60);
@@ -45,6 +45,7 @@ function datePickerToTime(date){
   var retTime = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " 00:00:00 -5";
   return retTime
 }
+var spinner;
 $( document ).ready(function() {
   $(function() {
     $( "#accordion" ).accordion({collapsible:true});
@@ -103,7 +104,27 @@ $( document ).ready(function() {
   var oYA = new Date();
   oYA.setDate(oYA.getDate() - 365);
   oYA = reasonableTime(oYA);
-  trips_with_range([gon.current_user], oYA, now);
+  var opts = {
+    lines: 13, // The number of lines to draw
+    length: 20, // The length of each line
+    width: 10, // The line thickness
+    radius: 30, // The radius of the inner circle
+    corners: 1, // Corner roundness (0..1)
+    rotate: 0, // The rotation offset
+    direction: 1, // 1: clockwise, -1: counterclockwise
+    color: '#000', // #rgb or #rrggbb or array of colors
+    speed: 1, // Rounds per second
+    trail: 60, // Afterglow percentage
+    shadow: false, // Whether to render a shadow
+    hwaccel: false, // Whether to use hardware acceleration
+    className: 'spinner', // The CSS class to assign to the spinner
+    zIndex: 2e9, // The z-index (defaults to 2000000000)
+    top: '50%', // Top position relative to parent
+    left: '50%' // Left position relative to parent
+  };
+  var target = document.getElementById('table');
+  spinner = new Spinner(opts).spin(target);
+  trips_with_range([gon.current_user,3], oYA, now);
 });
 var map;
 function initialize() {
@@ -153,6 +174,8 @@ function updateUserJSON(){
   $(".trip").click(function () {
     $(this).toggleClass("blue");
   });
+
+  spinner.stop();
 }
 var coordCircle
 function drawRoute(trip,color){
@@ -211,32 +234,76 @@ function timeSince(date) {
     }
     return Math.floor(seconds) + " seconds ago";
 }
+var drawn = {}
 function drawChart(){
+   for (var key in drawn){
+     for (var f = 0; f < drawn[key].length; f++) {
+       drawn[key][f].setMap(null);
+     }
+   }
    trips_json = jQuery.parseJSON($("#trips_data_text").html());
    dic_list = [];
    for (var j = 0; j < trips_json.trips.length; j++){ 
      var dic = {};
      dic['name'] = trips_json.trips[j].name;
      dic['data'] = []
+     var trip_coords;
+     var trip_id;
      ini = trips_json.trips[j].score.patterns[0].start_time
+     for (var m = 0; m<user_json.users.length; m++){
+         for (var n = 0; n<user_json.users[m].trips.length; n++){
+         console.log(user_json.users[m].trips[n].id);
+         console.log(trips_json.trips[j].id);  
+         if (user_json.users[m].trips[n].id == trips_json.trips[j].id){
+             trip_id = user_json.users[m].trips[n].id
+             trip_coords = user_json.users[m].trips[n].coordinates;
+           }
+         }
+     }
+     console.log(trip_coords)
+     drawn[trip_id] = []
      for (var i = 0; i < trips_json.trips[j].score.patterns.length; i++){
        tmp_dic = {};
        var z = trips_json.trips[j].score.patterns[i];
-       tmp_dic['x'] = Math.abs(new Date(z.start_time) - new Date(ini));
+       tmp_dic['x'] = (Math.abs(new Date(z.start_time) - new Date(ini)))/60000;
        tmp_dic['name'] = z.pattern_type;
        tmp_dic['y'] = z.raw_score;
-       //temporary
-       tmp_dic['gps_id'] = 0
+       tmp_dic['gps_id'] = z.gps_index_start
        if (tmp_dic['y'] > 0){
          dic['data'].push(tmp_dic);
        }
+       for (var e = 0; e < trip_coords.length; e++){
+         if (trip_coords[e].gps_id == tmp_dic.gps_id){
+           console.log("found");
+           var color;
+           if (tmp_dic['y'] >80){
+             color = "#008000";
+           }else if (tmp_dic['y'] >60){
+             color = "#FFFF00";
+           }else{
+             color = "#FF0000";
+           }
+           var circleOptions = {
+             map: map,
+             center: new google.maps.LatLng(trip_coords[e].latitude,trip_coords[e].longitude),
+             radius: 6,
+             fillOpacity: 0.6,
+             fillColor: color,
+             strokeColor: color,
+             strokeOpacity: 0.7,
+           }
+           circle = new google.maps.Circle(circleOptions)
+           console.log(circle)
+           drawn[trip_id].push(circle);
+         }
+       }  
        //var circleOptions = {
        //  map: map,
        //  center: tripCoordinates[i],
        //  radius: 2,
        //  opacity: .5
        //}
-       coordCircle = new google.maps.Circle(circleOptions);
+       //coordCircle = new google.maps.Circle(circleOptions);
      }
      dic_list.push(dic);
    }
@@ -276,7 +343,7 @@ function drawChart(){
         },
         xAxis: {
             title: {
-                text: 'time'
+                text: 'time (minutes)'
             }
         },
         yAxis: {
@@ -298,6 +365,7 @@ function selected(trip_id){
     $('#map-canvas').animate({height: '50%'},200,function(){$('#graph').css('height','40%');  $('#graph').show(); trips_data(all_selected);google.maps.event.trigger(map, 'resize');}); 
   }
   else{
+    trips_data(all_selected)
     $('#graph').hide();
     $('#graph').animate({height:'0%'});
     //$('#map-canvas').animate({height: '90%'});

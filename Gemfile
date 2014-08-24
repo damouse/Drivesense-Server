@@ -13,6 +13,7 @@ gem 'haml'
 # ??
 gem 'nokogiri', '1.6.3.1'
 gem 'gon'
+gem 'pg'
 
 #Preprocessors --
 gem 'sass-rails', '~> 4.0.1'
@@ -39,7 +40,6 @@ gem 'mailgunner'
 
 
 group :production do
-  gem 'pg'
   gem 'rails_12factor'
 end
 

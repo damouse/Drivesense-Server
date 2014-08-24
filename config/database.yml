@@ -9,16 +9,29 @@ default: &default
   pool: 5
   timeout: 5000
 
+# development:
+#   <<: *default
+#   database: db/development.sqlite3
+
 development:
-  <<: *default
-  database: db/development.sqlite3
+  adapter: postgresql
+  host: ec2-184-73-254-144.compute-1.amazonaws.com
+  port: 5432
+  database: d4smsofetlftgd
+  username: nbhjrzmjjfmlux
+  password: MEJ0-ozkkD2il0IPk85-s3kA3J
+
+  # database: app_development
+  # pool: 5
+  # username: Damouse
+  # password:
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-test:
-  <<: *default
-  database: db/test.sqlite3
+# test:
+#   <<: *default
+#   database: db/test.sqlite3
 
 # Do not keep production credentials in the repository,
 # instead read the configuration from the environment.

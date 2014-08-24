@@ -269,11 +269,12 @@ function drawChart(){
        tmp_dic['name'] = z.pattern_type;
        tmp_dic['y'] = z.raw_score;
        tmp_dic['gps_id'] = z.gps_index_start
-       if (tmp_dic['y'] > 0){
-         dic['data'].push(tmp_dic);
-       }
        for (var e = 0; e < trip_coords.length; e++){
          if (trip_coords[e].gps_id == tmp_dic.gps_id){
+           tmp_dic['events'] = {}
+           tmp_dic['lat'] = trip_coords[e].latitude
+           tmp_dic['lon'] = trip_coords[e].longitude
+           tmp_dic['events']['click'] = function(){map.setCenter(new google.maps.LatLng(this.lat,this.lon))};
            var color;
            if (tmp_dic['y'] >80){
              color = "#008000";
@@ -294,9 +295,13 @@ function drawChart(){
            circle = new google.maps.Circle(circleOptions)
            drawn[trip_id].push(circle);
          }
+       }
+       if (tmp_dic['y'] > 0){
+         dic['data'].push(tmp_dic);
        }  
      }
      dic_list.push(dic);
+     console.log(dic_list)
    }
    var $reporting = $('#reporting');
    $('#graph').highcharts({

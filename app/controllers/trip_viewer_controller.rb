@@ -103,7 +103,7 @@ class TripViewerController < ApplicationController
     render :json => {trips: trips.as_json(:include => 
           {:score => {:include => 
             {:patterns=> {:only => 
-              [:pattern_type, :raw_score, :start_time, :end_time]}
+              [:pattern_type, :raw_score, :start_time, :end_time, :gps_index_start, :gps_index_end]}
             }
           }
         }

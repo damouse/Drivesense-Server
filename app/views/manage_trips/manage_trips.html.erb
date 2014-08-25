@@ -4,12 +4,12 @@
 <div class="container trip-viewer-container" >
   <div class="row fill">
 
-    <div class="col-md-8 fill">
+    <div class="col-md-7 fill">
       <div id="map-canvas" class="well" onload="initialize"></div>  
       <div id="graph"></div>
     </div>
 
-    <div class="col-md-4 fill">
+    <div class="col-md-5 fill">
       <div class= "row" id="selectors" height:"30%">
         <div class = "col-md-6">
           <input class = "calSpeed" value="" onchange="update()" id="from" name="from">
@@ -47,13 +47,13 @@
           <h3>Analytics</h3>
           <div class="checkbox">
             <label>
-              <input  type="checkbox" id="scores" value="">
+              <input onclick="drawChart()" type="checkbox" id="scores" checked>
               Scores
             </label>
           </div>
           <div class="checkbox">
             <label>
-              <input type="checkbox" id="speed" value="">
+              <input onclick="drawChart()" type="checkbox" id="speeds" disabled>
               Speed
             </label>
           </div>
@@ -210,7 +210,8 @@ function updateUserJSON(){
          lis = lis.concat("</b><br/>");
          lis = lis.concat(timeSince(d));
          lis = lis.concat("<br/>SCORE: ");
-         lis = lis.concat(u.trips[j].scoreAverage);
+         lis = lis.concat(u.trips[j].score.scoreAverage);
+         console.log(u.trips[j]);
          lis = lis.concat("</li>");
          drawRoute(u.trips[j],color);
        }
@@ -328,7 +329,12 @@ function drawChart(){
      if ($('#brakes').is(':checked')){
        checked_list.push("brake");
      }
-
+     if ($('#scores').is(':checked')){
+       checked_list.push("score");
+     }
+     if ($('#speeds').is(':checked')){
+       checked_list.push("speed");
+     }
      for (var i = 0; i < trips_json.trips[j].score.patterns.length; i++){
        tmp_dic = {};
        var z = trips_json.trips[j].score.patterns[i];
@@ -429,7 +435,7 @@ function selected(trip_id){
     all_selected.push(trip_id);
   }
   if (all_selected.length > 0){
-    $('#map-canvas').animate({height: '50%'},200,function(){$('#graph').css('height','40%');  $('#graph').show(); trips_data(all_selected);google.maps.event.trigger(map, 'resize');}); 
+    $('#map-canvas').animate({height: '60%'},200,function(){$('#graph').css('height','40%');  $('#graph').show(); trips_data(all_selected);google.maps.event.trigger(map, 'resize');}); 
   }
   else{
     trips_data(all_selected)

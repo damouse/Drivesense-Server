@@ -184,18 +184,31 @@ function updateUserJSON(){
 }
 var coordCircle
 var linelist = [];
+var smlist = []
+var emlist = []
 function drawRoute(trip,color){
   var tripCoordinates = [];
   for (var i = 0; i < trip.coordinates.length; i++){
     tripCoordinates.push(new google.maps.LatLng(trip.coordinates[i].latitude, trip.coordinates[i].longitude));
   }
-
+  var start_marker = new google.maps.Marker({
+    position: new google.maps.LatLng(trip.coordinates[0].latitude, trip.coordinates[0].longitude),
+    title: "Start",
+    icon: "/assets/car_map.png"
+  });
+  var end_marker = new google.maps.Marker({
+    position: new google.maps.LatLng(trip.coordinates[trip.coordinates.length - 1].latitude, trip.coordinates[trip.coordinates.length - 1].longitude),
+    title:"End",
+    icon: "/assets/stop.png"
+  });
+  start_marker.setMap(map);
+  end_marker.setMap(map);
   var tripPath = new google.maps.Polyline({
    path: tripCoordinates,
    geodesic: true,
    strokeColor: color,
    strokeOpacity: 1.0,
-   strokeWeight: 2
+   strokeWeight: 3
   });
   
   half = parseInt(trip.coordinates.length/2);
@@ -286,11 +299,11 @@ function drawChart(){
            var circleOptions = {
              map: map,
              center: new google.maps.LatLng(trip_coords[e].latitude,trip_coords[e].longitude),
-             radius: 6,
+             radius: 20,
              fillOpacity: 0.6,
              fillColor: color,
              strokeColor: color,
-             strokeOpacity: 0.7,
+             strokeOpacity: 0.6,
            }
            circle = new google.maps.Circle(circleOptions)
            drawn[trip_id].push(circle);

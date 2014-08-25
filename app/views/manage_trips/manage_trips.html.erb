@@ -36,7 +36,7 @@ function update(){
   var end = $('#to').datepicker('getDate');
   start = datePickerToTime(start);
   end = datePickerToTime(end);
-  trips_with_range([gon.current_user,3], start, end);
+  trips_with_range([gon.current_user], start, end);
 }
 
 function reasonableTime(time){
@@ -126,7 +126,7 @@ $( document ).ready(function() {
   };
   var target = document.getElementById('trip-table');
   spinner = new Spinner(opts).spin(target);
-  trips_with_range([gon.current_user,3], oYA, now);
+  trips_with_range([gon.current_user], oYA, now);
 });
 var map;
 function initialize() {

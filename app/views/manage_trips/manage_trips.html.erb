@@ -197,6 +197,15 @@ function updateUserJSON(){
        for (var j = 0, t; j <u.trips.length; j++){
          var color = "#" + Math.random().toString(16).slice(2, 8)
          //var color = "#000000"
+         var cc;
+         if (u.trips[j].score.scoreAverage > 90){
+           cc = "btn btn-success"
+         }else if (u.trips[j].score.scoreAverage > 80){
+           cc = "btn btn-warning"
+         }
+         else{
+           cc = "btn btn-danger"
+         }
          lis = lis.concat("<li value=")
          lis = lis.concat(u.trips[j].id)
          lis = lis.concat(" class='list-group-item trip' ") 
@@ -204,15 +213,17 @@ function updateUserJSON(){
          lis = lis.concat(color);
          lis = lis.concat("' onclick='selected(");
          lis = lis.concat(u.trips[j].id);
-         lis = lis.concat(")'><b>");
+         lis = lis.concat(")'><div class='row'><div class='col-md-4'><b>");
          d = new Date(u.trips[j].time_stamp);
          lis = lis.concat(u.trips[j].name);
-         lis = lis.concat("</b><br/>");
+         lis = lis.concat("</b></div><div class='col-md-5'>");
          lis = lis.concat(timeSince(d));
-         lis = lis.concat("<br/>SCORE: ");
+         lis = lis.concat("</div><div class='col-md-3'><button type='button' class='");
+         lis = lis.concat(cc)
+         lis = lis.concat("'>")
          lis = lis.concat(u.trips[j].score.scoreAverage);
          console.log(u.trips[j]);
-         lis = lis.concat("</li>");
+         lis = lis.concat("</button></div></div></li>");
          drawRoute(u.trips[j],color);
        }
        lis = lis.concat("</ul></p></div>");

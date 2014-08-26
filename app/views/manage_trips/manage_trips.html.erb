@@ -271,10 +271,19 @@ function drawRoute(trip,color){
   lon = trip.coordinates[0].longitude
   map.setCenter(new google.maps.LatLng(lat,lon));
   linelist.push(tripPath);
+  smlist.push(start_marker);
+  emlist.push(end_marker);
   index = linelist.length - 1;
   google.maps.event.addListener(linelist[index],'click', function() {
     selected(trip.id);
   });
+  google.maps.event.addListener(smlist[index],'click', function() {
+    selected(trip.id);
+  });
+  google.maps.event.addListener(emlist[index],'click', function() {
+    selected(trip.id);
+  });
+  
   tripPath.setMap(map);
 }
 google.maps.event.addDomListener(window, 'load', initialize);

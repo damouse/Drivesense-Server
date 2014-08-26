@@ -87,6 +87,7 @@ function reasonableTime(time){
    return retTime
 }
 function datePickerToTime(date){
+  //TODO: actual timezone
   var retTime = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " 00:00:00 -5";
   return retTime
 }
@@ -111,38 +112,14 @@ var opts = {
 };
 
 $( document ).ready(function() {
-  $(function() {
-    $( "#accordion" ).accordion({collapsible:true});
-  });
-  $(function() {
-    $( "#from" ).datepicker();
-    $( "#to" ).datepicker();
-    to = new Date();
-    from = new Date();
-    from.setDate(from.getDate() - 365);
-    $("#to").val(to);
-    $("#from").val(from);
-  });
-  function getTime(hours, minutes) {
-    var time = null;
-    minutes = minutes + "";
-    if (hours < 12) {
-        time = "AM";
-    }
-    else {
-        time = "PM";
-    }
-    if (hours == 0) {
-        hours = 12;
-    }
-    if (hours > 12) {
-        hours = hours - 12;
-    }
-    if (minutes.length == 1) {
-        minutes = "0" + minutes;
-    }
-    return hours + ":" + minutes + " " + time;
-  }
+  $( "#accordion" ).accordion({collapsible:true});
+  $( "#from" ).datepicker();
+  $( "#to" ).datepicker();
+  to = new Date();
+  from = new Date();
+  from.setDate(from.getDate() - 365);
+  $("#to").val(to);
+  $("#from").val(from);
   var now = new Date();
   now = reasonableTime(now);
   var oYA = new Date();
@@ -155,6 +132,7 @@ $( document ).ready(function() {
 var map;
 function initialize() {
   var mapOptions = {
+    //TODO: Better Center
     center: new google.maps.LatLng(43.06, -89.4),
     zoom: 15
   };
@@ -187,23 +165,13 @@ function updateUserJSON(){
          else{
            cc = "btn btn-danger"
          }
-         lis = lis.concat("<li value=")
-         lis = lis.concat(u.trips[j].id)
-         lis = lis.concat(" class='list-group-item trip' ") 
-         lis = lis.concat("style='cursor: pointer; box-shadow: -3px 0px ");
-         lis = lis.concat(color);
-         lis = lis.concat("' onclick='selected(");
-         lis = lis.concat(u.trips[j].id);
-         lis = lis.concat(")'><div class='row'><div class='col-md-4'><b>");
+         //TODO: Duration
+         lis = lis.concat("<li value=" + u.trips[j].id + " class='list-group-item trip' style='cursor: pointer; box-shadow: -3px 0px ")
+         lis = lis.concat(color + "' onclick='selected(" + u.trips[j].id + ")'><div class='row'><div class='col-md-4'><b>");
          d = new Date(u.trips[j].time_stamp);
-         lis = lis.concat(u.trips[j].name);
-         lis = lis.concat("</b></div><div class='col-md-5'>");
-         lis = lis.concat(timeSince(d));
-         lis = lis.concat("</div><div class='col-md-3'><button type='button' class='");
-         lis = lis.concat(cc)
-         lis = lis.concat("'>")
+         lis = lis.concat(u.trips[j].name + "</b></div><div class='col-md-5'>" + timeSince(d));
+         lis = lis.concat("</div><div class='col-md-3'><button type='button' class='" + cc + "'>");
          lis = lis.concat(u.trips[j].score.scoreAverage);
-         console.log(u.trips[j]);
          lis = lis.concat("</button></div></div></li>");
          drawRoute(u.trips[j],color);
        }
@@ -212,9 +180,6 @@ function updateUserJSON(){
   }
   $("#accordion").html(lis);
   $("#accordion").accordion("refresh");
-  //$(".trip").click(function () {
-  //  $(this).toggleClass("blue");
-  //});
 
   spinner.stop();
 }
@@ -353,9 +318,9 @@ function drawChart(){
            tmp_dic['lon'] = trip_coords[e].longitude
            tmp_dic['events']['click'] = function(){map.setCenter(new google.maps.LatLng(this.lat,this.lon))};
            var color;
-           if (tmp_dic['y'] >80){
+           if (tmp_dic['y'] >90){
              color = "#008000";
-           }else if (tmp_dic['y'] >60){
+           }else if (tmp_dic['y'] >80){
              color = "#FFFF00";
            }else{
              color = "#FF0000";
@@ -378,7 +343,6 @@ function drawChart(){
        }  
      }
      dic_list.push(dic);
-     console.log(dic_list)
    }
    var $reporting = $('#reporting');
    $('#graph').highcharts({
@@ -447,7 +411,6 @@ function selected(trip_id){
     google.maps.event.trigger(map, 'resize');
   }
   $('.trip').each(function() {
-    console.log($(this).val())
     if ($.inArray($(this).val(), all_selected) >= 0){
       $(this).addClass('blue');
     }else{

@@ -169,8 +169,9 @@ function updateUserJSON(){
          lis = lis.concat("<li value=" + u.trips[j].id + " class='list-group-item trip' style='cursor: pointer; box-shadow: -3px 0px ")
          lis = lis.concat(color + "' onclick='selected(" + u.trips[j].id + ")'><div class='row'><div class='col-md-4'><b>");
          d = new Date(u.trips[j].time_stamp);
-         lis = lis.concat(u.trips[j].name + "</b></div><div class='col-md-5'>" + timeSince(d));
-         lis = lis.concat("</div><div class='col-md-3'><button type='button' class='" + cc + "'>");
+         lis = lis.concat(u.trips[j].name + "</b></div><div class='col-md-3'>" + timeSince(d)) + "</div>";
+         lis = lis.concat("<div class='col-md-3'>"+Math.ceil(u.trips[j].duration/60)+" minutes </div>");
+         lis = lis.concat("<div class='col-md-2'><button type='button' class='" + cc + "'>");
          lis = lis.concat(u.trips[j].score.scoreAverage);
          lis = lis.concat("</button></div></div></li>");
          drawRoute(u.trips[j],color);

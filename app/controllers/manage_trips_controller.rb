@@ -18,7 +18,7 @@ class ManageTripsController < ApplicationController
       gon.groups = group.as_json(include: :members)
     end
 
-    render json: {group: gon.groups, user: gon.current_user} and return
+    # render json: {group: gon.groups, user: gon.current_user} and return
     # #is member admin of a group?
     # group = Group.find_by_id(current_user.admins_id)
 

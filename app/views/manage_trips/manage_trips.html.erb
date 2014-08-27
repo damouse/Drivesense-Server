@@ -127,7 +127,7 @@ $( document ).ready(function() {
   oYA = reasonableTime(oYA);
   var target = document.getElementById('trip-table');
   spinner = new Spinner(opts).spin(target);
-  trips_with_range([gon.current_user,3], oYA, now);
+  trips_with_range([gon.current_user], oYA, now);
 });
 var map;
 function initialize() {

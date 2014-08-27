@@ -43,15 +43,15 @@
         </div>
         <div class = "col-md-6">
           <h3>Analytics</h3>
-          <div class="checkbox">
+          <div class="radio">
             <label>
-              <input onclick="drawChart()" type="checkbox" id="scores" checked>
+              <input onclick="drawChart()" type="radio" name="optionsRadios" value="option1" id="scores" checked>
               Scores
             </label>
           </div>
-          <div class="checkbox">
+          <div class="radio">
             <label>
-              <input onclick="drawChart()" type="checkbox" id="speeds" disabled>
+              <input onclick="drawChart()" type="radio" name="optionsRadios" value="option2" id="speeds">
               Speed
             </label>
           </div>
@@ -268,22 +268,51 @@ function drawChart(){
        drawn[key][f].setMap(null);
      }
    }
-   trips_json = jQuery.parseJSON($("#trips_data_text").html());
    dic_list = [];
-   for (var j = 0; j < trips_json.trips.length; j++){ 
+   var mode;
+   var list_to_graph;
+   trips_json = jQuery.parseJSON($("#trips_data_text").html());
+   if ($('#speeds').is(':checked')){
+     mode = "speed";
+     user_json = jQuery.parseJSON($("#trips_range_text").html());
+     list_to_graph = []
+     for (var q = 0; q < user_json.users.length; q++){
+       for(var r = 0; r < user_json.users[q].trips.length; r++){
+         if ($.inArray(user_json.users[q].trips[r].id, all_selected)>-1){
+           console.log("added " + user_json.users[q].trips[r].id)
+           list_to_graph.push(user_json.users[q].trips[r]);
+         }
+       } 
+     }
+     console.log("to graph" + list_to_graph)
+   }
+   else{
+     mode = "score";
+     list_to_graph = trips_json.trips
+   }
+   for (var j = 0; j < list_to_graph.length; j++){ 
      var dic = {};
-     dic['name'] = trips_json.trips[j].name;
+     dic['name'] = list_to_graph[j].name;
      dic['data'] = []
      var trip_coords;
      var trip_id;
-     ini = trips_json.trips[j].score.patterns[0].start_time
-     for (var m = 0; m<user_json.users.length; m++){
+     var lower_list;
+     if (mode == "score"){
+       ini = list_to_graph[j].score.patterns[0].start_time
+       lower_list = list_to_graph[j].score.patterns
+       for (var m = 0; m<user_json.users.length; m++){
          for (var n = 0; n<user_json.users[m].trips.length; n++){
          if (user_json.users[m].trips[n].id == trips_json.trips[j].id){
              trip_id = user_json.users[m].trips[n].id
              trip_coords = user_json.users[m].trips[n].coordinates;
            }
          }
+     }
+     }else{
+       ini = list_to_graph[j].time_stamp;
+       lower_list  = list_to_graph[j].coordinates;
+       trip_id = list_to_graph[j].id;
+       trip_coords = list_to_graph[j].coordinates;
      }
      drawn[trip_id] = []
      checked_list = []
@@ -296,22 +325,24 @@ function drawChart(){
      if ($('#brakes').is(':checked')){
        checked_list.push("brake");
      }
-     if ($('#scores').is(':checked')){
-       checked_list.push("score");
-     }
-     if ($('#speeds').is(':checked')){
-       checked_list.push("speed");
-     }
-     for (var i = 0; i < trips_json.trips[j].score.patterns.length; i++){
+     for (var i = 0; i < lower_list.length; i++){
        tmp_dic = {};
-       var z = trips_json.trips[j].score.patterns[i];
-       tmp_dic['x'] = (Math.abs(new Date(z.start_time) - new Date(ini)))/60000;
-       tmp_dic['name'] = z.pattern_type;
-       if ($.inArray(tmp_dic['name'], checked_list)<0){
-         continue;
+       var z = lower_list[i];
+       if (mode == "score"){
+         tmp_dic['x'] = (Math.abs(new Date(z.start_time) - new Date(ini)))/60000;
+         tmp_dic['name'] = z.pattern_type;
+         if ($.inArray(tmp_dic['name'], checked_list)<0){
+           continue;
+         }
+         tmp_dic['y'] = z.raw_score;
+         tmp_dic['gps_id'] = z.gps_index_start
        }
-       tmp_dic['y'] = z.raw_score;
-       tmp_dic['gps_id'] = z.gps_index_start
+       else if (mode == "speed"){
+         tmp_dic['x'] = (Math.abs(new Date(z.time_stamp) - new Date(ini)))/60000;
+         tmp_dic['name'] = z.speed;
+         tmp_dic['y'] = z.speed;
+         tmp_dic['gps_id'] = z.gps_id;
+       }
        for (var e = 0; e < trip_coords.length; e++){
          if (trip_coords[e].gps_id == tmp_dic.gps_id){
            tmp_dic['events'] = {}

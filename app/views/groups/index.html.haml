@@ -12,10 +12,7 @@
         %h4 
           You are an administrator of 
           = link_to group.name, group_path(group)
-        / .col-sm-8
-        /   Invite User
-        / .col-sm-4
-        /   =link_to "Remove Yourself as Administrator", groups_path, class: "button btn btn-primary"
+          =link_to "See Trips", trips_path(group: group), class: "button btn btn-primary"
   -else
     .row
       %p You do not currently own any groups. To adminster a group and invite users, create one first.
@@ -37,7 +34,7 @@
               You are an member of 
               =group.name
           .col-sm-4
-            =link_to "Leave this Group", groups_path, class: "button btn btn-primary"
+            =link_to "Leave this Group", remove_path(group), class: "button btn btn-primary"
 
   - else
     %p You are not a member of any groups.
@@ -56,8 +53,8 @@
             You have been invited to join  
             =group.name
         .col-sm-2
-          =link_to "Accept", groups_path, class: "button btn btn-primary"
+          =link_to "Accept", accept_path(referring_group: group), class: "button btn btn-primary"
         .col.sm-2
-          =link_to "Decline", groups_path, class: "button btn btn-primary"
+          =link_to "Decline", decline_path(referring_group: group), class: "button btn btn-primary"
 
 / =render "group_table", locals: {group: @groups[0]}

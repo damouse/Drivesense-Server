@@ -1,8 +1,6 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_group, only: [:show, :edit, :update, :destroy, :invite, :stats]
-  before_action :has_invitation, only: [:accept, :decline]
-  before_action :remove_permission, only: [:remove]
+  before_action :set_group, only: [:show, :edit, :update, :destroy, :invite, :stats, :remove]
   before_action :group_params, only: [:create]
   
   def index
@@ -62,33 +60,42 @@ class GroupsController < ApplicationController
     end
 
     #invite the user and notify them over email
-    @group.invited << user
-    user.check_invitation
+    @group.invitees << user
     MainMailer.group_invite_notification(user, @group).deliver
     redirect_to @group, :flash => {:success => "An invitation was sent to #{params[:email]}."}
   else
 
   end
 
-  # def accept
-  #   current_user.update_attribute :group_id, current_user.invitation_id
-  #   current_user.update_attribute :invitation_id, nil
-  #   redirect_to trips_path, :flash => {:success => "You are now a member of #{current_user.group.name}"}
-  # end
+  def accept
+    referring_group = Group.find_by_id(params[:referring_group])
 
-  # def decline
-  #   current_user.update_attribute :invitation_id, nil
-  #   redirect_to trips_path, :flash => {:warning => "Invitation declined."}
-  # end
+    if referring_group.nil?
+      redirect_to groups_path, :flash => {:error => "An error occured. Please try again in a little while."} and return
+    end
 
-  # def remove
-  #   @member.update_attribute :group, nil
-  #   if current_user.group.nil?
-  #     redirect_to trips_path, :flash => {:warning => "#{@member.email} has been removed."}
-  #   else
-  #     redirect_to current_user.group
-  #   end
-  # end
+    referring_group.members << current_user
+    referring_group.invitees.delete(current_user)
+
+    redirect_to groups_path, :flash => {:success => "You are now a member of #{referring_group.name}"}
+  end
+
+  def decline
+    referring_group = Group.find_by_id(params[:referring_group])
+
+    if referring_group.nil?
+      redirect_to groups_path, :flash => {:error => "An error occured. Please try again in a little while."} and return
+    end
+
+    referring_group.invitees.delete(current_user)
+    redirect_to groups_path, :flash => {:success => "You have declined the invitation to #{referring_group.name}"}
+  end
+
+  def remove
+    @group.members.delete(current_user)
+
+    redirect_to groups_path, :flash => {:warning => "#{current_user.email} has been removed from #{@group.name}"}
+  end
 
   private
     def set_group

@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   match '/invite', to: 'groups#invite', via: 'post'
   match '/accept', to: 'groups#accept', via: 'get'
   match '/decline', to: 'groups#decline', via: 'get'
-  match '/remove/:id', to: 'groups#remove', via: 'get'
+  match '/remove/:id', to: 'groups#remove', via: 'get', as: "remove"
   match '/stats/:id', to: 'groups#stats', via: 'get'
 
   #ajax tripviewer calls

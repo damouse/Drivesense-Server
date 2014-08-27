@@ -6,9 +6,19 @@ class ManageTripsController < ApplicationController
   #else return the user's trips
 
   def manage_trips
-    gon.current_user = current_user.id 
-    gon.groups =  {groups: current_user.as_json(include: :trips)}
+    #if a group is passed in, assume this is a group view
+    group = Group.find_by_id(params[:group])
 
+    #if no group is found or none was passed, assume it was a user trips query
+    if group.nil?
+      gon.current_user = current_user.id
+      gon.groups = -1
+    else
+      gon.current_user = -1
+      gon.groups = group.as_json(include: :members)
+    end
+
+    render json: {group: gon.groups, user: gon.current_user} and return
     # #is member admin of a group?
     # group = Group.find_by_id(current_user.admins_id)
 

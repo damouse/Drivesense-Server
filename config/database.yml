@@ -15,11 +15,11 @@ default: &default
 
 development:
   adapter: postgresql
-  host: ec2-184-73-254-144.compute-1.amazonaws.com
+  host: ec2-54-243-44-191.compute-1.amazonaws.com
   port: 5432
-  database: d4smsofetlftgd
-  username: nbhjrzmjjfmlux
-  password: MEJ0-ozkkD2il0IPk85-s3kA3J
+  database: d7ti6vok9ga4ri
+  username: jotbtfasusqnvh
+  password: LfGRd611AXzyXw0Ivcwopw84pA
 
   # database: app_development
   # pool: 5

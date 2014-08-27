@@ -20,6 +20,7 @@ class GroupsController < ApplicationController
 
   def create
     @group = Group.new(group_params)
+    @group.admins << current_user
 
     respond_to do |format|
       if @group.save

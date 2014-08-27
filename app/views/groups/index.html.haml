@@ -1,5 +1,6 @@
 .row.page-header
   %h1 Groups
+  
 
 /Groups this user adminstrates
 .row.group-header
@@ -15,6 +16,12 @@
         /   Invite User
         / .col-sm-4
         /   =link_to "Remove Yourself as Administrator", groups_path, class: "button btn btn-primary"
+  -else
+    .row
+      %p You do not currently own any groups. To adminster a group and invite users, create one first.
+
+  .row
+    =link_to "Create a new Group", new_group_path, class: "button btn btn-primary"
 %hr
 
 /Groups this user is a member of

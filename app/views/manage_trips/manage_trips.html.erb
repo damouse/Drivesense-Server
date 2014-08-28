@@ -79,7 +79,7 @@ function update(){
   end = datePickerToTime(end);
   var target = document.getElementById('trip-table');
   spinner = new Spinner(opts).spin(target);
-  trips_with_range([gon.current_user,3], start, end);
+  trips_with_range(u_list, start, end);
 }
 
 function reasonableTime(time){
@@ -110,7 +110,7 @@ var opts = {
     top: '50%', // Top position relative to parent
     left: '50%' // Left position relative to parent
 };
-
+var u_list = []
 $( document ).ready(function() {
   $( "#accordion" ).accordion({collapsible:true});
   $( "#from" ).datepicker();
@@ -127,7 +127,17 @@ $( document ).ready(function() {
   oYA = reasonableTime(oYA);
   var target = document.getElementById('trip-table');
   spinner = new Spinner(opts).spin(target);
-  trips_with_range([gon.current_user], oYA, now);
+  u_list = []
+  if (gon.current_user == -1){
+    console.log(gon.groups);
+    for (var q = 0; q < gon.groups.members.length; q++){
+      u_list.push(gon.groups.members[q].id);
+    }
+  }
+  else{
+    u_list.push(gon.current_user);
+  }
+  trips_with_range(u_list, oYA, now);
 });
 var map;
 function initialize() {
@@ -434,7 +444,7 @@ function drawChart(){
             title: {
                 text: text
             },
-            min: 0
+            min: 0,
         },
         series: dic_list
     });

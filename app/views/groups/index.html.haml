@@ -12,7 +12,7 @@
         %h4 
           You are an administrator of 
           = link_to group.name, group_path(group)
-          =link_to "See Trips", trips_path(group: group),  'data-no-turbolink' => true, class: "button btn btn-primary"
+          =link_to "See Trips", trips_path(group: group), class: "button btn btn-primary"
   -else
     .row
       %p You do not currently own any groups. To adminster a group and invite users, create one first.

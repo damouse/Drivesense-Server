@@ -113,13 +113,17 @@ var opts = {
 var u_list = []
 $( document ).ready(function() {
   $( "#accordion" ).accordion({collapsible:true});
-  $( "#from" ).datepicker();
-  $( "#to" ).datepicker();
+  $( "#from" ).datepicker({
+    dateFormat: 'yy-mm-dd'
+  });
+  $( "#to" ).datepicker({
+    dateFormat: 'yy-mm-dd'
+  });
   to = new Date();
   from = new Date();
   from.setDate(from.getDate() - 365);
-  $("#to").val(to);
-  $("#from").val(from);
+  $("#to").datepicker("setDate" , to);
+  $("#from").datepicker("setDate" , from);
   var now = new Date();
   now = reasonableTime(now);
   var oYA = new Date();
@@ -226,7 +230,7 @@ function drawRoute(trip,color){
   half = parseInt(trip.coordinates.length/2);
   lat = trip.coordinates[0].latitude
   lon = trip.coordinates[0].longitude
-  map.setCenter(new google.maps.LatLng(lat,lon));
+  //map.setCenter(new google.maps.LatLng(lat,lon));
   linelist.push(tripPath);
   smlist.push(start_marker);
   emlist.push(end_marker);

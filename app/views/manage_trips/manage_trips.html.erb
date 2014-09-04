@@ -12,16 +12,16 @@
     <div class="col-md-5 fill">
       <div class= "row" id="selectors" height:"30%">
         <div class = "col-md-6">
-          <input class = "calSpeed" value="" onchange="update()" id="from" name="from">
+          <input class = "calSpeed pull-right" value="" onchange="update()" id="from" name="from">
         </div>
         <div class = "col-md-6">
-          <input class = "calSpeed" value="" onchange="update()" id="to" name="to">
+          <input class = "calSpeed pull-left" value="" onchange="update()" id="to" name="to">
         </div>
       </div>
       <hr/>
       <div class="row">
         <div class = "col-md-6">
-          <h3>Events</h3>
+          <h3 style='margin-bottom: 10px'>Events</h3>
           <div class="checkbox">
             <label>
               <input onclick="drawChart()" checked type="checkbox" id="brakes" value="">
@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class = "col-md-6">
-          <h3>Analytics</h3>
+          <h3 style='margin-bottom: 10px'>Analytics</h3>
           <div class="radio">
             <label>
               <input onclick="drawChart()" type="radio" name="optionsRadios" value="option1" id="scores" checked>
@@ -112,7 +112,10 @@ var opts = {
 };
 var u_list = []
 $( document ).ready(function() {
-  $( "#accordion" ).accordion({collapsible:true});
+  $( "#accordion" ).accordion({
+    collapsible:true,
+    heightStyle: "content"
+  });
   $( "#from" ).datepicker({
     dateFormat: 'yy-mm-dd'
   });
@@ -142,7 +145,6 @@ $( document ).ready(function() {
     u_list.push(gon.current_user);
   }
   trips_with_range(u_list, oYA, now);
-  //GREY-- moved this here to work around turbolinks
   initialize();
 });
 var map;
@@ -183,11 +185,11 @@ function updateUserJSON(){
          }
          //TODO: Duration
          lis = lis.concat("<li value=" + u.trips[j].id + " class='list-group-item trip' style='cursor: pointer; box-shadow: -3px 0px ")
-         lis = lis.concat(color + "' onclick='selected(" + u.trips[j].id + ")'><div class='row'><div class='col-md-4'><b>");
+         lis = lis.concat(color + "' onclick='selected(" + u.trips[j].id + ")'><div class='row'><div class='col-md-3'><b>");
          d = new Date(u.trips[j].time_stamp);
          lis = lis.concat(u.trips[j].name + "</b></div><div class='col-md-3'>" + timeSince(d)) + "</div>";
-         lis = lis.concat("<div class='col-md-3'>"+Math.ceil(u.trips[j].duration/60)+" minutes </div>");
-         lis = lis.concat("<div class='col-md-2'><button type='button' class='" + cc + "'>");
+         lis = lis.concat("<div class='col-md-4'>"+Math.ceil(u.trips[j].duration/60)+" minutes </div>");
+         lis = lis.concat("<div class='col-md-2'><span class='badge pull-right " + cc + "'>");
          lis = lis.concat(u.trips[j].score.scoreAverage);
          lis = lis.concat("</button></div></div></li>");
          drawRoute(u.trips[j],color);
@@ -228,11 +230,12 @@ function drawRoute(trip,color){
    strokeOpacity: 1.0,
    strokeWeight: 3
   });
-  
+   
   half = parseInt(trip.coordinates.length/2);
   lat = trip.coordinates[0].latitude
   lon = trip.coordinates[0].longitude
-  //map.setCenter(new google.maps.LatLng(lat,lon));
+  console.log(lat);
+  map.setCenter(new google.maps.LatLng(lat,lon));
   linelist.push(tripPath);
   smlist.push(start_marker);
   emlist.push(end_marker);
@@ -462,6 +465,7 @@ function selected(trip_id){
     all_selected.splice( $.inArray(trip_id, all_selected), 1 );
   }else{
     all_selected.push(trip_id);
+    
   }
   if (all_selected.length > 0){
     $('#map-canvas').animate({height: '60%'},200,function(){$('#graph').css('height','40%');  $('#graph').show(); trips_data(all_selected);google.maps.event.trigger(map, 'resize');}); 

@@ -8,7 +8,7 @@
       <div id="map-canvas" class="well" onload="initialize"></div>  
       <div id="graph"></div>
     </div>
-
+    <div class="hidden-lg hidden-md"><hr/></div>
     <div class="col-md-5 fill">
       <div class= "row" id="selectors" height:"30%">
         <div class = "col-md-6">
@@ -116,6 +116,9 @@ $( document ).ready(function() {
     collapsible:true,
     heightStyle: "content"
   });
+  $( ".trip" ).hover(function(){
+    $(this).toggleClass('.trip.hover');
+  })
   $( "#from" ).datepicker({
     dateFormat: 'yy-mm-dd'
   });
@@ -152,7 +155,8 @@ function initialize() {
   var mapOptions = {
     //TODO: Better Center
     center: new google.maps.LatLng(43.06, -89.4),
-    zoom: 15
+    zoom: 15,
+    panControl: true
   };
   map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
 }
@@ -202,6 +206,32 @@ function updateUserJSON(){
 
   spinner.stop();
 }
+// script to resize mapsmarker maps on screen resolutions or window resize smaller then 640px
+$(function(){
+  var windowWidth = $(window).width();
+  if (windowWidth <= 640) {
+     $('#map-canvas').css({
+      'width': '90%',
+      'margin-left' : 'auto',
+      'margin-right': 'auto'
+     });
+    }
+    $(window).on('resize', function(){
+      var win = $(this); //this = window
+      if (win.width() <= 640) {
+        $('#map-canvas').css({
+          'width' : '90%',
+          'margin-left' : 'auto',
+          'margin-right' : 'auto'
+        });
+      }
+      else {
+       $('#map-canvas').css({
+        'width' : '100%'
+       });
+      }
+    });
+});
 var coordCircle
 var linelist = [];
 var smlist = []

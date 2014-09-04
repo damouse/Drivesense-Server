@@ -404,11 +404,24 @@ function drawChart(){
                color = "#FF0000";
              }
            }else{
-             if (tmp_dic['y'] >10){
+             if (tmp_dic['y'] >50){
                color = "#008000";
-             }else if (tmp_dic['y'] > 5){
+             }else if (tmp_dic['y'] > 40){
+               color = "#66FF66";
+             }
+             else if (tmp_dic['y'] > 30){
                color = "#FFFF00";
-             }else{
+             }
+             else if (tmp_dic['y'] > 20){
+               color = "#FFCC66";
+             }
+             else if (tmp_dic['y'] > 10){
+               color = "#FF9933"; 
+             }
+             else if (tmp_dic['y'] > 5){
+               color = "#FF9900";
+             }
+             else{
                color = "#FF0000";
              }
            }
@@ -435,7 +448,7 @@ function drawChart(){
    if (mode == "score"){
      text = "score"
    }else{
-     text = "speed (m/s)"
+     text = "speed (mph)"
    }
    $('#graph').highcharts({
         plotOptions: {

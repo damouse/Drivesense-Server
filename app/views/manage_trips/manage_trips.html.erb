@@ -81,14 +81,22 @@ function update(){
   spinner = new Spinner(opts).spin(target);
   trips_with_range(u_list, start, end);
 }
-
+var tzoff;
+function getTzOff(time){
+  tzoff = 0 - time.getTimezoneOffset()/60
+  if (tzoff > 0){
+    tzoff = "+" + tzoff;
+  }
+  return tzoff;
+}
 function reasonableTime(time){
-   var retTime = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + " " + (0 - time.getTimezoneOffset()/60);
+   var retTime = time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate() + " " + time.getHours() + ":" + time.getMinutes() + ":" + time.getSeconds() + " " + getTzOff(time);
    return retTime
 }
 function datePickerToTime(date){
   //TODO: actual timezone
-  var retTime = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " 00:00:00 -5";
+  
+  var retTime = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " 00:00:00 " + tzoff;
   return retTime
 }
 var spinner;

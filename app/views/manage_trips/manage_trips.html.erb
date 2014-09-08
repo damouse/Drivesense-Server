@@ -195,8 +195,8 @@ function updateUserJSON(){
            cc = "btn btn-danger"
          }
          //TODO: Duration
-         lis = lis.concat("<li value=" + u.trips[j].id + " class='list-group-item trip'")
-         lis = lis.concat(color + " onclick='selected(" + u.trips[j].id + ")'><div class='row'><div class='col-xs-3'><b>");
+         lis = lis.concat("<li value=" + u.trips[j].id + " class='list-group-item trip' style='box-shadow: -3px 0px ")
+         lis = lis.concat(color + "' onclick='selected(" + u.trips[j].id + ")'><div class='row'><div class='col-xs-3'><b>");
          d = new Date(u.trips[j].time_stamp);
          lis = lis.concat(u.trips[j].name + "</b></div><div class='col-xs-3'>" + timeSince(d)) + "</div>";
          lis = lis.concat("<div class='col-xs-4'>"+Math.ceil(u.trips[j].duration/60)+" minutes </div>");

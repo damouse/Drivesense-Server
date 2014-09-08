@@ -64,7 +64,6 @@ Unknown
 /***************************
 Migrated Styles from Trip Viewer
 /********************************/
-
 .trip { 
   background-color: #FFFFFF; 
   margin-left: -20px;
@@ -102,7 +101,10 @@ Migrated Styles from Trip Viewer
 .calendar {
   font-size: 7px;
 }
-
+.calSpeed {
+  cursor: pointer;
+  cursor: hand;
+}
 #graph {
   height: 0%;
 }

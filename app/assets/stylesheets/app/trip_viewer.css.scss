@@ -70,6 +70,8 @@ Migrated Styles from Trip Viewer
   margin-left: -20px;
   margin-right: -20px;
   color: black;
+  cursor: pointer; 
+  box-shadow: -3px 0px;
 }
 
 .trip.hover {
@@ -80,7 +82,12 @@ Migrated Styles from Trip Viewer
   background-color: #5bc0de;
   color: white;
 }
-
+.short-header{
+  margin-bottom: 10px;
+}
+#right-side {
+  overflow: auto;
+}
 #trip-table {
 }
 

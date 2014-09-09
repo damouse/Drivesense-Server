@@ -8,7 +8,7 @@
 
   - if current_user.group_admin.size != 0
     -current_user.group_admin.each do |group|
-      .row.group-row
+      .group-row
         %h4 
           You are an administrator of 
           = link_to group.name, group_path(group)
@@ -17,8 +17,8 @@
     .row
       %p You do not currently own any groups. To adminster a group and invite users, create one first.
 
-  .row
-    =link_to "Create a new Group", new_group_path, class: "button btn btn-primary"
+  
+  =link_to "Create a new Group", new_group_path, class: "button btn btn-primary"
 %hr
 
 /Groups this user is a member of

@@ -5,17 +5,17 @@
       %h1.landing-title KnowMyDrive
     .row
       .col-sm-4
-        = link_to (image_tag 'note.png',:size => '150x150'), news_path
+        = link_to (image_tag 'note.png',:size => '150x150',:onMouseOver => "this.src='/assets/note_green.png'",:onMouseOut => "this.src='/assets/note.png'"), news_path
         %h2.landing-icon News
       .col-sm-4
         - if not user_signed_in?
-          = link_to (image_tag 'pin.png', :size => "102x150", :mouseover => 'pin_green.png'), new_user_session_path
+          = link_to (image_tag 'pin.png', :size => "102x150", :onMouseOver => "this.src='/assets/pin_green.png'",:onMouseOut => "this.src='/assets/pin.png'"), new_user_session_path
           %h2.landing-icon Log In
         - else
-          = link_to (image_tag 'pin.png', :size => "102x150", :mouseover => 'pin_green.png'), trips_path, 'data-no-turbolink' => true
+          = link_to (image_tag 'pin.png', :size => "102x150", :onMouseOver => "this.src='/assets/pin_green.png'", :onMouseOut => "this.src='/assets/pin.png'"), trips_path, 'data-no-turbolink' => true
           %h2.landing-icon View Trips
       .col-sm-4
-        = link_to (image_tag 'car.png',:size => "170x150", :mouseover => "car_green.png"), about_path
+        = link_to (image_tag 'car.png',:size => "170x150", :onMouseOver => "this.src='/assets/car_green.png'", :onMouseOut => "this.src='/assets/car.png'"), about_path
         %h2.landing-icon About
     
         

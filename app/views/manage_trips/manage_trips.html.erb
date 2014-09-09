@@ -111,7 +111,7 @@ var opts = {
     color: '#000', // #rgb or #rrggbb or array of colors
     speed: 1, // Rounds per second
     trail: 60, // Afterglow percentage
-    shadow: false, // Whether to render a shadow
+    shadow: true, // Whether to render a shadow
     hwaccel: false, // Whether to use hardware acceleration
     className: 'spinner', // The CSS class to assign to the spinner
     zIndex: 2e9, // The z-index (defaults to 2000000000)
@@ -171,47 +171,52 @@ function initialize() {
 var user_json;
 function updateUserJSON(){
   user_json = jQuery.parseJSON($("#trips_range_text").html())
-  var lis = ""
-  for (var i = 0, u; i <user_json.users.length; i++) {
-     lis = lis.concat("<h3>");
-     u = user_json.users[i];
-     lis = lis.concat(u.email);
-     lis = lis.concat("</h3>");
-     if (u.trips.length == 0){
-       lis = lis.concat("<div><p>No Trips!</p></div>");
-     }
-     else {
-       lis = lis.concat("<div><p><ul class='list-group'>");
-       for (var j = 0, t; j <u.trips.length; j++){
-         var color = "#" + Math.random().toString(16).slice(2, 8)
-         //var color = "#000000"
-         var cc;
-         if (u.trips[j].score.scoreAverage > 90){
-           cc = "btn btn-success"
-         }else if (u.trips[j].score.scoreAverage > 80){
-           cc = "btn btn-warning"
-         }
-         else{
-           cc = "btn btn-danger"
-         }
-         //TODO: Duration
-         lis = lis.concat("<li value=" + u.trips[j].id + " class='list-group-item trip' style='box-shadow: -3px 0px ")
-         lis = lis.concat(color + "' onclick='selected(" + u.trips[j].id + ")'><div class='row'><div class='col-xs-3'><b>");
-         d = new Date(u.trips[j].time_stamp);
-         lis = lis.concat(u.trips[j].name + "</b></div><div class='col-xs-3'>" + timeSince(d)) + "</div>";
-         lis = lis.concat("<div class='col-xs-4'>"+Math.ceil(u.trips[j].duration/60)+" minutes </div>");
-         lis = lis.concat("<div class='col-xs-2'><span class='badge pull-right " + cc + "'>");
-         lis = lis.concat(u.trips[j].score.scoreAverage);
-         lis = lis.concat("</button></div></div></li>");
-         drawRoute(u.trips[j],color);
-       }
-       lis = lis.concat("</ul></p></div>");
-     } 
+  if (user_json.users == null){
+    spinner.stop();
+    $("#accordion").html("No Users!");
   }
-  $("#accordion").html(lis);
-  $("#accordion").accordion("refresh");
-
-  spinner.stop();
+  else{
+    var lis = ""
+    for (var i = 0, u; i <user_json.users.length; i++) {
+       lis = lis.concat("<h3>");
+       u = user_json.users[i];
+       lis = lis.concat(u.email);
+       lis = lis.concat("</h3>");
+       if (u.trips.length == 0){
+         lis = lis.concat("<div><p>No Trips!</p></div>");
+       }
+       else {
+         lis = lis.concat("<div><p><ul class='list-group'>");
+         for (var j = 0, t; j <u.trips.length; j++){
+           var color = "#" + Math.random().toString(16).slice(2, 8)
+           //var color = "#000000"
+           var cc;
+           if (u.trips[j].score.scoreAverage > 90){
+             cc = "btn btn-success"
+           }else if (u.trips[j].score.scoreAverage > 80){
+             cc = "btn btn-warning"
+           }
+           else{
+             cc = "btn btn-danger"
+           }
+           lis = lis.concat("<li value=" + u.trips[j].id + " class='list-group-item trip' style='box-shadow: -3px 0px ")
+           lis = lis.concat(color + "' onclick='selected(" + u.trips[j].id + ")'><div class='row'><div class='col-xs-3'><b>");
+           d = new Date(u.trips[j].time_stamp);
+           lis = lis.concat(u.trips[j].name + "</b></div><div class='col-xs-3'>" + timeSince(d)) + "</div>";
+           lis = lis.concat("<div class='col-xs-4'>"+Math.ceil(u.trips[j].duration/60)+" minutes </div>");
+           lis = lis.concat("<div class='col-xs-2'><span class='badge pull-right " + cc + "'>");
+           lis = lis.concat(u.trips[j].score.scoreAverage);
+           lis = lis.concat("</button></div></div></li>");
+           drawRoute(u.trips[j],color);
+         }
+         lis = lis.concat("</ul></p></div>");
+       } 
+    }
+    $("#accordion").html(lis);
+    $("#accordion").accordion("refresh");
+  
+    spinner.stop();
+  }
 }
 // script to resize mapsmarker maps on screen resolutions or window resize smaller then 640px
 $(function(){

@@ -67,23 +67,26 @@ class TripViewerController < ApplicationController
   #return all of the trips with the given date range and passed users
   #silently fails if the user ID not found! TODO: show an error
   def trips_range
-    user_ids = params['users']
-    start_date = DateTime.strptime(params['start_date'],'%Y-%m-%d %H:%M:%S %z')
-    end_date = DateTime.strptime(params['end_date'],'%Y-%m-%d %H:%M:%S %z')
+    unless params[:users].blank? 
+      user_ids = params['users']
+      start_date = DateTime.strptime(params['start_date'],'%Y-%m-%d %H:%M:%S %z')
+      end_date = DateTime.strptime(params['end_date'],'%Y-%m-%d %H:%M:%S %z')
 
-    #holds the completed json for each user, including trips with coordinates
-    users = Array.new 
+      #holds the completed json for each user, including trips with coordinates
+      users = Array.new 
 
-    user_ids.each do |id|
-      user = User.find_by_id(id)
+      user_ids.each do |id|
+        user = User.find_by_id(id)
       
-      #include an error in the returned json if the user is not found by the passed id
-      if user
-        json = trips_for_user_window user, start_date, end_date
-        users.push(json)
+        #include an error in the returned json if the user is not found by the passed id
+        if user
+          json = trips_for_user_window user, start_date, end_date
+          users.push(json)
+        else
+          users.push(null)
+        end
       end
     end
-
     render :json => {users: users, start_date: start_date, end_date: end_date}
   end
 

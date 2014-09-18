@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140821202528) do
+ActiveRecord::Schema.define(version: 20140917185612) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,8 @@ ActiveRecord::Schema.define(version: 20140821202528) do
     t.integer  "gps_id"
     t.float    "speed"
   end
+
+  add_index "coordinates", ["trip_id"], name: "index_coordinates_on_trip_id", using: :btree
 
   create_table "group_admins", force: true do |t|
     t.integer  "group_id"
@@ -69,6 +71,8 @@ ActiveRecord::Schema.define(version: 20140821202528) do
     t.integer  "gps_index_end"
   end
 
+  add_index "patterns", ["score_id"], name: "index_patterns_on_score_id", using: :btree
+
   create_table "scores", force: true do |t|
     t.float   "scoreAverage"
     t.float   "scoreAccels"
@@ -77,6 +81,8 @@ ActiveRecord::Schema.define(version: 20140821202528) do
     t.float   "scoreTurns"
     t.integer "trip_id"
   end
+
+  add_index "scores", ["trip_id"], name: "index_scores_on_trip_id", using: :btree
 
   create_table "trips", force: true do |t|
     t.string   "name"
@@ -88,6 +94,8 @@ ActiveRecord::Schema.define(version: 20140821202528) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "trips", ["user_id"], name: "index_trips_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

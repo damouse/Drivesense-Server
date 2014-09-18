@@ -7,7 +7,6 @@ class CreateCoordinates < ActiveRecord::Migration
       t.integer :trip_id
       t.integer :gps_id
       t.float :speed
-
     end
   end
 end

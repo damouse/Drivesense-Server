@@ -85,6 +85,8 @@
 
 
 <script>
+var trips_data_text;
+var trips_range_text;
 function update(){
   var start = $('#from').datepicker('getDate');
   var end = $('#to').datepicker('getDate');
@@ -185,12 +187,14 @@ var user_json;
 var all_trip_ids;
 function updateUserJSON(){
   all_trip_ids = []; 
-  user_json = jQuery.parseJSON($("#trips_range_text").html())
+  //user_json = jQuery.parseJSON($("#trips_range_text").html())
+  user_json = jQuery.parseJSON(trips_range_text);
   if (user_json.users == null){
     spinner.stop();
     $("#accordion").html("No Users!");
   }
   else{
+    spinner.stop();
     var lis = ""
     for (var i = 0, u; i <user_json.users.length; i++) {
        lis = lis.concat("<h3>");
@@ -231,7 +235,6 @@ function updateUserJSON(){
     $("#accordion").html(lis);
     $("#accordion").accordion("refresh");
   
-    spinner.stop();
   }
 }
 // script to resize mapsmarker maps on screen resolutions or window resize smaller then 640px
@@ -347,10 +350,10 @@ function drawChart(){
    dic_list = [];
    var mode;
    var list_to_graph;
-   trips_json = jQuery.parseJSON($("#trips_data_text").html());
+   trips_json = jQuery.parseJSON(trips_data_text);
    if ($('#speeds').is(':checked')){
      mode = "speed";
-     user_json = jQuery.parseJSON($("#trips_range_text").html());
+     user_json = jQuery.parseJSON(trips_range_text);
      list_to_graph = []
      for (var q = 0; q < user_json.users.length; q++){
        for(var r = 0; r < user_json.users[q].trips.length; r++){

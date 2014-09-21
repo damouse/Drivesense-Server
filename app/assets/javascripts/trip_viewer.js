@@ -36,7 +36,7 @@ function trips_with_range(user_ids, start_date, end_date) {
       dataType: 'script',
 
       complete: function(data){
-        $('#trips_range_text').html(data.responseText);
+        trips_range_text = data.responseText;
         updateUserJSON();
       }
    });
@@ -53,7 +53,7 @@ function trips_data(trip_ids) {
       dataType: 'script',
 
       complete: function(data){
-        $('#trips_data_text').html(data.responseText);
+        trips_data_text = data.responseText;
         drawChart();
       }
    });

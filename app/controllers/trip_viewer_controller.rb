@@ -75,8 +75,7 @@ class TripViewerController < ApplicationController
       #holds the completed json for each user, including trips with coordinates
       users = Array.new 
 
-      user_ids.each do |id|
-        user = User.find_by_id(id)
+      User.includes(trips: [:coordinates, :score]).find(user_ids).each do |user|
       
         #include an error in the returned json if the user is not found by the passed id
         if user
@@ -95,12 +94,8 @@ class TripViewerController < ApplicationController
     trip_ids = params['trips']
 
     trips = Array.new
-    trip_ids.each do |id|
-      trip = Trip.find_by_id(id)
-
-      if trip
+    Trip.includes([:coordinates, :score]).find(trip_ids).each do |trip|
         trips.push(trip)
-      end
     end
 
     render :json => {trips: trips.as_json(:include => 
@@ -121,7 +116,6 @@ class TripViewerController < ApplicationController
     ret = {id: user.id, email: user.email, trips: trips.as_json(:include => 
       {:coordinates => {except: [:id, :trip_id]}}
       )}
-    return ret
   end
 end
 

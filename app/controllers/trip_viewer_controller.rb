@@ -67,26 +67,25 @@ class TripViewerController < ApplicationController
   #return all of the trips with the given date range and passed users
   #silently fails if the user ID not found! TODO: show an error
   def trips_range
-    unless params[:users].blank? 
-      user_ids = params['users']
-      start_date = DateTime.strptime(params['start_date'],'%Y-%m-%d %H:%M:%S %z')
-      end_date = DateTime.strptime(params['end_date'],'%Y-%m-%d %H:%M:%S %z')
+    if params[:users].blank?
+      render json: {status: :bad_request, message: "no users passed"} and return
+    end 
 
-      #holds the completed json for each user, including trips with coordinates
-      users = Array.new 
+    user_ids = params['users']
+    start_date = DateTime.strptime(params['start_date'],'%Y-%m-%d %H:%M:%S %z')
+    end_date = DateTime.strptime(params['end_date'],'%Y-%m-%d %H:%M:%S %z')
 
-      User.includes(trips: [:coordinates, :score]).find(user_ids).each do |user|
-      
-        #include an error in the returned json if the user is not found by the passed id
-        if user
-          json = trips_for_user_window user, start_date, end_date
-          users.push(json)
-        else
-          users.push(null)
-        end
-      end
-    end
-    render :json => {users: users, start_date: start_date, end_date: end_date}
+    # trips = User.joins(:trips).includes(trips: [:score, :coordinates]).where(id: user_ids, trips: {time_stamp: start_date..end_date})
+
+    users = User
+    .includes(trips: [:score, :coordinates])
+    .where(id: user_ids)
+
+    render json: {result: users.as_json(:include => 
+        {:trips => 
+          {:include => :coordinates}
+        }
+      )} 
   end
 
   #given a set of trips, return the data associated with each: score objects, patterns, and speed
@@ -96,6 +95,7 @@ class TripViewerController < ApplicationController
     trips = Array.new
     Trip.includes([:coordinates, :score]).find(trip_ids).each do |trip|
         trips.push(trip)
+        puts '4'
     end
 
     render :json => {trips: trips.as_json(:include => 
@@ -106,6 +106,7 @@ class TripViewerController < ApplicationController
           }
         }
       )}
+    puts '5'
   end
 
 
@@ -118,28 +119,3 @@ class TripViewerController < ApplicationController
       )}
   end
 end
-
-
-=begin multiple maps
-
-<div style='width: 800px;'>
-  <div id="basic_map" style='width: 800px; height: 400px;'></div>
-</div>
-
-<% ['map', "basic_map"].each do |name| %>
-<script type="text/javascript">
-  
-    <%=name%> = Gmaps.build('Google');
-    <%=name%>.buildMap({ provider: {}, internal: {id: '<%=name%>'}}, function(){
-        markers = <%=name%>.addMarkers(<%=raw @hash.to_json %>);
-        polyline = <%=name%>.addPolyline(<%=raw @polylines.to_json %>); 
-        <%=name%>.bounds.extendWith(polyline);
-        <%=name%>.fitMapToBounds();
-    });
-
-  
-</script>
-
-<% end %>
-
-=end

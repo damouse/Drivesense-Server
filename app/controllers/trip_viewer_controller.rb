@@ -81,10 +81,10 @@ class TripViewerController < ApplicationController
     .includes(trips: [:score, :coordinates])
     .where(id: user_ids)
 
-    render json: {result: users.as_json(:include => 
+    render json: {start_date: start_date, end_date: end_date, result: users.as_json(:include => 
         {:trips => 
           {:include => :coordinates}
-        }
+        }, :only => [:id, :email]
       )} 
   end
 
@@ -98,7 +98,7 @@ class TripViewerController < ApplicationController
         puts '4'
     end
 
-    render :json => {trips: trips.as_json(:include => 
+    render :json => {users: trips.as_json(:include => 
           {:score => {:include => 
             {:patterns=> {:only => 
               [:pattern_type, :raw_score, :start_time, :end_time, :gps_index_start, :gps_index_end]}

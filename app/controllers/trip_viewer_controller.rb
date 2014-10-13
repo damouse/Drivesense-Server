@@ -110,7 +110,7 @@ class TripViewerController < ApplicationController
     #     :only => [:id, :email]
     #   )} 
 
-    render json: {users: users.as_json(include: :trips)}
+    render json: {users: users.as_json(:include => {:trips => {:include => :coordinates}})}
 
     #old return format
     # render :json => {users: users, start_date: start_date, end_date: end_date}

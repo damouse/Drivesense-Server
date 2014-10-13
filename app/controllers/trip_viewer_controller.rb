@@ -83,37 +83,11 @@ class TripViewerController < ApplicationController
     .includes(trips: [:score, :coordinates])
     .where(id: user_ids)
 
-    #"FINAL" Attempt
-    # trips = Trip.includes(:score, :coordinates).where(user_id: user_ids, time_stamp: start_date..end_date)
-
-    # users_trips_hash = {}
-    # #pull individual users from the found trips array, remove all other trips that share the same user, and associate 
-    # #then within a hash
-    # trips.each do |trip|
-    #   user = trip.user
-    #   if users_trips_hash.has_key? user.name
-    #   puts trip`
-    # end
-
-    # render json: {status: 'done'} and return
-    # render json: {ret: users.as_json(include: [:coordinates, :score])} and return
-
-    # render json: {start_date: start_date, end_date: end_date, users: users.as_json(:include => 
-    #     {:trips => 
-    #       {:include => 
-    #         {:coordinates => {:except => 
-    #           [:id, :trip_id]}
-    #         }, 
-    #         :except => [:id, :user_id]
-    #       }
-    #     }, 
-    #     :only => [:id, :email]
-    #   )} 
-
-    render json: {users: users.as_json(:include => {:trips => {:include => :coordinates}})}
-
-    #old return format
-    # render :json => {users: users, start_date: start_date, end_date: end_date}
+    render json: {start_date: start_date, end_date: end_date, users: users.as_json(:include => 
+        {:trips => 
+          {:include => :coordinates}
+        }, 
+        :only => [:id, :email]
   end
 
   def self.lightning

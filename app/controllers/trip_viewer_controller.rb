@@ -1,5 +1,5 @@
 class TripViewerController < ApplicationController
-	before_action :authenticate_user!
+	# before_action :authenticate_user!
 
   def all_trips
     #gon testing
@@ -32,10 +32,7 @@ class TripViewerController < ApplicationController
         redirect_to trips_path, :flash => {:error => "You must own a group to see member trips"}
         return
       end
-
     end
-    
-    # make_all_trips_charts
   end
 
   def trip_viewer
@@ -75,47 +72,56 @@ class TripViewerController < ApplicationController
     start_date = DateTime.strptime(params['start_date'],'%Y-%m-%d %H:%M:%S %z')
     end_date = DateTime.strptime(params['end_date'],'%Y-%m-%d %H:%M:%S %z')
 
-    # trips = User.joins(:trips).includes(trips: [:score, :coordinates]).where(id: user_ids, trips: {time_stamp: start_date..end_date})
+    # users = User.includes(trips: [:score, :coordinates])
+    # .joins(:trips)
+    # .where(id: user_ids, trips: {time_stamp: start_date..end_date})
 
+    # render json: {ret: users} and return
+
+    #WORKING VERSION
     users = User
     .includes(trips: [:score, :coordinates])
     .where(id: user_ids)
 
-    render json: {start_date: start_date, end_date: end_date, users: users.as_json(:include => 
-        {:trips => 
-          {:include => :coordinates}
-        }, :only => [:id, :email]
-      )} 
+    #"FINAL" Attempt
+    # trips = Trip.includes(:score, :coordinates).where(user_id: user_ids, time_stamp: start_date..end_date)
+
+    # users_trips_hash = {}
+    # #pull individual users from the found trips array, remove all other trips that share the same user, and associate 
+    # #then within a hash
+    # trips.each do |trip|
+    #   user = trip.user
+    #   if users_trips_hash.has_key? user.name
+    #   puts trip`
+    # end
+
+    # render json: {status: 'done'} and return
+    # render json: {ret: users.as_json(include: [:coordinates, :score])} and return
+
+    # render json: {start_date: start_date, end_date: end_date, users: users.as_json(:include => 
+    #     {:trips => 
+    #       {:include => 
+    #         {:coordinates => {:except => 
+    #           [:id, :trip_id]}
+    #         }, 
+    #         :except => [:id, :user_id]
+    #       }
+    #     }, 
+    #     :only => [:id, :email]
+    #   )} 
+
+    render json: {users: users.as_json(include: :trips)}
+
+    #old return format
+    # render :json => {users: users, start_date: start_date, end_date: end_date}
   end
 
-  #given a set of trips, return the data associated with each: score objects, patterns, and speed
-  def trips_information 
-    trip_ids = params['trips']
-
-    trips = Array.new
-    Trip.includes([:coordinates, :score]).find(trip_ids).each do |trip|
-        trips.push(trip)
-        puts '4'
+  def self.lightning
+    #test-- dont instantiate objects, just fetch their hashes
+    connection.select_all(select([:latitude, :longitude, :timestamp, :virtual_odometer]).arel).each do |attrs|
+      attrs.each_key do |attr|
+        attrs[attr] = type_cast_attribute(attr, attrs)
+      end
     end
-
-    render :json => {users: trips.as_json(:include => 
-          {:score => {:include => 
-            {:patterns=> {:only => 
-              [:pattern_type, :raw_score, :start_time, :end_time, :gps_index_start, :gps_index_end]}
-            }
-          }
-        }
-      )}
-    puts '5'
-  end
-
-
-  private
-  #return a json with the user's information and their trips that match the start and end date
-  def trips_for_user_window user, start_date, end_date
-    trips = user.trips.where(time_stamp: start_date..end_date)
-    ret = {id: user.id, email: user.email, trips: trips.as_json(:include => 
-      {:coordinates => {except: [:id, :trip_id]}}
-      )}
   end
 end

@@ -1,5 +1,5 @@
 class Trip < ActiveRecord::Base
-	has_many :coordinates, :dependent => :delete_all
+	has_many :coordinates, -> { order(:time_stamp) }, :dependent => :delete_all
 	belongs_to :user
   has_one :score, :dependent => :destroy
 

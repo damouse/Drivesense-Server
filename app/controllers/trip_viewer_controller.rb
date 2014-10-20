@@ -88,6 +88,8 @@ class TripViewerController < ApplicationController
           {:include => :coordinates}
         }, 
         :only => [:id, :email]
+        )
+  }
   end
 
   def self.lightning

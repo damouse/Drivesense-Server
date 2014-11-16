@@ -1,0 +1,21 @@
+.page
+  .container
+    .title-page
+      %h1.title Devices
+
+    %table.table.margined-table
+      %thead
+        %tr
+          %th Device UDID
+          %th Nickname
+          %th IP Address
+          %th Power Level
+          %th= model_class.human_attribute_name(:updated_at)
+        %tbody
+          - @devices.each do |device|
+            %tr
+              %td= device.udid
+              %td= device.nickname
+              %td= device.ip_address
+              %td= device.power
+              %td= device.updated_at.strftime('%B %e, %Y')

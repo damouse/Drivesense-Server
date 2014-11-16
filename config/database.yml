@@ -9,17 +9,17 @@ default: &default
   pool: 5
   timeout: 5000
 
-# development:
-#   <<: *default
-#   database: db/development.sqlite3
-
 development:
-  adapter: postgresql
-  host: ec2-54-243-44-191.compute-1.amazonaws.com
-  port: 5432
-  database: d7ti6vok9ga4ri
-  username: jotbtfasusqnvh
-  password: LfGRd611AXzyXw0Ivcwopw84pA
+  <<: *default
+  database: db/development.sqlite3
+
+# development:
+#   adapter: postgresql
+#   host: ec2-54-243-44-191.compute-1.amazonaws.com
+#   port: 5432
+#   database: d7ti6vok9ga4ri
+#   username: jotbtfasusqnvh
+#   password: LfGRd611AXzyXw0Ivcwopw84pA
 
   # database: app_development
   # pool: 5

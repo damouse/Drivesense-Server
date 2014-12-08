@@ -80,12 +80,13 @@ class TripViewerController < ApplicationController
     users = User
     .includes(trips: [:score, :coordinates])
     .where(id: user_ids)
-
+    puts 'a'
     render json: {start_date: start_date, end_date: end_date, users: users.as_json(:include => 
         {:trips => 
           {:include => :coordinates}
         }, :only => [:id, :email]
       )} 
+    puts 'b'
   end
 
   #given a set of trips, return the data associated with each: score objects, patterns, and speed

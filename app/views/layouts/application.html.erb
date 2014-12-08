@@ -34,11 +34,10 @@
   <%= render partial: "layouts/messages" %>
 
   <% unless content_for?(:conditional_nav) %>
-    <div class="container-fluid fill" style="overflow-x: hidden">
+    <div class="container papa">
   <% end %>
 
   <%= yield %>
-  
   <% unless content_for?(:conditional_nav) %>
     </div>
   <% end %>

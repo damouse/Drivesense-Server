@@ -408,6 +408,15 @@ function drawChart(){
        if (mode == "score"){
          tmp_dic['x'] = (Math.abs(new Date(z.start_time) - new Date(ini)))/60000;
          tmp_dic['name'] = z.pattern_type;
+         console.log(tmp_dic['name']);
+         if (tmp_dic['name'] == "brake"){
+           tmp_dic['symbol'] = google.maps.SymbolPath.BACKWARD_CLOSED_ARROW
+         }else if (tmp_dic['name'] == "acceleration"){
+           tmp_dic['symbol'] = google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+         }
+         else{
+           tmp_dic['symbol'] = google.maps.SymbolPath.CIRCLE
+         }
          if ($.inArray(tmp_dic['name'], checked_list)<0){
            continue;
          }
@@ -415,6 +424,7 @@ function drawChart(){
          tmp_dic['gps_id'] = z.gps_index_start
        }
        else if (mode == "speed"){
+         tmp_dic['symbol'] = google.maps.SymbolPath.CIRCLE
          tmp_dic['x'] = (Math.abs(new Date(z.time_stamp) - new Date(ini)))/60000;
          tmp_dic['name'] = "speed";
          tmp_dic['y'] = z.speed;
@@ -461,7 +471,7 @@ function drawChart(){
            var marker = new google.maps.Marker({
              map: map,
              icon: {
-               path: google.maps.SymbolPath.CIRCLE,
+               path: tmp_dic['symbol'],
                fillColor: color,
                fillOpacity: .5,
                scale: 5,

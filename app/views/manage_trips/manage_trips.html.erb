@@ -4,7 +4,10 @@
   <div class="row fill full">
     <div class="col-md-12 fill case">
       <div id="map-canvas" class="well" onload="initialize"></div>  
-      <div id="graph"></div>
+      <div class="graph-toggle" id="graph"></div>
+      <button type="button" class="btn btn-default expand" aria-label="Left Align">
+        <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+      </button>
     </div>
     <div id="right-side" class="col-md-3">
       <br/>
@@ -76,7 +79,6 @@
       </div>
 
   </div>
-
   <div id="trips_data_text"></div>
   <div id="trips_range_text"></div>
 </div>
@@ -85,7 +87,7 @@
 var trips_data_text;
 var trips_range_text;
 function collapseToggle(){
-  $('#leftdiv').toggle();
+  $('#leftdiv').slideToggle();
 }
 function update(){
   var start = $('#from').datepicker('getDate');
@@ -135,6 +137,10 @@ var opts = {
 };
 var u_list = []
 $( document ).ready(function() {
+  $('.expand').click(function() {
+    $('#right-side').slideToggle();
+    $('.graph-toggle').slideToggle(); 
+  });
   $( "#accordion" ).accordion({
     collapsible:true,
     heightStyle: "content"
@@ -597,5 +603,10 @@ function selected(trip_id){
   }
   .papa {
     overflow-x: hidden;
+  }
+  .expand {
+    position:absolute;
+    bottom: 0;
+    left: 0;
   }
 </style>

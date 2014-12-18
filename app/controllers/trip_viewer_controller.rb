@@ -1,5 +1,5 @@
 class TripViewerController < ApplicationController
-	before_action :authenticate_user!
+  before_action :authenticate_user!
 
   def all_trips
     #gon testing
@@ -39,7 +39,7 @@ class TripViewerController < ApplicationController
   end
 
   def trip_viewer
-  	@trip = Trip.find(params[:id])
+    @trip = Trip.find(params[:id])
     @scores = Score.where( trip_id: @trip.user.trips.map(&:id))
 
     contains = false
@@ -67,62 +67,19 @@ class TripViewerController < ApplicationController
   #return all of the trips with the given date range and passed users
   #silently fails if the user ID not found! TODO: show an error
   def trips_range
-    if params[:users].blank?
-      render json: {status: :bad_request, message: "no users passed"} and return
+    if params[:users].blank? or params[:start_date].blank? or params[:end_date].blank?
+      render json: {status: :bad_request, message: "you didnt pass enough data"} and return
     end 
 
     user_ids = params['users']
     start_date = DateTime.strptime(params['start_date'],'%Y-%m-%d %H:%M:%S %z')
     end_date = DateTime.strptime(params['end_date'],'%Y-%m-%d %H:%M:%S %z')
 
-    # trips = User.joins(:trips).includes(trips: [:score, :coordinates]).where(id: user_ids, trips: {time_stamp: start_date..end_date})
-
-    users = User
-    .includes(trips: [:score, :coordinates])
-    .where(id: user_ids)
-    puts 'a'
-    render json: {start_date: start_date, end_date: end_date, users: users.as_json(:include => 
-        {:trips => 
-          {:include => :coordinates}
-        }, :only => [:id, :email]
-      )} 
+    render json: User.where("id in (#{user_ids})").all_json(columns: [:id, :email, :group_id], include: {trips: {include: :mappable_events}})
   end
 
-  #given a set of trips, return the data associated with each: score objects, patterns, and speed
   def trips_information 
-
     trip_ids = params['trips']
-
-    #Took me two hours to figure this out, so heres the deal for posterity:
-    #PG returns a valid, ESCAPED json wrapped in an array (well in this implementation its two arrays
-    #, but still). Rails WILL NOT render this json as a string unless it is valid: i.e. starts with a 
-    #doublequote or is composable as a hash. Call first.first to access the first element of the 
-    #returned array (which is the resulting json) and pass that on to rails
-
-    query = "
-    select array_to_json(array_agg(t))
-    from (
-
-      )"
-    
-    q = "select array_to_json(array_agg(mappable_events)) from mappable_events where trip_id in (#{trip_ids});"
-    r = ActiveRecord::Base.connection.execute(q).values
-    # render plain: r.first.first.class and return
-    render json: r.first.first and return
-
-##OLD OLD OLD 
-    trips = Array.new
-    Trip.includes([:coordinates, :score]).find(trip_ids).each do |trip|
-        trips.push(trip)
-    end
-
-    render :json => {trips: trips.as_json(:include => 
-          {:score => {:include => 
-            {:patterns=> {:only => 
-              [:pattern_type, :raw_score, :start_time, :end_time, :gps_index_start, :gps_index_end]}
-            }
-          }
-        }
-      )}
+    render json: Trip.where("id in (#{trip_ids})").all_json(include: :mappable_events)
   end
 end

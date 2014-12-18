@@ -86,7 +86,6 @@ class TripViewerController < ApplicationController
           {:include => :coordinates}
         }, :only => [:id, :email]
       )} 
-    puts 'b'
   end
 
   #given a set of trips, return the data associated with each: score objects, patterns, and speed
@@ -100,10 +99,30 @@ class TripViewerController < ApplicationController
     #doublequote or is composable as a hash. Call first.first to access the first element of the 
     #returned array (which is the resulting json) and pass that on to rails
 
-    # render json: trip_ids and return
+    query = "
+    select array_to_json(array_agg(t))
+    from (
+
+      )"
+    
     q = "select array_to_json(array_agg(mappable_events)) from mappable_events where trip_id in (#{trip_ids});"
     r = ActiveRecord::Base.connection.execute(q).values
     # render plain: r.first.first.class and return
     render json: r.first.first and return
+
+##OLD OLD OLD 
+    trips = Array.new
+    Trip.includes([:coordinates, :score]).find(trip_ids).each do |trip|
+        trips.push(trip)
+    end
+
+    render :json => {trips: trips.as_json(:include => 
+          {:score => {:include => 
+            {:patterns=> {:only => 
+              [:pattern_type, :raw_score, :start_time, :end_time, :gps_index_start, :gps_index_end]}
+            }
+          }
+        }
+      )}
   end
 end

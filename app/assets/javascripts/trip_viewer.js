@@ -54,7 +54,7 @@ function trips_data(trip_ids) {
 
       complete: function(data){
         trips_data_text = data.responseText;
-        console.log(trips_data_text);
+        // console.log(trips_data_text);
         drawChart();
       }
    });

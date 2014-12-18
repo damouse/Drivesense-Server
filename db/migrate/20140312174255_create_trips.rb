@@ -5,7 +5,9 @@ class CreateTrips < ActiveRecord::Migration
       t.datetime :time_stamp
       t.float :distance
       t.float :duration
+
       t.integer :score
+      
       t.integer :user_id
 
       t.timestamps

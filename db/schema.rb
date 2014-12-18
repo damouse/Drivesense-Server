@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140917185612) do
+ActiveRecord::Schema.define(version: 20141218100510) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,13 @@ ActiveRecord::Schema.define(version: 20140917185612) do
   end
 
   add_index "coordinates", ["trip_id"], name: "index_coordinates_on_trip_id", using: :btree
+
+  create_table "device_logs", force: true do |t|
+    t.integer  "udid"
+    t.string   "ip_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "group_admins", force: true do |t|
     t.integer  "group_id"
@@ -60,6 +67,18 @@ ActiveRecord::Schema.define(version: 20140917185612) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "mappable_events", force: true do |t|
+    t.datetime "time_stamp"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.float    "score"
+    t.integer  "pattern_type"
+    t.integer  "trip_id"
+    t.float    "speed"
+  end
+
+  add_index "mappable_events", ["trip_id"], name: "index_mappable_events_on_trip_id", using: :btree
 
   create_table "patterns", force: true do |t|
     t.string   "pattern_type"
@@ -93,6 +112,10 @@ ActiveRecord::Schema.define(version: 20140917185612) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "scoreAccels"
+    t.float    "scoreBreaks"
+    t.float    "scoreLaneChanges"
+    t.float    "scoreTurns"
   end
 
   add_index "trips", ["user_id"], name: "index_trips_on_user_id", using: :btree

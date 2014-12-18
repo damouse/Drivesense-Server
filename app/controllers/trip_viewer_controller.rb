@@ -91,32 +91,19 @@ class TripViewerController < ApplicationController
 
   #given a set of trips, return the data associated with each: score objects, patterns, and speed
   def trips_information 
+
     trip_ids = params['trips']
 
-    trips = Array.new
-    Trip.includes([:coordinates, :score]).find(trip_ids).each do |trip|
-        trips.push(trip)
-        puts '4'
-    end
+    #Took me two hours to figure this out, so heres the deal for posterity:
+    #PG returns a valid, ESCAPED json wrapped in an array (well in this implementation its two arrays
+    #, but still). Rails WILL NOT render this json as a string unless it is valid: i.e. starts with a 
+    #doublequote or is composable as a hash. Call first.first to access the first element of the 
+    #returned array (which is the resulting json) and pass that on to rails
 
-    render :json => {users: trips.as_json(:include => 
-          {:score => {:include => 
-            {:patterns=> {:only => 
-              [:pattern_type, :raw_score, :start_time, :end_time, :gps_index_start, :gps_index_end]}
-            }
-          }
-        }
-      )}
-    puts '5'
-  end
-
-
-  private
-  #return a json with the user's information and their trips that match the start and end date
-  def trips_for_user_window user, start_date, end_date
-    trips = user.trips.where(time_stamp: start_date..end_date)
-    ret = {id: user.id, email: user.email, trips: trips.as_json(:include => 
-      {:coordinates => {except: [:id, :trip_id]}}
-      )}
+    # render json: trip_ids and return
+    q = "select array_to_json(array_agg(mappable_events)) from mappable_events where trip_id in (#{trip_ids});"
+    r = ActiveRecord::Base.connection.execute(q).values
+    # render plain: r.first.first.class and return
+    render json: r.first.first and return
   end
 end

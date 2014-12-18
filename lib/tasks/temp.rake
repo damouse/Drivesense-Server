@@ -18,8 +18,6 @@ namespace :temp do
       patterns = Pattern.where(score_id: trip.score.id)
       events = Array.new
 
-      counter = 0
-
       trip.coordinates.each do |c|
         event = MappableEvent.new(latitude: c.latitude, time_stamp: c.time_stamp, 
           longitude: c.longitude, trip_id: c.trip_id, speed: c.speed)

@@ -82,7 +82,7 @@ class TripViewerController < ApplicationController
     users = User
     .includes(trips: [:score, :coordinates])
     .where(id: user_ids)
-
+    puts 'a'
     render json: {start_date: start_date, end_date: end_date, users: users.as_json(:include => 
         {:trips => 
           {:include => :coordinates}
@@ -92,12 +92,42 @@ class TripViewerController < ApplicationController
   }
   end
 
-  def self.lightning
-    #test-- dont instantiate objects, just fetch their hashes
-    connection.select_all(select([:latitude, :longitude, :timestamp, :virtual_odometer]).arel).each do |attrs|
-      attrs.each_key do |attr|
-        attrs[attr] = type_cast_attribute(attr, attrs)
-      end
+
+  #given a set of trips, return the data associated with each: score objects, patterns, and speed
+  def trips_information 
+
+    trip_ids = params['trips']
+
+    #Took me two hours to figure this out, so heres the deal for posterity:
+    #PG returns a valid, ESCAPED json wrapped in an array (well in this implementation its two arrays
+    #, but still). Rails WILL NOT render this json as a string unless it is valid: i.e. starts with a 
+    #doublequote or is composable as a hash. Call first.first to access the first element of the 
+    #returned array (which is the resulting json) and pass that on to rails
+
+    query = "
+    select array_to_json(array_agg(t))
+    from (
+
+      )"
+    
+    q = "select array_to_json(array_agg(mappable_events)) from mappable_events where trip_id in (#{trip_ids});"
+    r = ActiveRecord::Base.connection.execute(q).values
+    # render plain: r.first.first.class and return
+    render json: r.first.first and return
+
+##OLD OLD OLD 
+    trips = Array.new
+    Trip.includes([:coordinates, :score]).find(trip_ids).each do |trip|
+        trips.push(trip)
     end
+
+    render :json => {trips: trips.as_json(:include => 
+          {:score => {:include => 
+            {:patterns=> {:only => 
+              [:pattern_type, :raw_score, :start_time, :end_time, :gps_index_start, :gps_index_end]}
+            }
+          }
+        }
+      )}
   end
 end

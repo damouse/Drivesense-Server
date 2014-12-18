@@ -34,11 +34,10 @@
   <%= render partial: "layouts/messages" %>
 
   <% unless content_for?(:conditional_nav) %>
-    <div class="container fill footer-space">
+    <div class="container papa">
   <% end %>
 
   <%= yield %>
-  
   <% unless content_for?(:conditional_nav) %>
     </div>
   <% end %>
@@ -46,8 +45,5 @@
   
 </body>
 
-<% unless content_for?(:conditional_nav) %>
-  <%= render :partial => 'layouts/footer' %>
-  <% end %>
 
 </html>

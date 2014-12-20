@@ -190,6 +190,8 @@ GEM
       activesupport (>= 3.0)
       sprockets (~> 2.8)
     sqlite3 (1.3.9)
+    surus (0.5.1)
+      activerecord (~> 4.0)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -247,6 +249,7 @@ DEPENDENCIES
   simple_form
   spring
   sqlite3
+  surus
   therubyracer
   tod
   turbolinks

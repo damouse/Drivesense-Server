@@ -1,10 +1,5 @@
 class TripViewerController < ApplicationController
-<<<<<<< HEAD
-	# before_action :authenticate_user!
-=======
   before_action :authenticate_user!
->>>>>>> newtripviewer
-
   def all_trips
     #gon testing
     gon.group_users = ['1', '2']

@@ -63,15 +63,23 @@ class TripViewerController < ApplicationController
   #return all of the trips with the given date range and passed users
   #silently fails if the user ID not found! TODO: show an error
   def trips_range
-    if params[:users].blank? or params[:start_date].blank? or params[:end_date].blank?
-      render json: {status: :bad_request, message: "you didnt pass enough data"} and return
-    end 
 
-    user_ids = params['users']
-    start_date = DateTime.strptime(params['start_date'],'%Y-%m-%d %H:%M:%S %z')
-    end_date = DateTime.strptime(params['end_date'],'%Y-%m-%d %H:%M:%S %z')
+    #set true to use debug data instead of looking for params
+    if true
+      user_ids = "3"
+      start_date = DateTime.strptime("2013-07-15 20:40:00 -5",'%Y-%m-%d %H:%M:%S %z')
+      end_date = DateTime.strptime('2014-08-20 01:32:44 -5','%Y-%m-%d %H:%M:%S %z')
+    else
+      if params[:users].blank? or params[:start_date].blank? or params[:end_date].blank?
+        render json: {status: :bad_request, message: "you didnt pass enough data"} and return
+      end 
 
-    render json: User.where("id in (#{user_ids})").all_json(columns: [:id, :email, :group_id], include: {trips: {include: :mappable_events}})
+      user_ids = params['users']
+      start_date = DateTime.strptime(params['start_date'],'%Y-%m-%d %H:%M:%S %z')
+      end_date = DateTime.strptime(params['end_date'],'%Y-%m-%d %H:%M:%S %z')
+    end
+
+    render json: User.where("id in (#{user_ids})").all_json(columns: [:id, :email, :group_id], include: :trips)
   end
 
   def trips_information 

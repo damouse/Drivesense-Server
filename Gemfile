@@ -10,10 +10,11 @@ gem 'will_paginate'
 gem 'lazy_high_charts'
 gem 'haml'
 
-# ??
+# Database
 gem 'nokogiri', '1.6.3.1'
 gem 'gon'
 gem 'pg'
+gem 'surus'
 
 #Preprocessors --
 gem 'sass-rails', '~> 4.0.1'

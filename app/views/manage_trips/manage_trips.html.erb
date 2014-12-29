@@ -89,12 +89,10 @@
       </div>
 
   </div>
-  <div id="trips_data_text"></div>
   <div id="trips_range_text"></div>
 </div>
 
 <script>
-var trips_data_text;
 var trips_range_text;
 function collapseToggle(){
   $('#leftdiv').slideToggle();
@@ -206,18 +204,17 @@ var user_json;
 var all_trip_ids;
 function updateUserJSON(){
   all_trip_ids = []; 
-  //user_json = jQuery.parseJSON($("#trips_range_text").html())
   user_json = jQuery.parseJSON(trips_range_text);
-  if (user_json.users == null){
+  if (user_json == null){
     spinner.stop();
     $("#accordion").html("No Users!");
   }
   else{
     spinner.stop();
     var lis = ""
-    for (var i = 0, u; i <user_json.users.length; i++) {
+    for (var i = 0, u; i <user_json.length; i++) {
        lis = lis.concat("<h3>");
-       u = user_json.users[i];
+       u = user_json[i];
        lis = lis.concat(u.email);
        lis = lis.concat("</h3>");
        if (u.trips.length == 0){
@@ -229,9 +226,11 @@ function updateUserJSON(){
            var color = "#" + Math.random().toString(16).slice(2, 8)
            //var color = "#000000"
            var cc;
-           if (u.trips[j].score.scoreAverage > 90){
+           scoreAv = Math.round((u.trips[j].scoreAccels + u.trips[j].scoreBreaks + u.trips[j].scoreLaneChanges) / 3)
+           //Temp using just accels while score is null
+           if (scoreAv > 90){
              cc = "btn btn-success"
-           }else if (u.trips[j].score.scoreAverage > 80){
+           }else if (scoreAv > 80){
              cc = "btn btn-warning"
            }
            else{
@@ -244,7 +243,7 @@ function updateUserJSON(){
            lis = lis.concat(u.trips[j].name + "</b></div><div class='col-xs-3'>" + timeSince(d)) + "</div>";
            lis = lis.concat("<div class='col-xs-4'>"+Math.ceil(u.trips[j].duration/60)+" minutes </div>");
            lis = lis.concat("<div class='col-xs-2'><span class='badge pull-right " + cc + "'>");
-           lis = lis.concat(u.trips[j].score.scoreAverage);
+           lis = lis.concat(scoreAv);
            lis = lis.concat("</button></div></div></li>");
            drawRoute(u.trips[j],color);
          }
@@ -287,18 +286,19 @@ var linelist = [];
 var smlist = []
 var emlist = []
 function drawRoute(trip,color){
+  console.log(trip);
   var tripCoordinates = [];
-  for (var i = 0; i < trip.coordinates.length; i++){
-    tripCoordinates.push(new google.maps.LatLng(trip.coordinates[i].latitude, trip.coordinates[i].longitude));
+  for (var i = 0; i < trip.mappable_events.length; i++){
+    tripCoordinates.push(new google.maps.LatLng(trip.mappable_events[i].latitude, trip.mappable_events[i].longitude));
   }
   var start_marker = new google.maps.Marker({
-    position: new google.maps.LatLng(trip.coordinates[0].latitude, trip.coordinates[0].longitude),
+    position: new google.maps.LatLng(trip.mappable_events[0].latitude, trip.mappable_events[0].longitude),
     title: "Start",
     icon: "/assets/car_map.png",
     trip_id: trip.id
   });
   var end_marker = new google.maps.Marker({
-    position: new google.maps.LatLng(trip.coordinates[trip.coordinates.length - 1].latitude, trip.coordinates[trip.coordinates.length - 1].longitude),
+    position: new google.maps.LatLng(trip.mappable_events[trip.mappable_events.length - 1].latitude, trip.mappable_events[trip.mappable_events.length - 1].longitude),
     title:"End",
     icon: "/assets/stop.png",
     trip_id: trip.id
@@ -314,9 +314,9 @@ function drawRoute(trip,color){
    trip_id: trip.id
   });
    
-  half = parseInt(trip.coordinates.length/2);
-  lat = trip.coordinates[0].latitude
-  lon = trip.coordinates[0].longitude
+  half = parseInt(trip.mappable_events.length/2);
+  lat = trip.mappable_events[0].latitude
+  lon = trip.mappable_events[0].longitude
   //map.setCenter(new google.maps.LatLng(lat,lon));
   linelist.push(tripPath);
   smlist.push(start_marker);
@@ -364,6 +364,7 @@ function timeSince(date) {
 }
 var drawn = {}
 function drawChart(){
+   var list_to_graph = []
    for (var key in drawn){
      for (var f = 0; f < drawn[key].length; f++) {
        drawn[key][f].setMap(null);
@@ -371,47 +372,44 @@ function drawChart(){
    }
    dic_list = [];
    var mode;
-   var list_to_graph;
-   trips_json = jQuery.parseJSON(trips_data_text);
    if ($('#speeds').is(':checked')){
      mode = "speed";
      user_json = jQuery.parseJSON(trips_range_text);
-     list_to_graph = []
-     for (var q = 0; q < user_json.users.length; q++){
-       for(var r = 0; r < user_json.users[q].trips.length; r++){
-         if ($.inArray(user_json.users[q].trips[r].id, all_selected)>-1){
-           list_to_graph.push(user_json.users[q].trips[r]);
+     for (var q = 0; q < user_json.length; q++){
+       for(var r = 0; r < user_json[q].trips.length; r++){
+         if ($.inArray(user_json[q].trips[r].id, all_selected)>-1){
+           list_to_graph.push(user_json[q].trips[r]);
          }
-       } 
+       }
+     console.log(list_to_graph); 
      }
    }
    else{
      mode = "score";
-     list_to_graph = trips_json.users
    }
    for (var j = 0; j < list_to_graph.length; j++){ 
      var dic = {};
-     dic['name'] = list_to_graph[j].name;
+     dic['name'] = mode;
      dic['data'] = []
      var trip_coords;
      var trip_id;
      var lower_list;
      if (mode == "score"){
-       ini = list_to_graph[j].score.patterns[0].start_time
-       lower_list = list_to_graph[j].score.patterns
-       for (var m = 0; m<user_json.users.length; m++){
-         for (var n = 0; n<user_json.users[m].trips.length; n++){
-         if (user_json.users[m].trips[n].id == list_to_graph[j].id){
-             trip_id = user_json.users[m].trips[n].id
-             trip_coords = user_json.users[m].trips[n].coordinates;
+       ini = list_to_graph[j].mappable_events[0].start_time
+       lower_list = list_to_graph[j].mappable_events
+       for (var m = 0; m<user_json.length; m++){
+         for (var n = 0; n<user_json[m].trips.length; n++){
+         if (user_json[m].trips[n].id == list_to_graph[j].id){
+             trip_id = user_json[m].trips[n].id
+             trip_coords = user_json.users[m].trips[n].mappable_events;
            }
          }
        }
      }else{
        ini = list_to_graph[j].time_stamp;
-       lower_list  = list_to_graph[j].coordinates;
+       lower_list  = list_to_graph[j].mappable_events;
        trip_id = list_to_graph[j].id;
-       trip_coords = list_to_graph[j].coordinates;
+       trip_coords = list_to_graph[j].mappable_events;
      }
      drawn[trip_id] = []
      checked_list = []
@@ -442,7 +440,7 @@ function drawChart(){
          if ($.inArray(tmp_dic['name'], checked_list)<0){
            continue;
          }
-         tmp_dic['y'] = z.raw_score;
+         tmp_dic['y'] = z.score;
          tmp_dic['gps_id'] = z.gps_index_start
        }
        else if (mode == "speed"){
@@ -450,11 +448,10 @@ function drawChart(){
          tmp_dic['x'] = (Math.abs(new Date(z.time_stamp) - new Date(ini)))/60000;
          tmp_dic['name'] = "speed";
          tmp_dic['y'] = z.speed;
-         tmp_dic['gps_id'] = z.gps_id;
+         tmp_dic['gps_id'] = z.id;
        }
-       console.log(trip_coords);
        for (var e = 0; e < trip_coords.length; e++){
-         if (trip_coords[e].gps_id == tmp_dic.gps_id){
+         if (trip_coords[e].id == tmp_dic.id){
            tmp_dic['events'] = {}
            tmp_dic['lat'] = trip_coords[e].latitude
            tmp_dic['lon'] = trip_coords[e].longitude
@@ -609,10 +606,12 @@ function selected(trip_id){
   if (all_selected.length > 0){
     $('#graph').show();
     $('#graph').css('height','30%');
-    trips_data(all_selected);
+    //trips_data(all_selected);
+    drawChart()
   }
   else{
-    trips_data(all_selected)
+    //trips_data(all_selected)
+    drawChart()
     $('#graph').hide();
     $('#graph').animate({height:'0%'});
     $('#map-canvas').css('height','101%');

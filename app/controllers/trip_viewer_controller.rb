@@ -79,7 +79,8 @@ class TripViewerController < ApplicationController
       end_date = DateTime.strptime(params['end_date'],'%Y-%m-%d %H:%M:%S %z')
     end
 
-    render json: User.where("id in (#{user_ids})").all_json(columns: [:id, :email, :group_id], include: :trips)
+    #render json: User.where("id in (#{user_ids})").all_json(columns: [:id, :email, :group_id], include: :trips)
+    render json: User.where("id in (#{user_ids})").all_json(columns: [:id, :email, :group_id], include: {trips: {include: :mappable_events}})
   end
 
   def trips_information 

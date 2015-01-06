@@ -11,20 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20141103214052) do
-=======
-ActiveRecord::Schema.define(version: 20141218100510) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "call_histories", force: true do |t|
-    t.string   "json"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
->>>>>>> newtripviewer
 
   create_table "coordinates", force: true do |t|
     t.datetime "time_stamp"

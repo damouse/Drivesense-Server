@@ -71,21 +71,24 @@ class TripViewerController < ApplicationController
       # end_date = DateTime.strptime('2014-08-20 01:32:44 -5','%Y-%m-%d %H:%M:%S %z')
 
       start_date = "2014-08-18 00:00:00 -5"
-      end_date = '2014-08-20 01:32:44 -5'
+      end_date = "2014-08-20 01:32:44 -5"
     else
       if params[:users].blank? or params[:start_date].blank? or params[:end_date].blank?
         render json: {status: :bad_request, message: "you didnt pass enough data"} and return
       end 
 
       user_ids = params['users']
+      user_ids = user_ids.join(",")
       start_date = DateTime.strptime(params['start_date'],'%Y-%m-%d %H:%M:%S %z')
       end_date = DateTime.strptime(params['end_date'],'%Y-%m-%d %H:%M:%S %z')
+      start_date = start_date.strftime('%Y-%m-%d %H:%M:%S %z')
+      end_date = end_date.strftime('%Y-%m-%d %H:%M:%S %z')
     end
 
     #implementation 1- surus gem mapping to PG queries
     # render json: User.where("id in (#{user_ids})").all_json(columns: [:id, :email, :group_id], include: {trips: {include: :mappable_events}})
 
-    #Implementation 2- The raw, slightly more powerful, and impresively verbose 
+    #Implementation 2- The raw, slightly more powerful, and impressively verbose 
     q = 'select array_to_json(coalesce(array_agg(row_to_json(t)), \'{}\')) 
           from (SELECT id, email, group_id, (select array_to_json(coalesce(array_agg(row_to_json(t)), \'{}\')) 
             from (SELECT "trips"."id", "trips"."name", "trips"."time_stamp", "trips"."distance", "trips"."duration", "trips"."score", "trips"."user_id", "trips"."created_at", "trips"."updated_at", "trips"."scoreAccels", "trips"."scoreBreaks", "trips"."scoreLaneChanges", "trips"."scoreTurns", (select array_to_json(coalesce(array_agg(row_to_json(t)), \'{}\'))
@@ -95,8 +98,8 @@ class TripViewerController < ApplicationController
               ORDER BY time_stamp ASC) t) 
             "mappable_events" FROM "trips"  
           WHERE ("users"."id"="user_id")
-          AND time_stamp BETWEEN \'' + start_date + '\'::timestamp AND \'' + end_date + '\'::timestamp) t) 
-        "trips" FROM "users"  WHERE (id in (' + user_ids +'))) t'
+          AND "time_stamp" BETWEEN \'' + start_date + '\' AND \'' + end_date + '\') t) 
+        "trips" FROM "users"  WHERE (id in (' + user_ids + '))) t'
 
     r = ActiveRecord::Base.connection.execute(q).values
     render json: r.first.first and return
@@ -109,7 +112,7 @@ class TripViewerController < ApplicationController
     #DEBUG- uncomment for testing without providing trip ids in query
     # trip_ids = "8"
 
-    #im[lementation 2
+    #implementation 2
     q = 'select array_to_json(coalesce(array_agg(row_to_json(t)), \'{}\')) from (SELECT "trips"."id", "trips"."name", "trips"."time_stamp", "trips"."distance", "trips"."duration", "trips"."score", "trips"."user_id", "trips"."created_at", "trips"."updated_at", "trips"."scoreAccels", "trips"."scoreBreaks", "trips"."scoreLaneChanges", "trips"."scoreTurns", (select array_to_json(coalesce(array_agg(row_to_json(t)), \'{}\')) from (SELECT "mappable_events"."id", "mappable_events"."time_stamp", "mappable_events"."latitude", "mappable_events"."longitude", "mappable_events"."score", "mappable_events"."pattern_type", "mappable_events"."trip_id", "mappable_events"."speed" 
       FROM "mappable_events"  WHERE ("trips"."id"="trip_id") ORDER BY time_stamp ASC) t) "mappable_events" FROM "trips"  WHERE (id in (' + trip_ids +'))) t'
     r = ActiveRecord::Base.connection.execute(q).values

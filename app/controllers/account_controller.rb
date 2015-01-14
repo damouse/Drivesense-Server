@@ -12,7 +12,6 @@ class AccountController < ApplicationController
 	end
 
 	#endpoint for logging in from a mobile app
-	#CURRENTLY INSECURE
 	#sample: /mobile_login?password=12345678&user_email=test%40test.com
 	def mobile_login
 		email = params[:user_email]
@@ -57,6 +56,7 @@ class AccountController < ApplicationController
     user = User.new(email:email, password:pass)
 
     if user.save
+      user.ensure_authentication_token
       render :json => user, :status => :created
     else
       render :json => {response:'registration failed', errors:user.errors.full_messages}, :status => :internal_server_error

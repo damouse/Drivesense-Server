@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   #account
   match '/sess', to: 'account#sess', via: 'get'
-  match '/mobile_login', to: 'account#mobile_login', via: 'get'
+  match '/mobile_login', to: 'account#mobile_login', via: 'post'
   match '/mobile_register', to: 'account#register_user', via: 'post'
   match '/register', to: 'account#register_user', via: 'post'
   match '/account', to: 'account#account', via: 'get'

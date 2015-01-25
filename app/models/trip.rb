@@ -5,9 +5,8 @@ class Trip < ActiveRecord::Base
 	belongs_to :user
   has_one :score, :dependent => :destroy
 
-	accepts_nested_attributes_for :coordinates, :score
+	accepts_nested_attributes_for :mappable_events
   validates :time_stamp, presence: true
-  validates :coordinates, presence: true
   serialize :time, Tod::TimeOfDay
   
 

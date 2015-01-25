@@ -8,8 +8,7 @@ class CreateMappableEvents < ActiveRecord::Migration
 
       t.float :score
 
-      t.integer :type
-      # t.integer :pattern_type
+      t.integer :pattern_type
       
       t.integer :trip_id
       t.float :speed
@@ -21,6 +20,8 @@ class CreateMappableEvents < ActiveRecord::Migration
     add_column :trips, :scoreLaneChanges, :float
     add_column :trips, :scoreTurns, :float
   end
+
+  add_index :mappable_events, :trip_id
 end
 
 #note- pattern_type changed to type, which is now an enum value

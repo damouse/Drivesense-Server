@@ -5,8 +5,6 @@ class TripsCoordinatesController < ApplicationController
 
 
 	def new_trip
-    return unless ensure_logged_in
-
     body = request.body.read()
 		json = JSON.parse(body)
 

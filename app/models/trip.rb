@@ -1,9 +1,7 @@
 class Trip < ActiveRecord::Base
-	has_many :coordinates, :dependent => :delete_all
   has_many :mappable_events, dependent: :delete_all, autosave: true
   
 	belongs_to :user
-  has_one :score, :dependent => :destroy
 
 	accepts_nested_attributes_for :mappable_events
   validates :time_stamp, presence: true

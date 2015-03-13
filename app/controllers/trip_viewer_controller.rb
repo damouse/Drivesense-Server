@@ -90,7 +90,7 @@ class TripViewerController < ApplicationController
 
     #Implementation 2- The raw, slightly more powerful, and impressively verbose 
     q = 'select array_to_json(coalesce(array_agg(row_to_json(t)), \'{}\')) 
-          from (SELECT id, email, group_id, (select array_to_json(coalesce(array_agg(row_to_json(t)), \'{}\')) 
+          from (SELECT id, email, (select array_to_json(coalesce(array_agg(row_to_json(t)), \'{}\'))
             from (SELECT "trips"."id", "trips"."name", "trips"."time_stamp", "trips"."distance", "trips"."duration", "trips"."score", "trips"."user_id", "trips"."created_at", "trips"."updated_at", "trips"."scoreAccels", "trips"."scoreBreaks", "trips"."scoreLaneChanges", "trips"."scoreTurns", (select array_to_json(coalesce(array_agg(row_to_json(t)), \'{}\'))
             from (SELECT "mappable_events"."id", "mappable_events"."time_stamp", "mappable_events"."latitude", "mappable_events"."longitude", "mappable_events"."score", "mappable_events"."pattern_type", "mappable_events"."trip_id", "mappable_events"."speed"
               FROM "mappable_events"  

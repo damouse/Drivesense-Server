@@ -18,6 +18,5 @@ class CreateTrips < ActiveRecord::Migration
     end
 
     add_index :trips, :user_id
-    add_index :trips, :group_id
   end
 end

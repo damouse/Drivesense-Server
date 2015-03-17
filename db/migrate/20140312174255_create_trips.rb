@@ -6,11 +6,11 @@ class CreateTrips < ActiveRecord::Migration
       t.float :distance
       t.float :duration
 
-      t.double :score
-      t.double :scoreAccels
-      t.double :scoreBreaks
-      t.double :scoreLaneChanges
-      t.double :scoreTurns
+      t.float :score
+      t.float :scoreAccels
+      t.float :scoreBreaks
+      t.float :scoreLaneChanges
+      t.float :scoreTurns
       
       t.integer :user_id
 

@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-groups
+# groups
 for i in 0..1
   groups.append Group.create(name: "#{i} Level Group")
 end

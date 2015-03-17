@@ -2,7 +2,7 @@ class CreateMappableEvents < ActiveRecord::Migration
   def change
     create_table :mappable_events do |t|
       t.datetime :time_stamp
-      # t.datetime :time_stamp_end
+      t.datetime :time_stamp_end
 
       t.float :latitude
       t.float :longitude
